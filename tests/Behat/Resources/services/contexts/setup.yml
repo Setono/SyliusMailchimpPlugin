@@ -1,0 +1,42 @@
+services:
+    setono_sylius_mailchimp_export_plugin.behat.context.setup.mailchimp:
+        class: Tests\Setono\SyliusMailChimpPlugin\Behat\Context\Setup\MailChimpPluginContext
+        arguments:
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.repository.config"
+            - "@sylius.behat.shared_storage"
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.factory.config"
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.factory.list"
+            - "@setono_sylius_mailchimp_export_plugin.behat.random_string_generator"
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.manager.config"
+        tags:
+            - { name: fob.context_service }
+
+    setono_sylius_mailchimp_export_plugin.behat.context.setup.export:
+        class: Tests\Setono\SyliusMailChimpPlugin\Behat\Context\Setup\ExportCustomersContext
+        arguments:
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.repository.config"
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.factory.config"
+            - "@sylius.behat.shared_storage"
+            - "@setono_sylius_mailchimp_export_plugin.behat.random_string_generator"
+            - "@__symfony__.sylius.factory.customer"
+            - "@__symfony__.sylius.repository.customer"
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.factory.list"
+        tags:
+            - { name: fob.context_service }
+
+    setono_sylius_mailchimp_export_plugin.behat.context.setup.mailchimp_newsletter:
+        class: Tests\Setono\SyliusMailChimpPlugin\Behat\Context\Setup\MailChimpNewsletterContext
+        arguments:
+            - "@sylius.behat.shared_storage"
+            - "@__symfony__.sylius.repository.channel"
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.repository.config"
+            - "@__symfony__.sylius.repository.shop_user"
+            - "@sylius.behat.page.shop.account.login"
+            - "@__symfony__.sylius.factory.shop_user"
+            - "@__symfony__.sylius.factory.customer"
+            - "@sylius.behat.shop_security"
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.factory.config"
+            - "@setono_sylius_mailchimp_export_plugin.behat.random_string_generator"
+            - "@__symfony__.setono_sylius_mailchimp_export_plugin.factory.export"
+        tags:
+            - { name: fob.context_service }

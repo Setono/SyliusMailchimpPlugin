@@ -1,0 +1,8 @@
+sylius_resource:
+    resources:
+        setono_sylius_mailchimp_export_plugin.export:
+            driver: doctrine/orm
+            classes:
+                model: Setono\SyliusMailChimpPlugin\Entity\MailChimpExport
+                interface: Setono\SyliusMailChimpPlugin\Entity\MailChimpExportInterface
+                repository: Setono\SyliusMailChimpPlugin\Repository\MailChimpExportRepository

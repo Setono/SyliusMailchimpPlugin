@@ -1,0 +1,89 @@
+default:
+    suites:
+        ui_managing_mailchimp_configs:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.setup.admin_security
+
+                - sylius.behat.context.setup.channel
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.setup.mailchimp
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.ui.mailchimp
+            filters:
+                tags: "@managing_mailchimp_config && @ui"
+
+        ui_exporting_mailchimp_customers:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.setup.admin_security
+
+                - sylius.behat.context.setup.channel
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.setup.export
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.ui.export
+            filters:
+                tags: "@mailchimp_export && @ui"
+
+        cli_exporting_mailchimp_customers:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.setup.admin_security
+
+                - sylius.behat.context.setup.channel
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.cli.mailchimp
+            filters:
+                tags: "@mailchimp_export && @cli"
+
+        ui_mailchimp_subscription:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.transform.customer
+                - sylius.behat.context.transform.shared_storage
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.ui.mailchimp_newsletter
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.user
+                - sylius.behat.context.setup.customer
+                - sylius.behat.context.setup.shop_security
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.setup.mailchimp_newsletter
+
+                - sylius.behat.context.ui.shop.registration
+            filters:
+                tags: "@newsletter,@mailchimp_shop_newsletter && @ui"
+
+        ui_mailchimp_subscription_during_checkout:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.transform.customer
+                - sylius.behat.context.transform.shared_storage
+                - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.address
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.ui.mailchimp_newsletter
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.user
+                - sylius.behat.context.setup.customer
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.shipping
+                - sylius.behat.context.setup.payment
+                - sylius.behat.context.setup.shop_security
+
+                - setono_sylius_mailchimp_export_plugin.behat.context.setup.mailchimp_newsletter
+
+                - sylius.behat.context.ui.shop.cart
+                - sylius.behat.context.ui.shop.checkout.addressing
+                - sylius.behat.context.ui.shop.checkout
+                - sylius.behat.context.ui.shop.checkout.complete
+            filters:
+                tags: "@mailchimp_subscription_during_checkout && @ui"

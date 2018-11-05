@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Setono\SyliusMailChimpPlugin\Entity\MailChimpList" table="setono_mailchimp_config_list">
+        <id name="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="listId" type="string" nullable="true" column="list_id" unique="true"/>
+        <field name="emails" type="json_array" nullable="true" />
+
+        <many-to-one field="config"
+                     target-entity="Setono\SyliusMailChimpPlugin\Entity\MailChimpConfigInterface"
+                     inversed-by="lists">
+            <join-column name="config_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <many-to-many field="channels" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
+            <join-table name="setono_mailchimp_list_channels">
+                <join-columns>
+                    <join-column name="payment_method_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        <many-to-many field="locales" target-entity="Sylius\Component\Locale\Model\LocaleInterface" fetch="EAGER">
+            <join-table name="setono_mailchimp_list_locales">
+                <join-columns>
+                    <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="locale_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+    </entity>
+
+</doctrine-mapping>

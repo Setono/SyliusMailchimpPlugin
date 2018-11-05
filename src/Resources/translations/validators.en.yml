@@ -1,0 +1,22 @@
+setono_sylius_mailchimp_export_plugin:
+    config:
+        code:
+            unique: There is an existing configuration with this code.
+            not_blank: Code cannot be blank.
+            min_length: Code must be at least {{ limit }} characters long.
+        api_key:
+            not_blank: API key cannot be blank.
+            min_length: API key must be at least {{ limit }} characters long.
+            max_length: API key can not be longer than {{ limit }} characters.
+    list:
+        code:
+            unique: There is an existing configuration with this code.
+            not_blank: Code cannot be blank.
+            min_length: Code must be at least {{ limit }} characters long.
+        listId:
+            unique: There is an existing list with this ID.
+            not_blank: List ID cannot be blank.
+            min_length: List ID must be at least {{ limit }} characters long.
+            max_length: List ID can not be longer than {{ limit }} characters.
+        config:
+            not_blank: Config cannot be blank.

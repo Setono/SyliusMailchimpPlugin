@@ -1,0 +1,3 @@
+imports:
+    - { resource: "admin/manage_config.yml" }
+    - { resource: "admin/export_customers.yml" }

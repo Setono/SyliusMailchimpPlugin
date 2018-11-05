@@ -1,0 +1,39 @@
+setono_sylius_mailchimp_export_plugin_admin_export_index:
+    path: /exports
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp_export_plugin.controller.export:indexAction
+        _sylius:
+            template: "@SetonoSyliusMailChimpPlugin/MailChimpExport/index.html.twig"
+            grid: setono_sylius_mailchimp_export_plugin_admin_export
+            section: admin
+            permission: true
+            vars:
+                icon: arrow up
+                header: setono_sylius_mailchimp_export_plugin.ui.export_header
+                subheader: setono_sylius_mailchimp_export_plugin.ui.export_subheader
+
+sylius_admin_promotion_coupon_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.promotion_coupon:indexAction
+        _sylius:
+            template: "@SyliusAdmin/PromotionCoupon/index.html.twig"
+            grid: sylius_admin_promotion_coupon
+            section: admin
+            permission: true
+            vars:
+                route:
+                    parameters:
+                        promotionId: $promotionId
+                templates:
+                    breadcrumb: "@SyliusAdmin/PromotionCoupon/Index/_breadcrumb.html.twig"
+                icon: tags
+                subheader: sylius.ui.manage_coupons
+
+setono_sylius_mailchimp_export_plugin_admin_export_to_mailchimp:
+    path: /export
+    methods: [POST]
+    defaults:
+        _controller: setono_sylius_mailchimp_export_plugin.controller.action.export_to_mailchimp

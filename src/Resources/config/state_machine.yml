@@ -1,0 +1,8 @@
+winzou_state_machine:
+    sylius_order_checkout:
+        callbacks:
+            after:
+                setono_mailchimp_export_customer:
+                    on: ["complete"]
+                    do: ["@setono_sylius_mailchimp_export_plugin.exporter.customer_newsletter", "exportSingleCustomerForOrder"]
+                    args: ["object"]

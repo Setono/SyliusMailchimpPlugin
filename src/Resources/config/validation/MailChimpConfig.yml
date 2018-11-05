@@ -1,0 +1,25 @@
+Setono\SyliusMailChimpPlugin\Entity\MailChimpConfig:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [code]
+            groups: ['setono']
+            message: 'setono_sylius_mailchimp_export_plugin.config.code.unique'
+    properties:
+        code:
+            - NotBlank:
+                groups: ['setono']
+                message: 'setono_sylius_mailchimp_export_plugin.config.code.not_blank'
+            - Length:
+                min: 2
+                minMessage: 'setono_sylius_mailchimp_export_plugin.config.code.min_length'
+                groups: ['setono']
+        apiKey:
+            - NotBlank:
+                message: 'setono_sylius_mailchimp_export_plugin.config.api_key.not_blank'
+                groups: ['setono']
+            - Length:
+                min: 2
+                minMessage: 'setono_sylius_mailchimp_export_plugin.config.api_key.min_length'
+                maxMessage: 'setono_sylius_mailchimp_export_plugin.config.api_key.max_length'
+                max: 250
+                groups: ['setono']
