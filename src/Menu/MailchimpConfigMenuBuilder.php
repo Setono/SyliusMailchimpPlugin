@@ -21,6 +21,10 @@ final class MailchimpConfigMenuBuilder
     {
         $configurationMenu = $event->getMenu()->getChild('configuration');
 
+        if(null === $configurationMenu) {
+            return;
+        }
+
         $configurationMenu
             ->addChild('mailchimp', [
                 'route' => 'setono_sylius_mailchimp_export_plugin_admin_config_update',

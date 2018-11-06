@@ -12,6 +12,10 @@ final class MailchimpExportMenuBuilder
     {
         $marketingMenu = $event->getMenu()->getChild('marketing');
 
+        if(null === $marketingMenu) {
+            return;
+        }
+
         $marketingMenu
             ->addChild('mailchimp', ['route' => 'setono_sylius_mailchimp_export_plugin_admin_export_index'])
             ->setLabel('setono_sylius_mailchimp_export_plugin.ui.export_menu')

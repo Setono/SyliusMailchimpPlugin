@@ -4,32 +4,34 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Repository;
 
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface as SyliusCustomerRepositoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class CustomerRepository implements CustomerRepositoryInterface
 {
     /** @var SyliusCustomerRepositoryInterface */
     private $syliusCustomerRepository;
 
-    /** @var RepositoryInterface */
-    private $mailChimpExportRepository;
+    /** @var MailchimpExportRepositoryInterface */
+    private $mailchimpExportRepository;
 
     public function __construct(
         SyliusCustomerRepositoryInterface $syliusCustomerRepository,
-        MailchimpExportRepositoryInterface $mailChimpExportRepository
+        MailchimpExportRepositoryInterface $mailchimpExportRepository
     ) {
         $this->syliusCustomerRepository = $syliusCustomerRepository;
-        $this->mailChimpExportRepository = $mailChimpExportRepository;
+        $this->mailchimpExportRepository = $mailchimpExportRepository;
     }
 
     public function findNonExportedCustomers(): array
     {
         $customers = [];
+
+        /** @var CustomerInterface[] $subscribedCustomers */
         $subscribedCustomers = $this->syliusCustomerRepository->findBy(['subscribedToNewsletter' => true]);
 
         foreach ($subscribedCustomers as $customer) {
-            if (false === $this->mailChimpExportRepository->isCustomerExported($customer)) {
+            if (false === $this->mailchimpExportRepository->isCustomerExported($customer)) {
                 $customers[] = $customer;
             }
         }
@@ -40,10 +42,12 @@ final class CustomerRepository implements CustomerRepositoryInterface
     public function findAll(): array
     {
         $customers = [];
+
+        /** @var CustomerInterface[] $subscribedCustomers */
         $subscribedCustomers = $this->syliusCustomerRepository->findAll();
 
         foreach ($subscribedCustomers as $customer) {
-            if (false === $this->mailChimpExportRepository->isCustomerExported($customer)) {
+            if (false === $this->mailchimpExportRepository->isCustomerExported($customer)) {
                 $customers[] = $customer;
             }
         }
