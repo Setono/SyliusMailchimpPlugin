@@ -1,4 +1,4 @@
-@Mailchimp_export
+@mailchimp_export
 Feature: Exporting customers to Mailchimp
     In order to provide a great newsletter experience through Mailchimp automation tools
     As an Administrator
