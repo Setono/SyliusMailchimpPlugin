@@ -1,12 +1,12 @@
 services:
-    setono_sylius_mailchimp_export_plugin.listener.menu.mailchimp_config:
+    setono_sylius_mailchimp.listener.menu.mailchimp_config:
         class: Setono\SyliusMailchimpPlugin\Menu\MailchimpConfigMenuBuilder
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addConfigItem }
         arguments:
-            - "@setono_sylius_mailchimp_export_plugin.context.config"
+            - "@setono_sylius_mailchimp.context.config"
 
-    setono_sylius_mailchimp_export_plugin.listener.menu.mailchimp_export:
+    setono_sylius_mailchimp.listener.menu.mailchimp_export:
         class: Setono\SyliusMailchimpPlugin\Menu\MailchimpExportMenuBuilder
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addMarketingItem }

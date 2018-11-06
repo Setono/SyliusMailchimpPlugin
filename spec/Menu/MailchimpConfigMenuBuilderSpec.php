@@ -36,11 +36,11 @@ class MailchimpConfigMenuBuilderSpec extends ObjectBehavior
         $menuBuilderEvent->getMenu()->willReturn($menu);
         $menu->getChild('configuration')->willReturn($configurationMenu);
         $configurationMenu->addChild('mailchimp', [
-            'route' => 'setono_sylius_mailchimp_export_plugin_admin_config_update',
+            'route' => 'setono_sylius_mailchimp_admin_config_update',
             'routeParameters' => ['id' => 1],
         ])->willReturn($mailChimpMenuItem);
 
-        $mailChimpMenuItem->setLabel('setono_sylius_mailchimp_export_plugin.ui.config_menu')->willReturn($mailChimpMenuItem);
+        $mailChimpMenuItem->setLabel('setono_sylius_mailchimp.ui.config_menu')->willReturn($mailChimpMenuItem);
         $mailChimpMenuItem->setLabelAttribute('icon', 'envelope open outline')->shouldBeCalledOnce();
 
         $this->addConfigItem($menuBuilderEvent);

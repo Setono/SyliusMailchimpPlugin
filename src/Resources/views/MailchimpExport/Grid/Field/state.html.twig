@@ -1,7 +1,7 @@
 {% import '@SyliusUi/Macro/labels.html.twig' as label %}
 
 {% set state = data %}
-{% set label = ('setono_sylius_mailchimp_export_plugin.ui.'~state)|trans %}
+{% set label = ('setono_sylius_mailchimp.ui.'~state)|trans %}
 
 {% if data == constant('Setono\\SyliusMailchimpPlugin\\Entity\\MailchimpExportInterface::NEW_STATE') %}
     <div class="ui label">{{ label }}</div>

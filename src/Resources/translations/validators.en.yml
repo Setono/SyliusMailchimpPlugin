@@ -1,4 +1,4 @@
-setono_sylius_mailchimp_export_plugin:
+setono_sylius_mailchimp:
     config:
         code:
             unique: There is an existing configuration with this code.

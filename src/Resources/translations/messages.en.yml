@@ -1,4 +1,4 @@
-setono_sylius_mailchimp_export_plugin:
+setono_sylius_mailchimp:
     ui:
         config_menu: Mailchimp
         export_menu: Newsletter export

@@ -1,30 +1,30 @@
 services:
-    setono_sylius_mailchimp_export_plugin.behat.context.ui.mailchimp:
+    setono_sylius_mailchimp.behat.context.ui.mailchimp:
         class: Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Admin\MailchimpPluginContext
         arguments:
-            - "@setono_sylius_mailchimp_export_plugin.page.admin.manageconfig.index"
-            - "@setono_sylius_mailchimp_export_plugin.page.admin.manageconfig.create"
-            - "@setono_sylius_mailchimp_export_plugin.page.admin.manageconfig.update"
+            - "@setono_sylius_mailchimp.page.admin.manageconfig.index"
+            - "@setono_sylius_mailchimp.page.admin.manageconfig.create"
+            - "@setono_sylius_mailchimp.page.admin.manageconfig.update"
             - "@sylius.behat.page.admin.dashboard"
             - "@sylius.behat.shared_storage"
             - "@sylius.behat.notification_checker"
-            - "@__symfony__.setono_sylius_mailchimp_export_plugin.repository.config"
+            - "@__symfony__.setono_sylius_mailchimp.repository.config"
             - "@sylius.behat.current_page_resolver"
         tags:
             - { name: fob.context_service }
 
-    setono_sylius_mailchimp_export_plugin.behat.context.ui.export:
+    setono_sylius_mailchimp.behat.context.ui.export:
         class: Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Admin\ExportCustomersContext
         arguments:
-            - "@setono_sylius_mailchimp_export_plugin.page.admin.exportcustomers.index"
+            - "@setono_sylius_mailchimp.page.admin.exportcustomers.index"
             - "@sylius.behat.notification_checker"
-            - "@setono_sylius_mailchimp_export_plugin.page.admin.manageconfig.update"
+            - "@setono_sylius_mailchimp.page.admin.manageconfig.update"
             - "@sylius.behat.current_page_resolver"
-            - "@__symfony__.setono_sylius_mailchimp_export_plugin.repository.config"
+            - "@__symfony__.setono_sylius_mailchimp.repository.config"
         tags:
             - { name: fob.context_service }
 
-    setono_sylius_mailchimp_export_plugin.behat.context.ui.mailchimp_newsletter:
+    setono_sylius_mailchimp.behat.context.ui.mailchimp_newsletter:
         class: Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Shop\MailchimpNewsletterContext
         arguments:
             - "@sylius.behat.page.shop.account.register"
@@ -32,7 +32,7 @@ services:
             - "@sylius.behat.page.shop.account.verify"
             - "@sylius.behat.page.shop.account.login"
             - "@__symfony__.sylius.repository.shop_user"
-            - "@setono_sylius_mailchimp_export_plugin.page.shop.account.profile_ppdate"
+            - "@setono_sylius_mailchimp.page.shop.account.profile_ppdate"
             - "@sylius.behat.notification_checker"
             - "@sylius.behat.current_page_resolver"
             - "@__symfony__.sylius.factory.order"
@@ -41,7 +41,7 @@ services:
             - "@__symfony__.sylius.context.currency"
             - "@sylius.behat.shared_storage"
             - "@__symfony__.sylius.repository.order"
-            - "@__symfony__.setono_sylius_mailchimp_export_plugin.repository.config"
-            - "@__symfony__.setono_sylius_mailchimp_export_plugin.manager.config"
+            - "@__symfony__.setono_sylius_mailchimp.repository.config"
+            - "@__symfony__.setono_sylius_mailchimp.manager.config"
         tags:
             - { name: fob.context_service }

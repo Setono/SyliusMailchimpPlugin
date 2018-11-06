@@ -20,17 +20,17 @@ final class MailchimpConfigType extends AbstractResourceType
 
         $builder
             ->add('code', TextType::class, [
-                'label' => 'setono_sylius_mailchimp_export_plugin.ui.code',
+                'label' => 'setono_sylius_mailchimp.ui.code',
                 'disabled' => null !== $config->getCode(),
             ])
             ->add('apiKey', TextType::class, [
-                'label' => 'setono_sylius_mailchimp_export_plugin.ui.api_key',
+                'label' => 'setono_sylius_mailchimp.ui.api_key',
             ])
             ->add('exportAll', CheckboxType::class, [
-                'label' => 'setono_sylius_mailchimp_export_plugin.ui.export_all_emails',
+                'label' => 'setono_sylius_mailchimp.ui.export_all_emails',
             ])
             ->add('lists', CollectionType::class, [
-                'label' => 'setono_sylius_mailchimp_export_plugin.ui.config',
+                'label' => 'setono_sylius_mailchimp.ui.config',
                 'entry_type' => MailchimpListType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

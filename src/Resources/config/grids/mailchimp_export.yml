@@ -1,9 +1,9 @@
 sylius_grid:
     grids:
-        setono_sylius_mailchimp_export_plugin_admin_export:
+        setono_sylius_mailchimp_admin_export:
             driver:
                 options:
-                    class: "%setono_sylius_mailchimp_export_plugin.model.export.class%"
+                    class: "%setono_sylius_mailchimp.model.export.class%"
                     repository:
                         method: createListQueryBuilder
             sorting:
@@ -11,22 +11,22 @@ sylius_grid:
             fields:
                 state:
                     type: twig
-                    label: setono_sylius_mailchimp_export_plugin.ui.state
+                    label: setono_sylius_mailchimp.ui.state
                     options:
                         template: "@SetonoSyliusMailchimpPlugin/MailchimpExport/Grid/Field/state.html.twig"
                 createdAt:
                     type: datetime
-                    label: setono_sylius_mailchimp_export_plugin.ui.exported_at
+                    label: setono_sylius_mailchimp.ui.exported_at
                     sortable: ~
                     options:
                         format: d-m-Y H:i
                 emails_count:
                     type: string
-                    label: setono_sylius_mailchimp_export_plugin.ui.emails_exported
+                    label: setono_sylius_mailchimp.ui.emails_exported
                     path: customers.count
                     sortable: ~
             actions:
                 main:
                     mailChimpExport:
                         type: mailchimp_export
-                        label: setono_sylius_mailchimp_export_plugin.ui.export
+                        label: setono_sylius_mailchimp.ui.export

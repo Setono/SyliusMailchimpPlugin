@@ -1,15 +1,15 @@
-setono_sylius_mailchimp_export_plugin_admin_config:
+setono_sylius_mailchimp_admin_config:
     resource: |
         section: admin
-        alias: setono_sylius_mailchimp_export_plugin.config
+        alias: setono_sylius_mailchimp.config
         templates: SetonoSyliusMailchimpPlugin:Crud
         except: ['create', 'delete']
         permission: true
         redirect: update
         vars:
             all:
-                header: setono_sylius_mailchimp_export_plugin.ui.config_header
-                subheader: setono_sylius_mailchimp_export_plugin.ui.config_subheader
+                header: setono_sylius_mailchimp.ui.config_header
+                subheader: setono_sylius_mailchimp.ui.config_subheader
                 templates:
                     form: SetonoSyliusMailchimpPlugin:MailchimpConfig:Crud/_form.html.twig
                     breadcrumb: SetonoSyliusMailchimpPlugin:MailchimpConfig:Crud/_breadcrumb.html.twig

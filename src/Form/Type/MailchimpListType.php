@@ -18,7 +18,7 @@ final class MailchimpListType extends AbstractType
     {
         $builder
             ->add('listId', TextType::class, [
-                'label' => 'setono_sylius_mailchimp_export_plugin.ui.list_id',
+                'label' => 'setono_sylius_mailchimp.ui.list_id',
                 'required' => true,
             ])
             ->add('channels', ChannelChoiceType::class, [

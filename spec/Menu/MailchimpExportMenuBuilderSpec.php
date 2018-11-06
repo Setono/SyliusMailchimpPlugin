@@ -25,11 +25,11 @@ class MailchimpExportMenuBuilderSpec extends ObjectBehavior
         $menuBuilderEvent->getMenu()->willReturn($globalMenu);
         $globalMenu->getChild('marketing')->willReturn($subMenu);
         $subMenu
-            ->addChild('mailchimp', ['route' => 'setono_sylius_mailchimp_export_plugin_admin_export_index'])
+            ->addChild('mailchimp', ['route' => 'setono_sylius_mailchimp_admin_export_index'])
             ->willReturn($mailChimpMenuItem)
         ;
         $mailChimpMenuItem
-            ->setLabel('setono_sylius_mailchimp_export_plugin.ui.export_menu')
+            ->setLabel('setono_sylius_mailchimp.ui.export_menu')
             ->willReturn($mailChimpMenuItem)
         ;
         $mailChimpMenuItem->setLabelAttribute('icon', 'arrow up')->shouldBeCalled();

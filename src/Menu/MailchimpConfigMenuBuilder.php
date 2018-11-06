@@ -27,10 +27,10 @@ final class MailchimpConfigMenuBuilder
 
         $configurationMenu
             ->addChild('mailchimp', [
-                'route' => 'setono_sylius_mailchimp_export_plugin_admin_config_update',
+                'route' => 'setono_sylius_mailchimp_admin_config_update',
                 'routeParameters' => ['id' => $this->mailchimpConfigContext->getConfig()->getId()],
             ])
-            ->setLabel('setono_sylius_mailchimp_export_plugin.ui.config_menu')
+            ->setLabel('setono_sylius_mailchimp.ui.config_menu')
             ->setLabelAttribute('icon', 'envelope open outline')
         ;
     }

@@ -8,9 +8,9 @@ default:
 
                 - sylius.behat.context.setup.channel
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.setup.mailchimp
+                - setono_sylius_mailchimp.behat.context.setup.mailchimp
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.ui.mailchimp
+                - setono_sylius_mailchimp.behat.context.ui.mailchimp
             filters:
                 tags: "@managing_mailchimp_config && @ui"
 
@@ -22,9 +22,9 @@ default:
 
                 - sylius.behat.context.setup.channel
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.setup.export
+                - setono_sylius_mailchimp.behat.context.setup.export
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.ui.export
+                - setono_sylius_mailchimp.behat.context.ui.export
             filters:
                 tags: "@mailchimp_export && @ui"
 
@@ -36,7 +36,7 @@ default:
 
                 - sylius.behat.context.setup.channel
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.cli.mailchimp
+                - setono_sylius_mailchimp.behat.context.cli.mailchimp
             filters:
                 tags: "@mailchimp_export && @cli"
 
@@ -47,14 +47,14 @@ default:
                 - sylius.behat.context.transform.customer
                 - sylius.behat.context.transform.shared_storage
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.ui.mailchimp_newsletter
+                - setono_sylius_mailchimp.behat.context.ui.mailchimp_newsletter
 
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.user
                 - sylius.behat.context.setup.customer
                 - sylius.behat.context.setup.shop_security
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.setup.mailchimp_newsletter
+                - setono_sylius_mailchimp.behat.context.setup.mailchimp_newsletter
 
                 - sylius.behat.context.ui.shop.registration
             filters:
@@ -69,7 +69,7 @@ default:
                 - sylius.behat.context.transform.product
                 - sylius.behat.context.transform.address
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.ui.mailchimp_newsletter
+                - setono_sylius_mailchimp.behat.context.ui.mailchimp_newsletter
 
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.user
@@ -79,7 +79,7 @@ default:
                 - sylius.behat.context.setup.payment
                 - sylius.behat.context.setup.shop_security
 
-                - setono_sylius_mailchimp_export_plugin.behat.context.setup.mailchimp_newsletter
+                - setono_sylius_mailchimp.behat.context.setup.mailchimp_newsletter
 
                 - sylius.behat.context.ui.shop.cart
                 - sylius.behat.context.ui.shop.checkout.addressing

@@ -3,19 +3,19 @@ Setono\SyliusMailchimpPlugin\Entity\MailchimpList:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: [listId]
             groups: ['setono']
-            message: 'setono_sylius_mailchimp_export_plugin.list.listId.unique'
+            message: 'setono_sylius_mailchimp.list.listId.unique'
     properties:
         listId:
             - NotBlank:
-                message: 'setono_sylius_mailchimp_export_plugin.list.listId.not_blank'
+                message: 'setono_sylius_mailchimp.list.listId.not_blank'
                 groups: ['setono']
             - Length:
                 min: 2
-                minMessage: 'setono_sylius_mailchimp_export_plugin.list.listId.min_length'
-                maxMessage: 'setono_sylius_mailchimp_export_plugin.list.listId.max_length'
+                minMessage: 'setono_sylius_mailchimp.list.listId.min_length'
+                maxMessage: 'setono_sylius_mailchimp.list.listId.max_length'
                 max: 250
                 groups: ['setono']
         config:
             - NotBlank:
-                message: 'setono_sylius_mailchimp_export_plugin.list.config.not_blank'
+                message: 'setono_sylius_mailchimp.list.config.not_blank'
                 groups: ['setono']

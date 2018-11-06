@@ -4,5 +4,5 @@ parameters:
     locale: en_US
 
 services:
-    setono_sylius_mailchimp_export_plugin.api_client.mailchimp:
+    setono_sylius_mailchimp.api_client.mailchimp:
         class: Tests\Setono\SyliusMailchimpPlugin\Behat\Mocker\MailchimpApiClientMocker

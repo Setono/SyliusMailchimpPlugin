@@ -4,5 +4,5 @@ winzou_state_machine:
             after:
                 setono_mailchimp_export_customer:
                     on: ["complete"]
-                    do: ["@setono_sylius_mailchimp_export_plugin.exporter.customer_newsletter", "exportSingleCustomerForOrder"]
+                    do: ["@setono_sylius_mailchimp.exporter.customer_newsletter", "exportSingleCustomerForOrder"]
                     args: ["object"]

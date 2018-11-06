@@ -4,57 +4,57 @@ imports:
     - { resource: services/context.yml }
 
 services:
-    setono_sylius_mailchimp_export_plugin.api_client.mailchimp:
+    setono_sylius_mailchimp.api_client.mailchimp:
         class: Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClient
         public: true
         arguments:
-            - "@setono_sylius_mailchimp_export_plugin.context.config"
+            - "@setono_sylius_mailchimp.context.config"
 
-    setono_sylius_mailchimp_export_plugin.event_listener.customer_listener:
+    setono_sylius_mailchimp.event_listener.customer_listener:
         class: Setono\SyliusMailchimpPlugin\EventListener\CustomerNewsletterListener
         arguments:
-            - "@setono_sylius_mailchimp_export_plugin.api_client.mailchimp"
-            - "@setono_sylius_mailchimp_export_plugin.context.config"
+            - "@setono_sylius_mailchimp.api_client.mailchimp"
+            - "@setono_sylius_mailchimp.context.config"
             - "@sylius.context.channel"
-            - "@setono_sylius_mailchimp_export_plugin.context.locale"
-            - "@setono_sylius_mailchimp_export_plugin.manager.list"
+            - "@setono_sylius_mailchimp.context.locale"
+            - "@setono_sylius_mailchimp.manager.list"
         tags:
             - { name: "kernel.event_listener", event: "sylius.customer.post_register", method: manageSubscription }
             - { name: "kernel.event_listener", event: "sylius.customer.pre_update", method: manageSubscription }
 
-    setono_sylius_mailchimp_export_plugin.repository.customer:
+    setono_sylius_mailchimp.repository.customer:
         class: Setono\SyliusMailchimpPlugin\Repository\CustomerRepository
         arguments:
             - "@sylius.repository.customer"
-            - "@setono_sylius_mailchimp_export_plugin.repository.export"
+            - "@setono_sylius_mailchimp.repository.export"
 
-    setono_sylius_mailchimp_export_plugin.exporter.customer_newsletter:
+    setono_sylius_mailchimp.exporter.customer_newsletter:
         class: Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporter
         public: true
         arguments:
-            - "@setono_sylius_mailchimp_export_plugin.factory.export"
-            - "@setono_sylius_mailchimp_export_plugin.repository.export"
-            - "@setono_sylius_mailchimp_export_plugin.repository.customer"
+            - "@setono_sylius_mailchimp.factory.export"
+            - "@setono_sylius_mailchimp.repository.export"
+            - "@setono_sylius_mailchimp.repository.customer"
             - "@sylius.context.channel"
-            - "@setono_sylius_mailchimp_export_plugin.context.locale"
-            - "@setono_sylius_mailchimp_export_plugin.context.config"
-            - "@setono_sylius_mailchimp_export_plugin.api_client.mailchimp"
-            - "@setono_sylius_mailchimp_export_plugin.manager.export"
-            - "@setono_sylius_mailchimp_export_plugin.manager.list"
+            - "@setono_sylius_mailchimp.context.locale"
+            - "@setono_sylius_mailchimp.context.config"
+            - "@setono_sylius_mailchimp.api_client.mailchimp"
+            - "@setono_sylius_mailchimp.manager.export"
+            - "@setono_sylius_mailchimp.manager.list"
 
-    setono_sylius_mailchimp_export_plugin.controller.action.export_to_mailchimp:
+    setono_sylius_mailchimp.controller.action.export_to_mailchimp:
         class: Setono\SyliusMailchimpPlugin\Controller\Action\ExportToMailchimpAction
         public: true
         arguments:
-            - "@setono_sylius_mailchimp_export_plugin.exporter.customer_newsletter"
-            - "@setono_sylius_mailchimp_export_plugin.context.config"
+            - "@setono_sylius_mailchimp.exporter.customer_newsletter"
+            - "@setono_sylius_mailchimp.context.config"
             - "@session.flash_bag"
             - "@translator"
             - "@router"
 
-    setono_sylius_mailchimp_export_plugin.controller.cli.command.export_to_mailchimp:
+    setono_sylius_mailchimp.controller.cli.command.export_to_mailchimp:
         class: Setono\SyliusMailchimpPlugin\Cli\Command\ExportToMailchimpCommand
         arguments:
-            - "@setono_sylius_mailchimp_export_plugin.exporter.customer_newsletter"
+            - "@setono_sylius_mailchimp.exporter.customer_newsletter"
         tags:
             - { name: console.command }
