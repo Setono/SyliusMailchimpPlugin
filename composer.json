@@ -1,5 +1,5 @@
 {
-    "name": "setono/mailchimp-plugin",
+    "name": "setono/sylius-mailchimp-plugin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin", "mailchimp"],
     "description": "Mailchimp integration plugin for Sylius.",
