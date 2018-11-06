@@ -3,13 +3,13 @@
 
     $.fn.extend({
         exportToMailchimp: function () {
-            var element = $(this);
+            let element = $(this);
 
-            element.click(function (event) {
+            element.on('click', function (event) {
                 event.preventDefault();
                 element.addClass('disabled');
 
-                var href = $(element).attr('href');
+                let href = $(element).attr('href');
 
                 $.ajax({
                     method: 'POST',

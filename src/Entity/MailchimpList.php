@@ -131,6 +131,6 @@ class MailchimpList implements MailchimpListInterface
 
     public function hasEmail(string $email): bool
     {
-        return in_array($email, $this->emails, true);
+        return \in_array($email, $this->emails, true);
     }
 }

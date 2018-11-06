@@ -21,7 +21,7 @@ final class MailchimpConfigMenuBuilder
     {
         $configurationMenu = $event->getMenu()->getChild('configuration');
 
-        if(null === $configurationMenu) {
+        if (null === $configurationMenu) {
             return;
         }
 

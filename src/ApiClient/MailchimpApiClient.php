@@ -18,6 +18,12 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
         $this->mailchimpConfigContext = $mailchimpConfigContext;
     }
 
+    /**
+     * @param string $email
+     * @param string $listId
+     *
+     * @throws MailchimpApiException
+     */
     public function exportEmail(string $email, string $listId): void
     {
         try {
@@ -30,6 +36,12 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
         }
     }
 
+    /**
+     * @param string $email
+     * @param string $listId
+     *
+     * @throws MailchimpApiException
+     */
     public function removeEmail(string $email, string $listId): void
     {
         $request = $this->request();
@@ -45,6 +57,11 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
         }
     }
 
+    /**
+     * @return MailChimp
+     *
+     * @throws MailchimpApiException
+     */
     private function request(): MailChimp
     {
         try {

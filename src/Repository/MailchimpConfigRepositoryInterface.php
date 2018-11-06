@@ -10,7 +10,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 interface MailchimpConfigRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @return null|MailchimpConfigInterface
+     * @return MailchimpConfigInterface|null
      */
     public function findConfig(): ?MailchimpConfigInterface;
 }

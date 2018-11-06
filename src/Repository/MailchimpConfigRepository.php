@@ -9,6 +9,11 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 class MailchimpConfigRepository extends EntityRepository implements MailchimpConfigRepositoryInterface
 {
+    /**
+     * @return MailchimpConfigInterface|null
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findConfig(): ?MailchimpConfigInterface
     {
         return $this->createQueryBuilder('o')

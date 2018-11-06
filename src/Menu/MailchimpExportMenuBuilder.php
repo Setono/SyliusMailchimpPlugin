@@ -12,7 +12,7 @@ final class MailchimpExportMenuBuilder
     {
         $marketingMenu = $event->getMenu()->getChild('marketing');
 
-        if(null === $marketingMenu) {
+        if (null === $marketingMenu) {
             return;
         }
 
