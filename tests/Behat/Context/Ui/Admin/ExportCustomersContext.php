@@ -71,14 +71,14 @@ final class ExportCustomersContext implements Context
     }
 
     /**
-     * @Then I should be notified that I need to set up the MaiLChimp config first
+     * @Then I should be notified that I need to set up the Mailchimp config first
      */
     public function iShouldBeNotifiedThatINeedToSetUpTheMailchimpConfigFirst(): void
     {
         $this->notificationChecker->checkNotification(
-                'Please set up the Mailchimp config properly first.',
-                NotificationType::failure()
-            );
+            'Please set up the Mailchimp config properly first.',
+            NotificationType::failure()
+        );
     }
 
     /**

@@ -99,7 +99,7 @@ final class MailchimpExportCliContext implements Context
     }
 
     /**
-     * @Then I should see an error saying that I need to set up the MaiLChimp config first
+     * @Then I should see an error saying that I need to set up the Mailchimp config first
      */
     public function iShouldSeeAnErrorSayingThatINeedToSetUpTheMailchimpConfigFirst(): void
     {

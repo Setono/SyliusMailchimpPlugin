@@ -1,4 +1,4 @@
-@Mailchimp_shop_newsletter
+@mailchimp_shop_newsletter
 Feature: Subscribing to the newsletter
     In order to be up-to-date with products and promotions
     As a Customer

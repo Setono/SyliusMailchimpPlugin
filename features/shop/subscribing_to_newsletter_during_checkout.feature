@@ -1,4 +1,4 @@
-@Mailchimp_subscription_during_checkout
+@mailchimp_subscription_during_checkout
 Feature: Subscribing to the newsletter during the checkout
     In order to be up to date with products and promotions
     As a customer
