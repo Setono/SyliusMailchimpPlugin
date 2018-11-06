@@ -10,7 +10,13 @@ interface MailchimpConfigContextInterface
 {
     public const DEFAULT_CODE = 'default';
 
+    /**
+     * @return MailchimpConfigInterface
+     */
     public function getConfig(): MailchimpConfigInterface;
 
+    /**
+     * @return bool
+     */
     public function isFullySetUp(): bool;
 }
