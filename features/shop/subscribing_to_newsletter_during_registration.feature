@@ -1,12 +1,12 @@
-@mailchimp_shop_newsletter
+@Mailchimp_shop_newsletter
 Feature: Subscribing to the newsletter during registration
     In order to be up to date with products and promotions
     As a Visitor
-    I want to subscribe myself to the MailChimp newsletter during account registration
+    I want to subscribe myself to the Mailchimp newsletter during account registration
 
     Background:
         Given the store operates on a single channel in "United States"
-        And the MailChimp config is set up
+        And the Mailchimp config is set up
 
     @ui
     Scenario: Subscribing to the newsletter during registration
@@ -21,4 +21,4 @@ Feature: Subscribing to the newsletter during registration
         And I verify my account using link sent to "goodman@gmail.com"
         And I log in as "goodman@gmail.com" with "heisenberg" password
         Then I should be subscribed to the newsletter
-        And the email "goodman@gmail.com" should be exported to the MailChimp's default list
+        And the email "goodman@gmail.com" should be exported to the Mailchimp's default list

@@ -6,7 +6,7 @@
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
 
-    <entity name="Setono\SyliusMailChimpPlugin\Entity\MailChimpExport" table="mail_chimp_export_export">
+    <entity name="Setono\SyliusMailchimpPlugin\Entity\MailchimpExport" table="mail_chimp_export_export">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>

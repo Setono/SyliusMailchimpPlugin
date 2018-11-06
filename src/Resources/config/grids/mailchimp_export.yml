@@ -13,7 +13,7 @@ sylius_grid:
                     type: twig
                     label: setono_sylius_mailchimp_export_plugin.ui.state
                     options:
-                        template: "@SetonoSyliusMailChimpPlugin/MailChimpExport/Grid/Field/state.html.twig"
+                        template: "@SetonoSyliusMailchimpPlugin/MailchimpExport/Grid/Field/state.html.twig"
                 createdAt:
                     type: datetime
                     label: setono_sylius_mailchimp_export_plugin.ui.exported_at

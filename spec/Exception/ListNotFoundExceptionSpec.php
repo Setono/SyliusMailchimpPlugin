@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace spec\Setono\SyliusMailChimpPlugin\Exception;
+namespace spec\Setono\SyliusMailchimpPlugin\Exception;
 
 use PhpSpec\ObjectBehavior;
-use Setono\SyliusMailChimpPlugin\Exception\ListNotFoundException;
+use Setono\SyliusMailchimpPlugin\Exception\ListNotFoundException;
 
 class ListNotFoundExceptionSpec extends ObjectBehavior
 {
@@ -26,6 +26,6 @@ class ListNotFoundExceptionSpec extends ObjectBehavior
 
     function it_has_custom_message(): void
     {
-        $this->getMessage()->shouldReturn('MailChimp list with 123 code has not been found.');
+        $this->getMessage()->shouldReturn('Mailchimp list with 123 code has not been found.');
     }
 }

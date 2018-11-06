@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Setono\SyliusMailChimpPlugin\Behat\Page\Shop\Account;
+namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Shop\Account;
 
 use Sylius\Behat\Page\Shop\Account\ProfileUpdatePage as BaseProfileUpdatePage;
 

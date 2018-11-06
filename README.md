@@ -5,11 +5,11 @@
     <a href="https://packagist.org/packages/setono/sylius-mailchimp-plugin" title="Version" target="_blank">
         <img src="https://img.shields.io/packagist/v/setono/sylius-mailchimp-plugin.svg" />
     </a>
-    <a href="http://travis-ci.org/Setono/SyliusMailChimpPlugin" title="Build status" target="_blank">
-            <img src="https://img.shields.io/travis/Setono/SyliusMailChimpPlugin/master.svg" />
+    <a href="http://travis-ci.org/Setono/SyliusMailchimpPlugin" title="Build status" target="_blank">
+            <img src="https://img.shields.io/travis/Setono/SyliusMailchimpPlugin/master.svg" />
         </a>
-    <a href="https://scrutinizer-ci.com/g/Setono/SyliusMailChimpPlugin" title="Scrutinizer" target="_blank">
-        <img src="https://img.shields.io/scrutinizer/g/Setono/SyliusMailChimpPlugin.svg" />
+    <a href="https://scrutinizer-ci.com/g/Setono/SyliusMailchimpPlugin" title="Scrutinizer" target="_blank">
+        <img src="https://img.shields.io/scrutinizer/g/Setono/SyliusMailchimpPlugin.svg" />
     </a>
     <a href="https://packagist.org/packages/setono/sylius-mailchimp-plugin" title="Total Downloads" target="_blank">
         <img src="https://poser.pugx.org/setono/sylius-mailchimp-plugin/downloads" />
@@ -28,20 +28,20 @@
 
     ```yaml
     imports:
-        - { resource: "@SetonoSyliusMailChimpPlugin/Resources/config/config.yml" }
+        - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/config.yml" }
     ```
 3. Import routing:
    
     ```yaml
     setono_sylius_mailchimp_plugin:
-        resource: "@SetonoSyliusMailChimpPlugin/Resources/config/routing.yml"
+        resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yml"
     ```
 
 4. Add plugin class to your `AppKernel`:
 
     ```php
     $bundles = [
-        new \Setono\SyliusMailChimpPlugin\SetonoSyliusMailChimpPlugin(),
+        new \Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin(),
     ];
     ```
 5. Update your database:

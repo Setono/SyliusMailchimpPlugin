@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Setono\SyliusMailChimpPlugin\Application;
+namespace Tests\Setono\SyliusMailchimpPlugin\Application;
 
 use ProxyManager\Proxy\VirtualProxyInterface;
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace spec\Setono\SyliusMailChimpPlugin\EventListener;
+namespace spec\Setono\SyliusMailchimpPlugin\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
-use Setono\SyliusMailChimpPlugin\ApiClient\MailChimpApiClientInterface;
-use Setono\SyliusMailChimpPlugin\Context\LocaleContextInterface;
-use Setono\SyliusMailChimpPlugin\Context\MailChimpConfigContextInterface;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpConfigInterface;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpListInterface;
-use Setono\SyliusMailChimpPlugin\EventListener\CustomerNewsletterListener;
+use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
+use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\EventListener\CustomerNewsletterListener;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -21,8 +21,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class CustomerNewsletterListenerSpec extends ObjectBehavior
 {
     function let(
-        MailChimpApiClientInterface $mailChimpApiClient,
-        MailChimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpApiClientInterface $mailChimpApiClient,
+        MailchimpConfigContextInterface $mailChimpConfigContext,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
         EntityManagerInterface $mailChimpListManager
@@ -48,10 +48,10 @@ class CustomerNewsletterListenerSpec extends ObjectBehavior
         ChannelInterface $channel,
         LocaleInterface $locale,
         ChannelContextInterface $channelContext,
-        MailChimpConfigInterface $mailChimpConfig,
-        MailChimpListInterface $mailChimpList,
-        MailChimpConfigContextInterface $mailChimpConfigContext,
-        MailChimpApiClientInterface $mailChimpApiClient
+        MailchimpConfigInterface $mailChimpConfig,
+        MailchimpListInterface $mailChimpList,
+        MailchimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpApiClientInterface $mailChimpApiClient
     ): void {
         $customer->getEmail()->willReturn('user@example.com');
         $customer->isSubscribedToNewsletter()->willReturn(false);
@@ -75,10 +75,10 @@ class CustomerNewsletterListenerSpec extends ObjectBehavior
         ChannelInterface $channel,
         LocaleInterface $locale,
         ChannelContextInterface $channelContext,
-        MailChimpConfigInterface $mailChimpConfig,
-        MailChimpListInterface $mailChimpList,
-        MailChimpConfigContextInterface $mailChimpConfigContext,
-        MailChimpApiClientInterface $mailChimpApiClient
+        MailchimpConfigInterface $mailChimpConfig,
+        MailchimpListInterface $mailChimpList,
+        MailchimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpApiClientInterface $mailChimpApiClient
     ): void {
         $customer->getEmail()->willReturn('user@example.com');
         $customer->isSubscribedToNewsletter()->willReturn(true);

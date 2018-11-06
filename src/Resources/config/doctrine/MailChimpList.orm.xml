@@ -5,7 +5,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Setono\SyliusMailChimpPlugin\Entity\MailChimpList" table="setono_mailchimp_config_list">
+    <entity name="Setono\SyliusMailchimpPlugin\Entity\MailchimpList" table="setono_mailchimp_config_list">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
@@ -14,7 +14,7 @@
         <field name="emails" type="json_array" nullable="true" />
 
         <many-to-one field="config"
-                     target-entity="Setono\SyliusMailChimpPlugin\Entity\MailChimpConfigInterface"
+                     target-entity="Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface"
                      inversed-by="lists">
             <join-column name="config_id" referenced-column-name="id" nullable="false"/>
         </many-to-one>

@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
-use Tests\Setono\SyliusMailChimpPlugin\Application\Kernel;
+use Tests\Setono\SyliusMailchimpPlugin\Application\Kernel;
 
 require __DIR__.'/../../../vendor/autoload.php';
 

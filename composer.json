@@ -1,8 +1,8 @@
 {
     "name": "setono/mailchimp-plugin",
     "type": "sylius-plugin",
-    "keywords": ["sylius", "sylius-plugin", "sylius-mailchimp"],
-    "description": "MailChimp integration plugin for Sylius.",
+    "keywords": ["sylius", "sylius-plugin", "mailchimp"],
+    "description": "Mailchimp integration plugin for Sylius.",
     "license": "MIT",
     "require": {
         "php": "^7.2",
@@ -36,8 +36,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Setono\\SyliusMailChimpPlugin\\": "src/",
-            "Tests\\Setono\\SyliusMailChimpPlugin\\": "tests/",
+            "Setono\\SyliusMailchimpPlugin\\": "src/",
+            "Tests\\Setono\\SyliusMailchimpPlugin\\": "tests/",
             "AppBundle\\": "tests/Application/src/AppBundle/"
         }
     }

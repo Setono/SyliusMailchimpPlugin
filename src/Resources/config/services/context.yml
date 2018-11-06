@@ -1,12 +1,12 @@
 services:
     setono_sylius_mailchimp_export_plugin.context.locale:
-        class: Setono\SyliusMailChimpPlugin\Context\LocaleContext
+        class: Setono\SyliusMailchimpPlugin\Context\LocaleContext
         arguments:
             - "@sylius.repository.locale"
             - "@sylius.context.locale"
 
     setono_sylius_mailchimp_export_plugin.context.config:
-        class: Setono\SyliusMailChimpPlugin\Context\MailChimpConfigContext
+        class: Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContext
         public: true
         arguments:
             - "@setono_sylius_mailchimp_export_plugin.repository.config"

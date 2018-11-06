@@ -1,22 +1,22 @@
 setono_sylius_mailchimp_export_plugin:
     ui:
-        config_menu: MailChimp
+        config_menu: Mailchimp
         export_menu: Newsletter export
-        configs: MailChimp configuration
-        api_key: MailChimp API Key
+        configs: Mailchimp configuration
+        api_key: Mailchimp API Key
         code: Code
         config: Configure list(s)
-        config_header: MailChimp configuration
-        config_subheader: Manage MailChimp configuration
+        config_header: Mailchimp configuration
+        config_subheader: Manage Mailchimp configuration
         list: Lists
         list_id: List ID
-        list_header: MailChimp List Configuration
-        list_subheader: Manage MailChimp lists
+        list_header: Mailchimp List Configuration
+        list_subheader: Manage Mailchimp lists
         exported_at: Exported at
-        export_header: Export to MailChimp
-        export_subheader: Export customers to the MailChimp newsletter manually
-        exports: Manual MailChimp newsletter export history
-        configure_first: Please set up the MailChimp config properly first.
+        export_header: Export to Mailchimp
+        export_subheader: Export customers to the Mailchimp newsletter manually
+        exports: Manual Mailchimp newsletter export history
+        configure_first: Please set up the Mailchimp config properly first.
         export: Export
         state: State
         emails_exported: Emails exported

@@ -4,7 +4,7 @@ setono_sylius_mailchimp_export_plugin_admin_export_index:
     defaults:
         _controller: setono_sylius_mailchimp_export_plugin.controller.export:indexAction
         _sylius:
-            template: "@SetonoSyliusMailChimpPlugin/MailChimpExport/index.html.twig"
+            template: "@SetonoSyliusMailchimpPlugin/MailchimpExport/index.html.twig"
             grid: setono_sylius_mailchimp_export_plugin_admin_export
             section: admin
             permission: true

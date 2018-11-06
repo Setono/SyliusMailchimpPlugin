@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailChimpPlugin\Exporter;
+namespace Setono\SyliusMailchimpPlugin\Exporter;
 
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpExportInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpExportInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
 interface CustomerNewsletterExporterInterface
 {
-    public function exportNotExportedCustomers(): ?MailChimpExportInterface;
+    public function exportNotExportedCustomers(): ?MailchimpExportInterface;
 
     public function exportSingleCustomerForOrder(OrderInterface $order): void;
 }

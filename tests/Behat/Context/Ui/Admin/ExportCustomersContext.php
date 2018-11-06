@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Setono\SyliusMailChimpPlugin\Behat\Context\Ui\Admin;
+namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use Setono\SyliusMailChimpPlugin\Repository\MailChimpConfigRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\SymfonyPageInterface;
 use Sylius\Behat\Service\NotificationChecker;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
-use Tests\Setono\SyliusMailChimpPlugin\Behat\Page\Admin\ExportCustomers\IndexPageInterface;
-use Tests\Setono\SyliusMailChimpPlugin\Behat\Page\Admin\ManageConfig\UpdatePageInterface;
+use Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Admin\ExportCustomers\IndexPageInterface;
+use Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Admin\ManageConfig\UpdatePageInterface;
 use Webmozart\Assert\Assert;
 
 final class ExportCustomersContext implements Context
@@ -28,7 +28,7 @@ final class ExportCustomersContext implements Context
     /** @var CurrentPageResolverInterface */
     private $currentPageResolver;
 
-    /** @var MailChimpConfigRepositoryInterface */
+    /** @var MailchimpConfigRepositoryInterface */
     private $configRepository;
 
     public function __construct(
@@ -36,7 +36,7 @@ final class ExportCustomersContext implements Context
         NotificationChecker $notificationChecker,
         UpdatePageInterface $updatePage,
         CurrentPageResolverInterface $currentPageResolver,
-        MailChimpConfigRepositoryInterface $configRepository
+        MailchimpConfigRepositoryInterface $configRepository
     ) {
         $this->indexPage = $indexPage;
         $this->notificationChecker = $notificationChecker;
@@ -46,7 +46,7 @@ final class ExportCustomersContext implements Context
     }
 
     /**
-     * @When I go to the MailChimp export page
+     * @When I go to the Mailchimp export page
      */
     public function iGoToTheMailchimpExportPage(): void
     {
@@ -62,7 +62,7 @@ final class ExportCustomersContext implements Context
     }
 
     /**
-     * @Then I should be redirected to the MailChimp config page
+     * @Then I should be redirected to the Mailchimp config page
      */
     public function iShouldBeRedirectedToTheMailchimpConfigPage(): void
     {
@@ -76,7 +76,7 @@ final class ExportCustomersContext implements Context
     public function iShouldBeNotifiedThatINeedToSetUpTheMailchimpConfigFirst(): void
     {
         $this->notificationChecker->checkNotification(
-                'Please set up the MailChimp config properly first.',
+                'Please set up the Mailchimp config properly first.',
                 NotificationType::failure()
             );
     }

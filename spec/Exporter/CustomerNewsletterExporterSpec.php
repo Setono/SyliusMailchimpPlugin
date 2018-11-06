@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace spec\Setono\SyliusMailChimpPlugin\Exporter;
+namespace spec\Setono\SyliusMailchimpPlugin\Exporter;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
-use Setono\SyliusMailChimpPlugin\ApiClient\MailChimpApiClientInterface;
-use Setono\SyliusMailChimpPlugin\Context\LocaleContextInterface;
-use Setono\SyliusMailChimpPlugin\Context\MailChimpConfigContextInterface;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpConfigInterface;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpExportInterface;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpListInterface;
-use Setono\SyliusMailChimpPlugin\Exporter\CustomerNewsletterExporter;
-use Setono\SyliusMailChimpPlugin\Repository\CustomerRepositoryInterface;
-use Setono\SyliusMailChimpPlugin\Repository\MailChimpExportRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
+use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpExportInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporter;
+use Setono\SyliusMailchimpPlugin\Repository\CustomerRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Repository\MailchimpExportRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -26,12 +26,12 @@ class CustomerNewsletterExporterSpec extends ObjectBehavior
 {
     function let(
         FactoryInterface $mailChimpExportFactory,
-        MailChimpExportRepositoryInterface $mailChimpExportRepository,
+        MailchimpExportRepositoryInterface $mailChimpExportRepository,
         CustomerRepositoryInterface $customerRepository,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
-        MailChimpConfigContextInterface $mailChimpConfigContext,
-        MailChimpApiClientInterface $mailChimpApiClient,
+        MailchimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpApiClientInterface $mailChimpApiClient,
         EntityManagerInterface $mailChimpExportManager,
         EntityManagerInterface $mailChimpListManager
     ): void {
@@ -54,12 +54,12 @@ class CustomerNewsletterExporterSpec extends ObjectBehavior
     }
 
     function it_exports_not_exported_customers(
-        MailChimpConfigContextInterface $mailChimpConfigContext,
-        MailChimpConfigInterface $mailChimpConfig,
+        MailchimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpConfigInterface $mailChimpConfig,
         CustomerRepositoryInterface $customerRepository,
         CustomerInterface $customer,
         FactoryInterface $mailChimpExportFactory,
-        MailChimpExportInterface $mailChimpExport,
+        MailchimpExportInterface $mailChimpExport,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
         ChannelInterface $channel,
@@ -77,14 +77,14 @@ class CustomerNewsletterExporterSpec extends ObjectBehavior
 
     function it_exports_single_customer_for_order(
         OrderInterface $order,
-        MailChimpConfigContextInterface $mailChimpConfigContext,
-        MailChimpConfigInterface $mailChimpConfig,
+        MailchimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpConfigInterface $mailChimpConfig,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
         ChannelInterface $channel,
         LocaleInterface $locale,
         CustomerInterface $customer,
-        MailChimpListInterface $mailChimpList
+        MailchimpListInterface $mailChimpList
     ): void {
         $customer->getEmail()->willReturn('user@example.com');
         $order->getCustomer()->willReturn($customer);

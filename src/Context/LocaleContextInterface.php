@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailChimpPlugin\Context;
+namespace Setono\SyliusMailchimpPlugin\Context;
 
 use Sylius\Component\Locale\Model\LocaleInterface;
 

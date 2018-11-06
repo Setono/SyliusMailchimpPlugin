@@ -4,4 +4,4 @@ imports:
 sylius_grid:
     templates:
         action:
-            mailchimp_export: "@SetonoSyliusMailChimpPlugin/MailChimpExport/Grid/Action/export.html.twig"
+            mailchimp_export: "@SetonoSyliusMailchimpPlugin/MailchimpExport/Grid/Action/export.html.twig"

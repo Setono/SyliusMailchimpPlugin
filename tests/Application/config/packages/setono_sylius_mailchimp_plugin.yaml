@@ -1,2 +1,2 @@
 imports:
-    - { resource: "@SetonoSyliusMailChimpPlugin/Resources/config/config.yml" }
+    - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/config.yml" }

@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\Setono\SyliusMailChimpPlugin\Behat\Context\Setup;
+namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpConfigInterface;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpListInterface;
-use Setono\SyliusMailChimpPlugin\Repository\MailChimpConfigRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
-use Tests\Setono\SyliusMailChimpPlugin\Behat\Service\RandomStringGeneratorInterface;
+use Tests\Setono\SyliusMailchimpPlugin\Behat\Service\RandomStringGeneratorInterface;
 
 final class ExportCustomersContext implements Context
 {
-    /** @var MailChimpConfigRepositoryInterface */
+    /** @var MailchimpConfigRepositoryInterface */
     private $configRepository;
 
     /** @var FactoryInterface */
@@ -38,7 +38,7 @@ final class ExportCustomersContext implements Context
     private $mailChimpList;
 
     public function __construct(
-        MailChimpConfigRepositoryInterface $configRepository,
+        MailchimpConfigRepositoryInterface $configRepository,
         FactoryInterface $configFactory,
         SharedStorageInterface $sharedStorage,
         RandomStringGeneratorInterface $randomStringGenerator,
@@ -56,13 +56,13 @@ final class ExportCustomersContext implements Context
     }
 
     /**
-     * @Given I have a MailChimp config set up
+     * @Given I have a Mailchimp config set up
      */
     public function iHaveAMailchimpConfigSetUp(): void
     {
         $config = $this->createConfig();
 
-        /** @var MailChimpListInterface $list */
+        /** @var MailchimpListInterface $list */
         $list = $this->mailChimpList->createNew();
 
         $list->setListId($this->randomStringGenerator->generate(10));
@@ -103,8 +103,8 @@ final class ExportCustomersContext implements Context
     private function createConfig(
         ?string $code = null,
         ?string $apiKey = null
-    ): MailChimpConfigInterface {
-        /** @var MailChimpConfigInterface $config */
+    ): MailchimpConfigInterface {
+        /** @var MailchimpConfigInterface $config */
         $config = $this->configFactory->createNew();
 
         $config->setCode($code ?? $this->randomStringGenerator->generate(10));
@@ -113,7 +113,7 @@ final class ExportCustomersContext implements Context
         return $config;
     }
 
-    private function saveConfig(MailChimpConfigInterface $config): void
+    private function saveConfig(MailchimpConfigInterface $config): void
     {
         $this->configRepository->add($config);
 

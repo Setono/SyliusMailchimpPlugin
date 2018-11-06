@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailChimpPlugin\EventListener;
+namespace Setono\SyliusMailchimpPlugin\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Setono\SyliusMailChimpPlugin\ApiClient\MailChimpApiClientInterface;
-use Setono\SyliusMailChimpPlugin\Context\LocaleContextInterface;
-use Setono\SyliusMailChimpPlugin\Context\MailChimpConfigContextInterface;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpListInterface;
+use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
+use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -16,10 +16,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class CustomerNewsletterListener
 {
-    /** @var MailChimpApiClientInterface */
+    /** @var MailchimpApiClientInterface */
     private $mailChimpApiClient;
 
-    /** @var MailChimpConfigContextInterface */
+    /** @var MailchimpConfigContextInterface */
     private $mailChimpConfigContext;
 
     /** @var ChannelContextInterface */
@@ -32,8 +32,8 @@ final class CustomerNewsletterListener
     private $mailChimpListManager;
 
     public function __construct(
-        MailChimpApiClientInterface $mailChimpApiClient,
-        MailChimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpApiClientInterface $mailChimpApiClient,
+        MailchimpConfigContextInterface $mailChimpConfigContext,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
         EntityManagerInterface $mailChimpListManager
@@ -75,7 +75,7 @@ final class CustomerNewsletterListener
         $globalList->removeEmail($email);
     }
 
-    private function getGlobalList(): MailChimpListInterface
+    private function getGlobalList(): MailchimpListInterface
     {
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Setono\SyliusMailChimpPlugin\Behat\Page\Admin\ExportCustomers;
+namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Admin\ExportCustomers;
 
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface as BaseIndexPageInterface;
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailChimpPlugin\Exporter;
+namespace Setono\SyliusMailchimpPlugin\Exporter;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Setono\SyliusMailChimpPlugin\ApiClient\MailChimpApiClientInterface;
-use Setono\SyliusMailChimpPlugin\Context\LocaleContextInterface;
-use Setono\SyliusMailChimpPlugin\Context\MailChimpConfigContextInterface;
-use Setono\SyliusMailChimpPlugin\Entity\MailChimpExportInterface;
-use Setono\SyliusMailChimpPlugin\Repository\CustomerRepositoryInterface;
-use Setono\SyliusMailChimpPlugin\Repository\MailChimpExportRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
+use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpExportInterface;
+use Setono\SyliusMailchimpPlugin\Repository\CustomerRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Repository\MailchimpExportRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -21,7 +21,7 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
     /** @var FactoryInterface */
     private $mailChimpExportFactory;
 
-    /** @var MailChimpExportRepositoryInterface */
+    /** @var MailchimpExportRepositoryInterface */
     private $mailChimpExportRepository;
 
     /** @var CustomerRepositoryInterface */
@@ -33,10 +33,10 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
     /** @var LocaleContextInterface */
     private $localeContext;
 
-    /** @var MailChimpConfigContextInterface */
+    /** @var MailchimpConfigContextInterface */
     private $mailChimpConfigContext;
 
-    /** @var MailChimpApiClientInterface */
+    /** @var MailchimpApiClientInterface */
     private $mailChimpApiClient;
 
     /** @var EntityManagerInterface */
@@ -47,12 +47,12 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
 
     public function __construct(
         FactoryInterface $mailChimpExportFactory,
-        MailChimpExportRepositoryInterface $mailChimpExportRepository,
+        MailchimpExportRepositoryInterface $mailChimpExportRepository,
         CustomerRepositoryInterface $customerRepository,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
-        MailChimpConfigContextInterface $mailChimpConfigContext,
-        MailChimpApiClientInterface $mailChimpApiClient,
+        MailchimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpApiClientInterface $mailChimpApiClient,
         EntityManagerInterface $mailChimpExportManager,
         EntityManagerInterface $mailChimpListManager
     ) {
@@ -67,7 +67,7 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
         $this->mailChimpListManager = $mailChimpListManager;
     }
 
-    public function exportNotExportedCustomers(): ?MailChimpExportInterface
+    public function exportNotExportedCustomers(): ?MailchimpExportInterface
     {
         $config = $this->mailChimpConfigContext->getConfig();
         $customers = $config->getExportAll() ? $this->customerRepository->findAll() : $this->customerRepository->findNonExportedCustomers();
@@ -76,10 +76,10 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
             return null;
         }
 
-        /** @var MailChimpExportInterface $export */
+        /** @var MailchimpExportInterface $export */
         $export = $this->mailChimpExportFactory->createNew();
 
-        $export->setState(MailChimpExportInterface::IN_PROGRESS_STATE);
+        $export->setState(MailchimpExportInterface::IN_PROGRESS_STATE);
 
         $this->mailChimpExportRepository->add($export);
 
@@ -98,14 +98,14 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
 
                 $this->mailChimpApiClient->exportEmail($email, $globalList->getListId());
             } catch (\Exception $exception) {
-                $export->setState(MailChimpExportInterface::FAILED_STATE);
+                $export->setState(MailchimpExportInterface::FAILED_STATE);
                 $export->addError($exception->getMessage());
 
                 return $export;
             }
         }
 
-        $export->setState(MailChimpExportInterface::COMPLETED_STATE);
+        $export->setState(MailchimpExportInterface::COMPLETED_STATE);
 
         $this->mailChimpExportManager->flush();
 

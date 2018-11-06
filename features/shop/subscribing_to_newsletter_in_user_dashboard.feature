@@ -1,4 +1,4 @@
-@mailchimp_shop_newsletter
+@Mailchimp_shop_newsletter
 Feature: Subscribing to the newsletter
     In order to be up-to-date with products and promotions
     As a Customer
@@ -16,4 +16,4 @@ Feature: Subscribing to the newsletter
         And I save my changes
         Then I should be notified that it has been successfully edited
         And I should be subscribed to the newsletter
-        And the email "francis@underwood.com" should be exported to MailChimp's default list
+        And the email "francis@underwood.com" should be exported to Mailchimp's default list

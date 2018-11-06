@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace spec\Setono\SyliusMailChimpPlugin\Context;
+namespace spec\Setono\SyliusMailchimpPlugin\Context;
 
 use PhpSpec\ObjectBehavior;
-use Setono\SyliusMailChimpPlugin\Context\LocaleContext;
-use Setono\SyliusMailChimpPlugin\Context\LocaleContextInterface;
+use Setono\SyliusMailchimpPlugin\Context\LocaleContext;
+use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface as BaseLocaleContextInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailChimpPlugin\Repository;
+namespace Setono\SyliusMailchimpPlugin\Repository;
 
 use Sylius\Component\Core\Model\CustomerInterface;
 

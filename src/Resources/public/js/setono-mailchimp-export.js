@@ -2,7 +2,7 @@
     'use strict';
 
     $.fn.extend({
-        exportToMailChimp: function () {
+        exportToMailchimp: function () {
             var element = $(this);
 
             element.click(function (event) {

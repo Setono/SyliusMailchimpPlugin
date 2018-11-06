@@ -4,4 +4,4 @@ imports:
 
 services:
     setono_sylius_mailchimp_export_plugin.behat.random_string_generator:
-        class: Tests\Setono\SyliusMailChimpPlugin\Behat\Service\RandomStringGenerator
+        class: Tests\Setono\SyliusMailchimpPlugin\Behat\Service\RandomStringGenerator

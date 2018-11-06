@@ -1,4 +1,4 @@
 suites:
     main:
-        namespace: Setono\SyliusMailChimpPlugin
-        psr4_prefix: Setono\SyliusMailChimpPlugin
+        namespace: Setono\SyliusMailchimpPlugin
+        psr4_prefix: Setono\SyliusMailchimpPlugin

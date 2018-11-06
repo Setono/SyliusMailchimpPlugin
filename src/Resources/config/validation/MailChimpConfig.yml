@@ -1,4 +1,4 @@
-Setono\SyliusMailChimpPlugin\Entity\MailChimpConfig:
+Setono\SyliusMailchimpPlugin\Entity\MailchimpConfig:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: [code]

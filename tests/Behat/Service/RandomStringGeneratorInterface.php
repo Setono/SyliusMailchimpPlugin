@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Setono\SyliusMailChimpPlugin\Behat\Service;
+namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Service;
 
 interface RandomStringGeneratorInterface
 {

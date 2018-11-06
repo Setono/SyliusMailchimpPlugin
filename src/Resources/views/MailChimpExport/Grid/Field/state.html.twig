@@ -3,12 +3,12 @@
 {% set state = data %}
 {% set label = ('setono_sylius_mailchimp_export_plugin.ui.'~state)|trans %}
 
-{% if data == constant('Setono\\SyliusMailChimpPlugin\\Entity\\MailChimpExportInterface::NEW_STATE') %}
+{% if data == constant('Setono\\SyliusMailchimpPlugin\\Entity\\MailchimpExportInterface::NEW_STATE') %}
     <div class="ui label">{{ label }}</div>
-{% elseif data == constant('Setono\\SyliusMailChimpPlugin\\Entity\\MailChimpExportInterface::IN_PROGRESS_STATE') %}
+{% elseif data == constant('Setono\\SyliusMailchimpPlugin\\Entity\\MailchimpExportInterface::IN_PROGRESS_STATE') %}
     <div class="ui blue label">{{ label }}</div>
-{% elseif data == constant('Setono\\SyliusMailChimpPlugin\\Entity\\MailChimpExportInterface::COMPLETED_STATE') %}
+{% elseif data == constant('Setono\\SyliusMailchimpPlugin\\Entity\\MailchimpExportInterface::COMPLETED_STATE') %}
     <div class="ui green label">{{ label }}</div>
-{% elseif data == constant('Setono\\SyliusMailChimpPlugin\\Entity\\MailChimpExportInterface::FAILED_STATE') %}
+{% elseif data == constant('Setono\\SyliusMailchimpPlugin\\Entity\\MailchimpExportInterface::FAILED_STATE') %}
     <div class="ui red label">{{ label }}</div>
 {% endif %}

@@ -9,7 +9,7 @@ Feature: Unsubscribing newsletter
         And there is a user "pablo@escobar.co" identified by "PlataOPlomo"
         And I am logged in as "pablo@escobar.co"
         And the "pablo@escobar.co" customer is subscribed to the newsletter
-        And this email is also subscribed to the default MailChimp list
+        And this email is also subscribed to the default Mailchimp list
 
     @ui
     Scenario: Unsubscribing during profile update
@@ -18,4 +18,4 @@ Feature: Unsubscribing newsletter
         And I unsubscribe from the newsletter
         And I save my changes
         Then I should be notified that it has been successfully edited
-        And the email "pablo@escobar.co" should be removed from MailChimp's default list
+        And the email "pablo@escobar.co" should be removed from Mailchimp's default list
