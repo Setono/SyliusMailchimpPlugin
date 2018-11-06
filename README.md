@@ -10,7 +10,7 @@
 1. Require plugin with composer:
 
     ```bash
-    composer require setono/mailchimp-plugin
+    composer require setono/sylius-mailchimp-plugin
     ```
 
 2. Import configuration:
