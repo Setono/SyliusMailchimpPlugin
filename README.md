@@ -1,20 +1,9 @@
-<h1 align="center">
-    <a href="https://packagist.org/packages/setono/sylius-mailchimp-plugin" title="License" target="_blank">
-        <img src="https://img.shields.io/packagist/l/setono/sylius-mailchimp-plugin.svg" />
-    </a>
-    <a href="https://packagist.org/packages/setono/sylius-mailchimp-plugin" title="Version" target="_blank">
-        <img src="https://img.shields.io/packagist/v/setono/sylius-mailchimp-plugin.svg" />
-    </a>
-    <a href="http://travis-ci.org/Setono/SyliusMailchimpPlugin" title="Build status" target="_blank">
-            <img src="https://img.shields.io/travis/Setono/SyliusMailchimpPlugin/master.svg" />
-        </a>
-    <a href="https://scrutinizer-ci.com/g/Setono/SyliusMailchimpPlugin" title="Scrutinizer" target="_blank">
-        <img src="https://img.shields.io/scrutinizer/g/Setono/SyliusMailchimpPlugin.svg" />
-    </a>
-    <a href="https://packagist.org/packages/setono/sylius-mailchimp-plugin" title="Total Downloads" target="_blank">
-        <img src="https://poser.pugx.org/setono/sylius-mailchimp-plugin/downloads" />
-    </a>
-</h1>
+# Sylius Mailchimp Plugin
+
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE)
+[![Build Status][ico-travis]][link-travis]
+[![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Installation
 
@@ -81,3 +70,12 @@ $ bin/phpspec run
 ## Contribution
 
 Learn more about our contribution workflow on http://docs.sylius.org/en/latest/contributing/.
+
+[ico-version]: https://img.shields.io/packagist/v/setono/sylius-mailchimp-plugin.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/Setono/SyliusMailchimpPlugin/master.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/Setono/SyliusMailchimpPlugin.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/setono/sylius-mailchimp-plugin
+[link-travis]: https://travis-ci.org/Setono/SyliusMailchimpPlugin
+[link-code-quality]: https://scrutinizer-ci.com/g/Setono/SyliusMailchimpPlugin
