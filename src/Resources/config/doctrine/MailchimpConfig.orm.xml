@@ -5,14 +5,14 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Setono\SyliusMailchimpPlugin\Entity\MailchimpConfig" table="setono_mailchimp_export_config">
+    <entity name="Setono\SyliusMailchimpPlugin\Entity\MailchimpConfig" table="setono_mailchimp_config">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
 
         <field name="code" type="string" nullable="true" unique="true"/>
-        <field name="apiKey" type="string" nullable="true"/>
-        <field name="exportAll" type="boolean" nullable="false"/>
+        <field name="apiKey" column="api_key" type="string" nullable="true"/>
+        <field name="exportAll" column="export_all" type="boolean" nullable="false"/>
 
         <one-to-many field="lists"
                      target-entity="Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface"
