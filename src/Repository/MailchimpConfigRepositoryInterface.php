@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailchimpPlugin\Repository;
+namespace Setono\SyliusMailChimpPlugin\Repository;
 
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailChimpPlugin\Entity\MailchimpConfigInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 interface MailchimpConfigRepositoryInterface extends RepositoryInterface
