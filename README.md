@@ -70,10 +70,10 @@ $ composer install
 $ cd tests/Application
 $ yarn install
 $ yarn run gulp
-$ bin/console assets:install web -e test
+$ bin/console assets:install -e test
 $ bin/console doctrine:database:create -e test
 $ bin/console doctrine:schema:create -e test
-$ bin/console server:run 127.0.0.1:8080 -d web -e test
+$ bin/console server:run 127.0.0.1:8080 -e test
 $ bin/behat
 $ bin/phpspec run
 ```
