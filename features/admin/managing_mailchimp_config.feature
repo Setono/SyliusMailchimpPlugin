@@ -1,4 +1,4 @@
-@managing_Mailchimp_config
+@managing_mailchimp_config
 Feature: Managing Mailchimp config
     In order to use Mailchimp in several places in my web store
     As an Administrator
