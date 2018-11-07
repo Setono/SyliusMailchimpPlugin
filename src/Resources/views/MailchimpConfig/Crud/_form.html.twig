@@ -5,8 +5,4 @@
 
 <div class="ui divider"></div>
 
-{% for list in form.lists %}
-    {{ form_row(list.listId, {'attr': {'autocomplete' : 'off'}}) }}
-    {{ form_row(list.channels) }}
-    {{ form_row(list.locales) }}
-{% endfor %}
+{{ form_row(form.lists) }}

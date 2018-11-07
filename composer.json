@@ -41,15 +41,13 @@
     "autoload": {
         "psr-4": {
             "Setono\\SyliusMailchimpPlugin\\": "src/",
-            "Tests\\Setono\\SyliusMailchimpPlugin\\": "tests/",
-            "AppBundle\\": "tests/Application/src/AppBundle/"
+            "Tests\\Setono\\SyliusMailchimpPlugin\\": "tests/"
         }
     },
     "config": {
         "sort-packages": true
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit",
         "check-style": "./vendor/bin/ecs check src",
         "fix-style": "./vendor/bin/ecs check src --fix",
         "analyse": "./vendor/bin/phpstan.phar analyse -c phpstan.neon -l max src/"
