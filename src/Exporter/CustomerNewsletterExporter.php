@@ -9,10 +9,12 @@ use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
 use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Entity\MailchimpExportInterface;
+use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
 use Setono\SyliusMailchimpPlugin\Repository\CustomerRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Repository\MailchimpExportRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
@@ -89,6 +91,7 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
 
         foreach ($customers as $customer) {
             try {
+                /** @var MailchimpListInterface $globalList */
                 $globalList = $config->getListForChannelAndLocale($channel, $locale);
                 $email = $customer->getEmail();
 
@@ -115,6 +118,7 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
     public function exportSingleCustomerForOrder(OrderInterface $order): void
     {
         $config = $this->mailChimpConfigContext->getConfig();
+        /** @var CustomerInterface $customer */
         $customer = $order->getCustomer();
 
         /** @var ChannelInterface $channel */
@@ -122,6 +126,7 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
         $locale = $this->localeContext->getLocale();
 
         if ($config->getExportAll() || $customer->isSubscribedToNewsletter()) {
+            /** @var MailchimpListInterface $globalList */
             $globalList = $config->getListForChannelAndLocale($channel, $locale);
             $email = $customer->getEmail();
 

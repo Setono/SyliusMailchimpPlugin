@@ -14,7 +14,7 @@ class MailchimpConfig implements MailchimpConfigInterface
     /** @var int */
     protected $id;
 
-    /** @var string */
+    /** @var string|null */
     protected $code;
 
     /** @var string */

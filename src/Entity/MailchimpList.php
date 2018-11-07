@@ -17,7 +17,7 @@ class MailchimpList implements MailchimpListInterface
     /** @var string */
     protected $listId;
 
-    /** @var MailchimpConfigInterface */
+    /** @var MailchimpConfigInterface|null */
     protected $config;
 
     /** @var MailchimpListInterface */
