@@ -14,3 +14,11 @@ services:
             - ['setono']
         tags:
             - { name: form.type }
+
+    setono_sylius_mailchimp.form.type.customer_newsletter_subscription:
+        class: Setono\SyliusMailchimpPlugin\Form\Type\CustomerNewsletterSubscriptionType
+        arguments:
+            - "%sylius.model.customer.class%"
+            - ['setono']
+        tags:
+            - { name: form.type }

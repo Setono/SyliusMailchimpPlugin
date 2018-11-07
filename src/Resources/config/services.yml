@@ -58,3 +58,8 @@ services:
             - "@setono_sylius_mailchimp.exporter.customer_newsletter"
         tags:
             - { name: console.command }
+
+    setono_sylius_mailchimp.form.extension.type.checkout.complete:
+        class: Setono\SyliusMailchimpPlugin\Form\Extension\CompleteTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType }

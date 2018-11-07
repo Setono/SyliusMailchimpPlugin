@@ -121,7 +121,7 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
         $channel = $this->channelContext->getChannel();
         $locale = $this->localeContext->getLocale();
 
-        if ($config->getExportAll()) {
+        if ($config->getExportAll() || $customer->isSubscribedToNewsletter()) {
             $globalList = $config->getListForChannelAndLocale($channel, $locale);
             $email = $customer->getEmail();
 
