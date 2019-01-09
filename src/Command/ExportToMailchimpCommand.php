@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailchimpPlugin\Cli\Command;
+namespace Setono\SyliusMailchimpPlugin\Command;
 
 use Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporterInterface;
 use Symfony\Component\Console\Command\Command;
@@ -11,7 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ExportToMailchimpCommand extends Command
 {
-    /** @var CustomerNewsletterExporterInterface */
+    /**
+     * @var CustomerNewsletterExporterInterface
+     */
     private $customerNewsletterExporter;
 
     public function __construct(CustomerNewsletterExporterInterface $customerNewsletterExporter)
@@ -33,7 +35,5 @@ final class ExportToMailchimpCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->customerNewsletterExporter->exportNotExportedCustomers();
-
-        $output->writeln('Command executed.');
     }
 }

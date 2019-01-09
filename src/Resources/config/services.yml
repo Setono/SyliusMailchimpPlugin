@@ -52,8 +52,8 @@ services:
             - "@translator"
             - "@router"
 
-    setono_sylius_mailchimp.controller.cli.command.export_to_mailchimp:
-        class: Setono\SyliusMailchimpPlugin\Cli\Command\ExportToMailchimpCommand
+    setono_sylius_mailchimp.command.export_to_mailchimp:
+        class: Setono\SyliusMailchimpPlugin\Command\ExportToMailchimpCommand
         arguments:
             - "@setono_sylius_mailchimp.exporter.customer_newsletter"
         tags:
