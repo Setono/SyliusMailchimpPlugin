@@ -10,7 +10,7 @@
 ### 1. Require plugin with composer:
 
 ```bash
-composer require setono/sylius-mailchimp-plugin
+$ composer require setono/sylius-mailchimp-plugin
 ```
 
 ### 2. Import configuration:
@@ -27,31 +27,37 @@ setono_sylius_mailchimp:
     resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yml"
 ```
 
-### 4. Add plugin class to your `AppKernel`:
+### 4. Add plugin class to your `bundles.php`:
 
 ```php
 $bundles = [
-    new \Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin(),
+    new Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin(),
 ];
 ```
 
 ### 5. Update your database:
 
 ```bash
-$ bin/console doctrine:migrations:diff
-$ bin/console doctrine:migrations:migrate
+$ php bin/console doctrine:migrations:diff
+$ php bin/console doctrine:migrations:migrate
 ```
 
 ### 6. Install assets:
 
 ```bash
-bin/console assets:install
+$ php bin/console assets:install
 ```
 
 ### 7. Clear cache:
 
 ```bash
-bin/console cache:clear
+$ php bin/console cache:clear
+```
+
+### 8. Activate cron job
+
+```bash
+$ php bin/console setono:mailchimp:export
 ```
     
 ## Testing
