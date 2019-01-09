@@ -23,7 +23,7 @@ imports:
 ### 3. Import routing:
    
 ```yaml
-setono_sylius_mailchimp_plugin:
+setono_sylius_mailchimp:
     resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yml"
 ```
 
