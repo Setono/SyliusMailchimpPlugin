@@ -74,6 +74,7 @@ script:
     - composer validate --strict
     - composer check-style
     - composer analyse
+    - composer test
     - vendor/bin/behat --strict -vvv --no-interaction || vendor/bin/behat --strict -vvv --no-interaction --rerun
     - vendor/bin/behat --strict  --no-interaction --tags="@cli" || vendor/bin/behat --strict --no-interaction --rerun --tags="@cli"
 

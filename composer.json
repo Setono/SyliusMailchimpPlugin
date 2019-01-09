@@ -28,6 +28,7 @@
         "phpstan/phpstan-shim": "^0.10",
         "phpstan/phpstan-symfony": "^0.10",
         "phpstan/phpstan-webmozart-assert": "^0.10",
+        "roave/security-advisories": "dev-master",
         "sensiolabs/security-checker": "^4.1",
         "sylius-labs/coding-standard": "^2.0",
         "symfony/browser-kit": "^3.4|^4.1",
@@ -50,6 +51,10 @@
     "scripts": {
         "check-style": "./vendor/bin/ecs check src",
         "fix-style": "./vendor/bin/ecs check src --fix",
-        "analyse": "./vendor/bin/phpstan.phar analyse -c phpstan.neon -l max src/"
+        "analyse": "./vendor/bin/phpstan.phar analyse -c phpstan.neon -l max src/",
+        "test": [
+            "@phpspec"
+        ],
+        "phpspec": "./vendor/bin/phpspec run"
     }
 }
