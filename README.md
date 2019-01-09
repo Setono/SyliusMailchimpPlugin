@@ -7,50 +7,52 @@
 
 ## Installation
 
-1. Require plugin with composer:
+### 1. Require plugin with composer:
 
-    ```bash
-    composer require setono/sylius-mailchimp-plugin
-    ```
+```bash
+composer require setono/sylius-mailchimp-plugin
+```
 
-2. Import configuration:
+### 2. Import configuration:
 
-    ```yaml
-    imports:
-        - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/config.yml" }
-    ```
-3. Import routing:
+```yaml
+imports:
+    - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/config.yml" }
+```
+
+### 3. Import routing:
    
-    ```yaml
-    setono_sylius_mailchimp_plugin:
-        resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yml"
-    ```
+```yaml
+setono_sylius_mailchimp_plugin:
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yml"
+```
 
-4. Add plugin class to your `AppKernel`:
+### 4. Add plugin class to your `AppKernel`:
 
-    ```php
-    $bundles = [
-        new \Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin(),
-    ];
-    ```
-5. Update your database:
+```php
+$bundles = [
+    new \Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin(),
+];
+```
 
-    ```bash
-    $ bin/console doctrine:migrations:diff
-    $ bin/console doctrine:migrations:migrate
-    ```
+### 5. Update your database:
 
-6. Install assets:
+```bash
+$ bin/console doctrine:migrations:diff
+$ bin/console doctrine:migrations:migrate
+```
 
-    ```bash
-    bin/console assets:install
-    ```
+### 6. Install assets:
 
-7. Clear cache:
+```bash
+bin/console assets:install
+```
 
-    ```bash
-    bin/console cache:clear
-    ```
+### 7. Clear cache:
+
+```bash
+bin/console cache:clear
+```
     
 ## Testing
 
