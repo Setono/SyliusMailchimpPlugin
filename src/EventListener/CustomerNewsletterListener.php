@@ -13,6 +13,7 @@ use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
+use Sylius\Component\Resource\Exception\UnexpectedTypeException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
@@ -49,37 +50,30 @@ final class CustomerNewsletterListener
 
     public function manageSubscription(GenericEvent $event): void
     {
-        /** @var CustomerInterface $customer */
         $customer = $event->getSubject();
 
-        false === $customer->isSubscribedToNewsletter() ? $this->unsubscribe($customer) : $this->subscribe($customer);
+        if(!$customer instanceof CustomerInterface) {
+            throw new UnexpectedTypeException($customer, CustomerInterface::class);
+        }
+
+        if($customer->isSubscribedToNewsletter()) {
+            $this->subscribe($customer);
+        }
 
         $this->mailChimpListManager->flush();
     }
 
     private function subscribe(CustomerInterface $customer): void
     {
-        /** @var MailchimpListInterface $globalList */
-        $globalList = $this->getGlobalList();
+        $list = $this->getList();
         $email = $customer->getEmail();
 
-        $this->mailChimpApiClient->exportEmail($email, $globalList->getListId());
+        $this->mailChimpApiClient->exportEmail($email, $list->getListId());
 
-        $globalList->addEmail($email);
+        $list->addEmail($email);
     }
 
-    private function unsubscribe(CustomerInterface $customer): void
-    {
-        /** @var MailchimpListInterface $globalList */
-        $globalList = $this->getGlobalList();
-        $email = $customer->getEmail();
-
-        $this->mailChimpApiClient->removeEmail($email, $globalList->getListId());
-
-        $globalList->removeEmail($email);
-    }
-
-    private function getGlobalList(): MailchimpListInterface
+    private function getList(): MailchimpListInterface
     {
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
@@ -88,10 +82,10 @@ final class CustomerNewsletterListener
         /** @var MailchimpConfigInterface $config */
         $config = $this->mailChimpConfigContext->getConfig();
 
-        $globalList = $config->getListForChannelAndLocale($channel, $locale);
+        $list = $config->getListForChannelAndLocale($channel, $locale);
 
-        Assert::notNull($globalList);
+        Assert::notNull($list);
 
-        return $globalList;
+        return $list;
     }
 }
