@@ -108,4 +108,16 @@ class MailchimpConfig implements MailchimpConfigInterface
 
         return null;
     }
+
+    public function hasListForChannelAndLocale(ChannelInterface $channel, LocaleInterface $locale): bool
+    {
+        /** @var MailchimpListInterface $list */
+        foreach ($this->getLists() as $list) {
+            if ($list->hasChannel($channel) && $list->hasLocale($locale)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -36,4 +36,6 @@ interface MailchimpConfigInterface extends ResourceInterface
     public function hasList(MailchimpListInterface $mailChimpList): bool;
 
     public function getListForChannelAndLocale(ChannelInterface $channel, LocaleInterface $locale): ?MailchimpListInterface;
+
+    public function hasListForChannelAndLocale(ChannelInterface $channel, LocaleInterface $locale): bool;
 }
