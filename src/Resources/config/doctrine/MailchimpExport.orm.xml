@@ -6,7 +6,7 @@
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
 
-    <entity name="Setono\SyliusMailchimpPlugin\Entity\MailchimpExport" table="setono_mailchimp_export">
+    <entity name="Setono\SyliusMailchimpPlugin\Entity\MailchimpExport" table="setono_sylius_mailchimp__export">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
@@ -21,7 +21,7 @@
         </field>
 
         <many-to-many field="customers" target-entity="Sylius\Component\Customer\Model\CustomerInterface">
-            <join-table name="setono_mailchimp_customers">
+            <join-table name="setono_sylius_mailchimp__customers">
                 <join-columns>
                     <join-column name="export_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
                 </join-columns>
