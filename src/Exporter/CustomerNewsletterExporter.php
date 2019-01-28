@@ -89,10 +89,6 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
         $channel = $this->channelContext->getChannel();
         $locale = $this->localeContext->getLocale();
 
-        if(null === $locale) {
-            return null;
-        }
-
         foreach ($customers as $customer) {
             try {
                 /** @var MailchimpListInterface $globalList */
@@ -128,10 +124,6 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
         $locale = $this->localeContext->getLocale();
-
-        if(null === $locale) {
-            return;
-        }
 
         if ($config->getExportAll() || $customer->isSubscribedToNewsletter()) {
             /** @var MailchimpListInterface $globalList */

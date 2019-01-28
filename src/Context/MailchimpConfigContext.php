@@ -84,10 +84,6 @@ final class MailchimpConfigContext implements MailchimpConfigContextInterface
         $channel = $this->channelContext->getChannel();
         $locale = $this->localeContext->getLocale();
 
-        if(null === $locale) {
-            return false;
-        }
-
         return !(null === $config->getListForChannelAndLocale($channel, $locale));
     }
 
@@ -96,10 +92,6 @@ final class MailchimpConfigContext implements MailchimpConfigContextInterface
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
         $locale = $this->localeContext->getLocale();
-
-        if(null === $locale) {
-            return;
-        }
 
         if (null === $config->getListForChannelAndLocale($channel, $locale)) {
             /** @var MailchimpListInterface $list */

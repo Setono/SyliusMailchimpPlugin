@@ -22,10 +22,16 @@ final class LocaleContext implements LocaleContextInterface
         $this->baseLocaleContext = $baseLocaleContext;
     }
 
-    public function getLocale(): ?LocaleInterface
+    public function getLocale(): LocaleInterface
     {
-        /** @var LocaleInterface $locale */
-        $locale = $this->localeRepository->findOneBy(['code' => $this->baseLocaleContext->getLocaleCode()]);
+        $code = $this->baseLocaleContext->getLocaleCode();
+
+        /** @var LocaleInterface|null $locale */
+        $locale = $this->localeRepository->findOneBy(['code' => $code]);
+
+        if(null === $locale) {
+            throw new \RuntimeException(sprintf('No locale found with the code %s', $code));
+        }
 
         return $locale;
     }

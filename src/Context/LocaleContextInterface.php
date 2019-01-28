@@ -8,5 +8,5 @@ use Sylius\Component\Locale\Model\LocaleInterface;
 
 interface LocaleContextInterface
 {
-    public function getLocale(): ?LocaleInterface;
+    public function getLocale(): LocaleInterface;
 }
