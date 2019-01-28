@@ -108,6 +108,7 @@ final class MailchimpConfigContext implements MailchimpConfigContextInterface
             $list->setConfig($config);
             $list->addChannel($channel);
             $list->addLocale($locale);
+            $list->setListId(uniqid($config->getCode(), true));
             $config->addList($list);
 
             $this->mailChimpListRepository->add($list);
