@@ -52,11 +52,11 @@ final class CustomerNewsletterListener
     {
         $customer = $event->getSubject();
 
-        if(!$customer instanceof CustomerInterface) {
+        if (!$customer instanceof CustomerInterface) {
             throw new UnexpectedTypeException($customer, CustomerInterface::class);
         }
 
-        if($customer->isSubscribedToNewsletter()) {
+        if ($customer->isSubscribedToNewsletter()) {
             $this->subscribe($customer);
         }
 

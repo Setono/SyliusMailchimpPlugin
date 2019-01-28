@@ -29,7 +29,7 @@ final class LocaleContext implements LocaleContextInterface
         /** @var LocaleInterface|null $locale */
         $locale = $this->localeRepository->findOneBy(['code' => $code]);
 
-        if(null === $locale) {
+        if (null === $locale) {
             throw new \RuntimeException(sprintf('No locale found with the code %s', $code));
         }
 
