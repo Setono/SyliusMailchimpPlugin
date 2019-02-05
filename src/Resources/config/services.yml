@@ -37,6 +37,7 @@ services:
             - "@setono_sylius_mailchimp.repository.customer"
             - "@sylius.context.channel"
             - "@setono_sylius_mailchimp.context.locale"
+            - "@sylius.repository.locale"
             - "@setono_sylius_mailchimp.context.config"
             - "@setono_sylius_mailchimp.api_client.mailchimp"
             - "@setono_sylius_mailchimp.manager.export"
