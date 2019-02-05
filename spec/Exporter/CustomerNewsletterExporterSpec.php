@@ -22,7 +22,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
-class CustomerNewsletterExporterSpec extends ObjectBehavior
+final class CustomerNewsletterExporterSpec extends ObjectBehavior
 {
     function let(
         FactoryInterface $mailChimpExportFactory,

@@ -16,7 +16,10 @@ use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Webmozart\Assert\Assert;
 
 final class CustomerNewsletterExporter implements CustomerNewsletterExporterInterface
 {
@@ -34,6 +37,9 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
 
     /** @var LocaleContextInterface */
     private $localeContext;
+
+    /** @var RepositoryInterface */
+    private $localeRepository;
 
     /** @var MailchimpConfigContextInterface */
     private $mailChimpConfigContext;
@@ -53,6 +59,7 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
         CustomerRepositoryInterface $customerRepository,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
+        RepositoryInterface $localeRepository,
         MailchimpConfigContextInterface $mailChimpConfigContext,
         MailchimpApiClientInterface $mailChimpApiClient,
         EntityManagerInterface $mailChimpExportManager,
@@ -63,6 +70,7 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
         $this->customerRepository = $customerRepository;
         $this->channelContext = $channelContext;
         $this->localeContext = $localeContext;
+        $this->localeRepository = $localeRepository;
         $this->mailChimpConfigContext = $mailChimpConfigContext;
         $this->mailChimpApiClient = $mailChimpApiClient;
         $this->mailChimpExportManager = $mailChimpExportManager;
@@ -85,18 +93,16 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
 
         $this->mailChimpExportRepository->add($export);
 
-        /** @var ChannelInterface $channel */
-        $channel = $this->channelContext->getChannel();
-        $locale = $this->localeContext->getLocale();
-
         foreach ($customers as $customer) {
             try {
+                $channel = $this->resolveCustomerChannel($customer);
+                $locale = $this->resolveCustomerLocale($customer);
+
                 /** @var MailchimpListInterface $globalList */
                 $globalList = $config->getListForChannelAndLocale($channel, $locale);
                 $email = $customer->getEmail();
 
                 $export->addCustomer($customer);
-
                 $globalList->addEmail($email);
 
                 $this->mailChimpApiClient->exportEmail($email, $globalList->getListId());
@@ -120,10 +126,8 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
         $config = $this->mailChimpConfigContext->getConfig();
         /** @var CustomerInterface $customer */
         $customer = $order->getCustomer();
-
-        /** @var ChannelInterface $channel */
-        $channel = $this->channelContext->getChannel();
-        $locale = $this->localeContext->getLocale();
+        $channel = $order->getChannel();
+        $locale = $this->getLocaleForCode($order->getLocaleCode());
 
         if ($config->getExportAll() || $customer->isSubscribedToNewsletter()) {
             /** @var MailchimpListInterface $globalList */
@@ -136,5 +140,33 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
 
             $this->mailChimpListManager->flush();
         }
+    }
+
+    private function resolveCustomerChannel(CustomerInterface $customer): ChannelInterface
+    {
+        if (0 === $customer->getOrders()->count()) {
+            return $this->channelContext->getChannel();
+        }
+
+        return $customer->getOrders()->last()->getChannel();
+    }
+
+    private function resolveCustomerLocale(CustomerInterface $customer): LocaleInterface
+    {
+        if (0 === $customer->getOrders()->count()) {
+            return $this->localeContext->getLocale();
+        }
+
+        return $this->getLocaleForCode($customer->getOrders()->last()->getLocaleCode());
+    }
+
+    private function getLocaleForCode(string $localeCode): LocaleInterface
+    {
+        /** @var LocaleInterface $locale */
+        $locale = $this->localeRepository->findOneBy(['code' => $localeCode]);
+
+        Assert::isInstanceOf($locale, LocaleInterface::class);
+
+        return $locale;
     }
 }

@@ -11,9 +11,9 @@ use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-class MailchimpConfigSpec extends ObjectBehavior
+final class MailchimpConfigSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(MailchimpConfig::class);
     }

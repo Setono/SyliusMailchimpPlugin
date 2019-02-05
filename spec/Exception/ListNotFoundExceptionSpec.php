@@ -7,9 +7,9 @@ namespace spec\Setono\SyliusMailchimpPlugin\Exception;
 use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\Exception\ListNotFoundException;
 
-class ListNotFoundExceptionSpec extends ObjectBehavior
+final class ListNotFoundExceptionSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(ListNotFoundException::class);
     }

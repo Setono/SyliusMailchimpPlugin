@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class CustomerNewsletterListenerSpec extends ObjectBehavior
+final class CustomerNewsletterListenerSpec extends ObjectBehavior
 {
     function let(
         MailchimpApiClientInterface $mailChimpApiClient,

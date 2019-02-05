@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class ExportToMailchimpActionSpec extends ObjectBehavior
+final class ExportToMailchimpActionSpec extends ObjectBehavior
 {
     function let(
         CustomerNewsletterExporterInterface $customerNewsletterExporter,

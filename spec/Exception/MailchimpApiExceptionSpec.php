@@ -7,9 +7,9 @@ namespace spec\Setono\SyliusMailchimpPlugin\Exception;
 use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\Exception\MailchimpApiException;
 
-class MailchimpApiExceptionSpec extends ObjectBehavior
+final class MailchimpApiExceptionSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(MailchimpApiException::class);
     }
