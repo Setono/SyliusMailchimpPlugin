@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace spec\Setono\SyliusMailchimpPlugin\Exporter;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
@@ -21,6 +22,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class CustomerNewsletterExporterSpec extends ObjectBehavior
 {
@@ -30,6 +32,7 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
         CustomerRepositoryInterface $customerRepository,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
+        RepositoryInterface $localeRepository,
         MailchimpConfigContextInterface $mailChimpConfigContext,
         MailchimpApiClientInterface $mailChimpApiClient,
         EntityManagerInterface $mailChimpExportManager,
@@ -41,6 +44,7 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
             $customerRepository,
             $channelContext,
             $localeContext,
+            $localeRepository,
             $mailChimpConfigContext,
             $mailChimpApiClient,
             $mailChimpExportManager,
@@ -60,17 +64,19 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
         CustomerInterface $customer,
         FactoryInterface $mailChimpExportFactory,
         MailchimpExportInterface $mailChimpExport,
-        ChannelContextInterface $channelContext,
-        LocaleContextInterface $localeContext,
+        OrderInterface $order,
         ChannelInterface $channel,
-        LocaleInterface $locale
+        LocaleInterface $locale,
+        RepositoryInterface $localeRepository
     ): void {
         $mailChimpExportFactory->createNew()->willReturn($mailChimpExport);
         $mailChimpConfig->getExportAll()->willReturn(false);
         $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
         $customerRepository->findNonExportedCustomers()->willReturn([$customer])->shouldBeCalled();
-        $channelContext->getChannel()->willReturn($channel);
-        $localeContext->getLocale()->willReturn($locale);
+        $customer->getOrders()->willReturn(new ArrayCollection([$order->getWrappedObject()]));
+        $order->getChannel()->willReturn($channel);
+        $order->getLocaleCode()->willReturn('en_US');
+        $localeRepository->findOneBy(['code' => 'en_US'])->willReturn($locale);
 
         $this->exportNotExportedCustomers();
     }
@@ -79,9 +85,8 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
         OrderInterface $order,
         MailchimpConfigContextInterface $mailChimpConfigContext,
         MailchimpConfigInterface $mailChimpConfig,
-        ChannelContextInterface $channelContext,
-        LocaleContextInterface $localeContext,
         ChannelInterface $channel,
+        RepositoryInterface $localeRepository,
         LocaleInterface $locale,
         CustomerInterface $customer,
         MailchimpListInterface $mailChimpList
@@ -92,8 +97,9 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
         $mailChimpList->getListId()->willReturn('test');
         $mailChimpConfig->getListForChannelAndLocale($channel, $locale)->willReturn($mailChimpList);
         $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
-        $channelContext->getChannel()->willReturn($channel);
-        $localeContext->getLocale()->willReturn($locale);
+        $order->getChannel()->willReturn($channel);
+        $order->getLocaleCode()->willReturn('en_US');
+        $localeRepository->findOneBy(['code' => 'en_US'])->willReturn($locale);
 
         $mailChimpList->addEmail('user@example.com')->shouldBeCalled();
 

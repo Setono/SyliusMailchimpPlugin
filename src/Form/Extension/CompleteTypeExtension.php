@@ -13,8 +13,7 @@ final class CompleteTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('customer', CustomerNewsletterSubscriptionType::class);
+        $builder->add('customer', CustomerNewsletterSubscriptionType::class);
     }
 
     public function getExtendedType(): string

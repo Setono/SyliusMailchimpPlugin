@@ -78,10 +78,8 @@ final class CustomerNewsletterListener
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
         $locale = $this->localeContext->getLocale();
-
         /** @var MailchimpConfigInterface $config */
         $config = $this->mailChimpConfigContext->getConfig();
-
         $list = $config->getListForChannelAndLocale($channel, $locale);
 
         Assert::notNull($list);

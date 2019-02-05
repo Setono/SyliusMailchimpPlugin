@@ -41,33 +41,6 @@ final class CustomerNewsletterListenerSpec extends ObjectBehavior
         $this->shouldHaveType(CustomerNewsletterListener::class);
     }
 
-    function it_unsubscribes(
-        GenericEvent $event,
-        CustomerInterface $customer,
-        LocaleContextInterface $localeContext,
-        ChannelInterface $channel,
-        LocaleInterface $locale,
-        ChannelContextInterface $channelContext,
-        MailchimpConfigInterface $mailChimpConfig,
-        MailchimpListInterface $mailChimpList,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
-        MailchimpApiClientInterface $mailChimpApiClient
-    ): void {
-        $customer->getEmail()->willReturn('user@example.com');
-        $customer->isSubscribedToNewsletter()->willReturn(false);
-        $event->getSubject()->willReturn($customer);
-        $channelContext->getChannel()->willReturn($channel);
-        $localeContext->getLocale()->willReturn($locale);
-        $mailChimpList->getListId()->willReturn('test');
-        $mailChimpConfig->getListForChannelAndLocale($channel, $locale)->willReturn($mailChimpList);
-        $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
-
-        $mailChimpApiClient->removeEmail('user@example.com', 'test')->shouldBeCalled();
-        $mailChimpList->removeEmail('user@example.com')->shouldBeCalled();
-
-        $this->manageSubscription($event);
-    }
-
     function it_subscribes(
         GenericEvent $event,
         CustomerInterface $customer,
