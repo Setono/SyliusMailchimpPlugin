@@ -145,7 +145,10 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
     private function resolveCustomerChannel(CustomerInterface $customer): ChannelInterface
     {
         if (0 === $customer->getOrders()->count()) {
-            return $this->channelContext->getChannel();
+            /** @var ChannelInterface $channel */
+            $channel = $this->channelContext->getChannel();
+
+            return $channel;
         }
 
         return $customer->getOrders()->last()->getChannel();
