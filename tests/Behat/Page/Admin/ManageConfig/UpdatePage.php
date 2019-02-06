@@ -28,8 +28,8 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     public function containsList(string $code, string $id): bool
     {
         if (
-            null != $this->getDocument()->getText($code) &&
-            null != $this->getDocument()->getText($id)
+            null != $this->getDocument()->find('named', ['content', $code]) &&
+            null != $this->getDocument()->find('named', ['content', $id])
         ) {
             return true;
         }
