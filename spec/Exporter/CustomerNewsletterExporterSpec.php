@@ -72,6 +72,7 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
         $mailChimpExportFactory->createNew()->willReturn($mailChimpExport);
         $mailChimpConfig->getExportAll()->willReturn(false);
         $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
+        $mailChimpConfigContext->isFullySetUp()->willReturn(true);
         $customerRepository->findNonExportedCustomers()->willReturn([$customer])->shouldBeCalled();
         $customer->getOrders()->willReturn(new ArrayCollection([$order->getWrappedObject()]));
         $order->getChannel()->willReturn($channel);
