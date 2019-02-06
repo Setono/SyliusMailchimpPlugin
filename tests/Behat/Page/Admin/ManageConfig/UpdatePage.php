@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Admin\ManageConfig;
 
+use Behat\Mink\Element\ElementInterface;
 use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
 use Sylius\Behat\Service\JQueryHelper;
 
@@ -11,26 +12,19 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
 {
     public function fillCode(string $code): void
     {
-        $this->getDocument()
-            ->findById('setono_sylius_mailchimp_export_config_lists_' . ($this->countLists() - 1) . '_code')
-            ->setValue($code)
-        ;
+        $this->getLastListItem()->setValue($code);
     }
 
     public function fillId(string $id): void
     {
-        $this->getDocument()
-            ->findById('setono_sylius_mailchimp_export_config_lists_' . ($this->countLists() - 1) . '_listId')
-            ->setValue($id)
-        ;
+        $this->getLastListItem()->setValue($id);
     }
 
-    public function containsList(string $code, string $id): bool
+    public function containsList(string $id): bool
     {
-        if (
-            null != $this->getDocument()->find('named', ['content', $code]) &&
-            null != $this->getDocument()->find('named', ['content', $id])
-        ) {
+        $value = $this->getLastListItem()->getValue();
+
+        if ($value === $id) {
             return true;
         }
 
@@ -64,5 +58,12 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
         JQueryHelper::waitForAsynchronousActionsToFinish($this->getSession());
 
         return $this->isOpen();
+    }
+
+    private function getLastListItem(): ElementInterface
+    {
+        return $this->getDocument()
+            ->findById('setono_sylius_mailchimp_export_config_lists_' . ($this->countLists() - 1) . '_listId')
+        ;
     }
 }

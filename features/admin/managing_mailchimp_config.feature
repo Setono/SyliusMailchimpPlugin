@@ -29,7 +29,7 @@ Feature: Managing Mailchimp config
         And I fill the list ID with "123456789"
         And I update it
         Then I should be notified that the Mailchimp config has been updated
-        And the Mailchimp config should have one list with "homepage" code and "123456789" list ID
+        And the Mailchimp config should have one list with "123456789" list ID
 
     @ui @javascript
     Scenario: Removing Mailchimp config list

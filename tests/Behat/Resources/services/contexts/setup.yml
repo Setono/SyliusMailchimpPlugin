@@ -5,7 +5,7 @@ services:
         arguments:
             - "@setono_sylius_mailchimp.repository.config"
             - "@sylius.behat.shared_storage"
-            - "@setono_sylius_mailchimp.factory.config"
+            - "@setono_sylius_mailchimp.context.config"
             - "@setono_sylius_mailchimp.factory.list"
             - "@setono_sylius_mailchimp.behat.random_string_generator"
             - "@setono_sylius_mailchimp.manager.config"

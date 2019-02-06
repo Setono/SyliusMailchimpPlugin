@@ -140,11 +140,11 @@ final class MailchimpPluginContext implements Context
     }
 
     /**
-     * @Then the Mailchimp config should have one list with :code code and :listId list ID
+     * @Then the Mailchimp config should have one list with :listId list ID
      */
-    public function theMailchimpConfigShouldHaveOneListWithCodeAndListId(string $code, string $listId): void
+    public function theMailchimpConfigShouldHaveOneListWithListId(string $listId): void
     {
-        Assert::true($this->resolveCurrentPage()->containsList($code, $listId));
+        Assert::true($this->resolveCurrentPage()->containsList($listId));
     }
 
     /**

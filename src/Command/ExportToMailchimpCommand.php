@@ -34,6 +34,10 @@ final class ExportToMailchimpCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->customerNewsletterExporter->exportNotExportedCustomers();
+        try {
+            $this->customerNewsletterExporter->exportNotExportedCustomers();
+        } catch (\Exception $exception) {
+            $output->write(sprintf('<error>%s</error>', $exception->getMessage()));
+        }
     }
 }

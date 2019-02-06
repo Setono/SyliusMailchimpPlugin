@@ -10,6 +10,7 @@ use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Entity\MailchimpExportInterface;
 use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Exception\NotSetUpException;
 use Setono\SyliusMailchimpPlugin\Repository\CustomerRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Repository\MailchimpExportRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
@@ -86,6 +87,10 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
             return null;
         }
 
+        if (false === $this->mailChimpConfigContext->isFullySetUp()) {
+            throw new NotSetUpException();
+        }
+
         /** @var MailchimpExportInterface $export */
         $export = $this->mailChimpExportFactory->createNew();
 
@@ -97,7 +102,6 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
             try {
                 $channel = $this->resolveCustomerChannel($customer);
                 $locale = $this->resolveCustomerLocale($customer);
-
                 /** @var MailchimpListInterface $globalList */
                 $globalList = $config->getListForChannelAndLocale($channel, $locale);
                 $email = $customer->getEmail();

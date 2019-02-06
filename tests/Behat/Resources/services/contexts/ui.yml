@@ -40,5 +40,5 @@ services:
             - "@sylius.context.currency"
             - "@sylius.behat.shared_storage"
             - "@sylius.repository.order"
-            - "@setono_sylius_mailchimp.repository.config"
+            - "@setono_sylius_mailchimp.context.config"
             - "@setono_sylius_mailchimp.manager.config"

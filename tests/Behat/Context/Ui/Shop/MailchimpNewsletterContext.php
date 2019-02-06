@@ -6,8 +6,8 @@ namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
 use Doctrine\ORM\EntityManagerInterface;
+use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
-use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\Element\Shop\Account\RegisterElementInterface;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\Shop\Account\LoginPageInterface;
@@ -25,6 +25,7 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Shop\Account\ProfileUpdatePageInterface;
+use Webmozart\Assert\Assert;
 
 final class MailchimpNewsletterContext implements Context
 {
@@ -70,11 +71,11 @@ final class MailchimpNewsletterContext implements Context
     /** @var OrderRepositoryInterface */
     private $orderRepository;
 
-    /** @var MailchimpConfigRepositoryInterface */
-    private $MailchimpConfigRepository;
+    /** @var MailchimpConfigContextInterface */
+    private $mailchimpConfigContext;
 
     /** @var EntityManagerInterface */
-    private $MailchimpConfigManager;
+    private $mailchimpConfigManager;
 
     public function __construct(
         RegisterPageInterface $registerPage,
@@ -91,8 +92,8 @@ final class MailchimpNewsletterContext implements Context
         CurrencyContextInterface $currencyContext,
         SharedStorageInterface $sharedStorage,
         OrderRepositoryInterface $orderRepository,
-        MailchimpConfigRepositoryInterface $MailchimpConfigRepository,
-        EntityManagerInterface $MailchimpConfigManager
+        MailchimpConfigContextInterface $mailchimpConfigContext,
+        EntityManagerInterface $mailchimpConfigManager
     ) {
         $this->registerPage = $registerPage;
         $this->registerElement = $registerElement;
@@ -108,8 +109,8 @@ final class MailchimpNewsletterContext implements Context
         $this->currencyContext = $currencyContext;
         $this->sharedStorage = $sharedStorage;
         $this->orderRepository = $orderRepository;
-        $this->MailchimpConfigRepository = $MailchimpConfigRepository;
-        $this->MailchimpConfigManager = $MailchimpConfigManager;
+        $this->mailchimpConfigContext = $mailchimpConfigContext;
+        $this->mailchimpConfigManager = $mailchimpConfigManager;
     }
 
     /**
@@ -138,9 +139,9 @@ final class MailchimpNewsletterContext implements Context
      */
     public function emailShouldBeExportedToMailchimp(string $email): void
     {
-        $config = $this->MailchimpConfigRepository->findConfig();
+        $config = $this->mailchimpConfigContext->getConfig();
 
-        $this->MailchimpConfigManager->refresh($config);
+        $this->mailchimpConfigManager->refresh($config);
 
         /** @var MailchimpListInterface $list */
         foreach ($config->getLists() as $list) {
@@ -189,15 +190,13 @@ final class MailchimpNewsletterContext implements Context
      */
     public function theEmailShouldBeRemovedFromMailchimpsDefaultList(string $email): void
     {
-        $config = $this->MailchimpConfigRepository->findConfig();
+        $config = $this->mailchimpConfigContext->getConfig();
 
-        $this->MailchimpConfigManager->refresh($config);
+        $this->mailchimpConfigManager->refresh($config);
 
         /** @var MailchimpListInterface $list */
         foreach ($config->getLists() as $list) {
-            if ($list->hasEmail($email)) {
-                throw new \LogicException();
-            }
+            Assert::false($list->hasEmail($email));
         }
     }
 }
