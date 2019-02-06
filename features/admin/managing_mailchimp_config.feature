@@ -8,6 +8,16 @@ Feature: Managing Mailchimp config
         Given the store operates on a single channel in "United States"
         And I am logged in as an administrator
 
+    @ui @javascript
+    Scenario: Removing Mailchimp config list
+        Given there is already an existing Mailchimp config for the store
+        And this config has 3 lists associated to it
+        When I go to the Mailchimp update page
+        And I remove the last list
+        And I update it
+        Then I should be notified that the Mailchimp config has been updated
+        And the Mailchimp config should have only 2 lists
+
     @ui
     Scenario: Adding a new Mailchimp config
         When I go to the admin dashboard
@@ -30,13 +40,3 @@ Feature: Managing Mailchimp config
         And I update it
         Then I should be notified that the Mailchimp config has been updated
         And the Mailchimp config should have one list with "123456789" list ID
-
-    @ui @javascript
-    Scenario: Removing Mailchimp config list
-        Given there is already an existing Mailchimp config for the store
-        And this config has 3 lists associated to it
-        When I go to the Mailchimp update page
-        And I remove the last list
-        And I update it
-        Then I should be notified that the Mailchimp config has been updated
-        And the Mailchimp config should have only 2 lists

@@ -55,7 +55,7 @@ default:
 
                 - sylius.behat.context.ui.shop.registration
             filters:
-                tags: "@newsletter,@mailchimp_shop_newsletter && @ui"
+                tags: "@newsletter, @mailchimp_shop_newsletter && @ui"
 
         ui_mailchimp_subscription_during_checkout:
             contexts:
