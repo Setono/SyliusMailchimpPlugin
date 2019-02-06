@@ -16,8 +16,8 @@ final class CompleteTypeExtension extends AbstractTypeExtension
         $builder->add('customer', CustomerNewsletterSubscriptionType::class);
     }
 
-    public function getExtendedType(): string
+    public function getExtendedTypes(): iterable
     {
-        return CompleteType::class;
+        return [CompleteType::class];
     }
 }
