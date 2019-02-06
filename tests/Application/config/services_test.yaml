@@ -1,11 +1,6 @@
 imports:
-    - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
     - { resource: "../../Behat/Resources/services.yml" }
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-parameters:
-    locale: en_US
+    - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
 
 services:
     setono_sylius_mailchimp.api_client.mailchimp:
