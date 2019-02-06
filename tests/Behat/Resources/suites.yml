@@ -1,25 +1,22 @@
 default:
     suites:
         ui_managing_mailchimp_configs:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.setup.admin_security
-
                 - sylius.behat.context.setup.channel
 
                 - setono_sylius_mailchimp.behat.context.setup.mailchimp
-
                 - setono_sylius_mailchimp.behat.context.ui.mailchimp
             filters:
                 tags: "@managing_mailchimp_config && @ui"
 
         ui_exporting_mailchimp_customers:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.setup.admin_security
-
                 - sylius.behat.context.setup.channel
 
                 - setono_sylius_mailchimp.behat.context.setup.export
@@ -29,11 +26,10 @@ default:
                 tags: "@mailchimp_export && @ui"
 
         cli_exporting_mailchimp_customers:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.setup.admin_security
-
                 - sylius.behat.context.setup.channel
 
                 - setono_sylius_mailchimp.behat.context.cli.mailchimp
@@ -41,7 +37,7 @@ default:
                 tags: "@mailchimp_export && @cli"
 
         ui_mailchimp_subscription:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.transform.customer
@@ -61,7 +57,7 @@ default:
                 tags: "@newsletter,@mailchimp_shop_newsletter && @ui"
 
         ui_mailchimp_subscription_during_checkout:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.transform.customer
