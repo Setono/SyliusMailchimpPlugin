@@ -2,7 +2,7 @@ services:
     setono_sylius_mailchimp.page.admin.manageconfig.index:
         class: Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Admin\ManageConfig\IndexPage
         parent: sylius.behat.page.admin.crud.index
-        public: false
+        public: contexts
         arguments:
             - 'setono_sylius_mailchimp_admin_config_index'
 

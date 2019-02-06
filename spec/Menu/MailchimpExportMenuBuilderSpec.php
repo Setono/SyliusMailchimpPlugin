@@ -9,9 +9,9 @@ use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\Menu\MailchimpExportMenuBuilder;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
-class MailchimpExportMenuBuilderSpec extends ObjectBehavior
+final class MailchimpExportMenuBuilderSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(MailchimpExportMenuBuilder::class);
     }

@@ -12,7 +12,7 @@ interface UpdatePageInterface extends BaseUpdatePageInterface
 
     public function fillId(string $id): void;
 
-    public function containsList(string $code, string $id): bool;
+    public function containsList(string $id): bool;
 
     public function removeLastList(): void;
 

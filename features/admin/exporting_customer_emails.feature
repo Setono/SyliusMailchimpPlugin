@@ -28,6 +28,7 @@ Feature: Exporting customers to Mailchimp
 
     @cli
     Scenario: Seeing an exception in CLI once the Mailchimp config is not set up in CLI
+        Given I have 10 customers in my database
         When I execute the Mailchimp export command
         Then I should see an error saying that I need to set up the Mailchimp config first
 

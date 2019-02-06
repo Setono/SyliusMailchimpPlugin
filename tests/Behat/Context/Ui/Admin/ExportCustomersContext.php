@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
+use FriendsOfBehat\PageObjectExtension\Page\SymfonyPageInterface;
 use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\NotificationType;
-use Sylius\Behat\Page\SymfonyPageInterface;
 use Sylius\Behat\Service\NotificationChecker;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
 use Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Admin\ExportCustomers\IndexPageInterface;

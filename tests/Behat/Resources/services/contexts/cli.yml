@@ -1,15 +1,14 @@
 services:
     setono_sylius_mailchimp.behat.context.cli.mailchimp:
         class: Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Cli\MailchimpExportCliContext
+        public: true
         arguments:
-            - "@__symfony__.kernel"
+            - "@kernel"
             - "@setono_sylius_mailchimp.page.admin.exportcustomers.index"
-            - "@__symfony__.setono_sylius_mailchimp.repository.config"
+            - "@setono_sylius_mailchimp.repository.config"
             - "@setono_sylius_mailchimp.behat.random_string_generator"
-            - "@__symfony__.setono_sylius_mailchimp.factory.config"
+            - "@setono_sylius_mailchimp.factory.config"
             - "@sylius.behat.shared_storage"
-            - "@__symfony__.sylius.factory.customer"
-            - "@__symfony__.sylius.repository.customer"
+            - "@sylius.factory.customer"
+            - "@sylius.repository.customer"
             - "@sylius.behat.notification_checker"
-        tags:
-            - { name: fob.context_service }

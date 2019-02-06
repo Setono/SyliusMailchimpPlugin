@@ -11,14 +11,14 @@ use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Menu\MailchimpConfigMenuBuilder;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
-class MailchimpConfigMenuBuilderSpec extends ObjectBehavior
+final class MailchimpConfigMenuBuilderSpec extends ObjectBehavior
 {
     function let(MailchimpConfigContextInterface $mailChimpConfigContext): void
     {
         $this->beConstructedWith($mailChimpConfigContext);
     }
 
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(MailchimpConfigMenuBuilder::class);
     }
