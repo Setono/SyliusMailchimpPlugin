@@ -13,14 +13,16 @@ services:
     setono_sylius_mailchimp.event_listener.customer_listener:
         class: Setono\SyliusMailchimpPlugin\EventListener\CustomerNewsletterListener
         arguments:
+            - "@sylius.repository.customer"
             - "@setono_sylius_mailchimp.api_client.mailchimp"
             - "@setono_sylius_mailchimp.context.config"
             - "@sylius.context.channel"
             - "@setono_sylius_mailchimp.context.locale"
             - "@setono_sylius_mailchimp.manager.list"
+            - "@logger"
+            - ['sylius_shop_register', 'sylius_shop_account_profile_update']
         tags:
-            - { name: "kernel.event_listener", event: "sylius.customer.post_register", method: manageSubscription }
-            - { name: "kernel.event_listener", event: "sylius.customer.pre_update", method: manageSubscription }
+            - { name: "kernel.event_listener", event: "kernel.terminate", method: manageSubscription }
 
     setono_sylius_mailchimp.repository.customer:
         class: Setono\SyliusMailchimpPlugin\Repository\CustomerRepository
