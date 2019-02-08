@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
 use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
@@ -13,12 +14,15 @@ use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Resource\Exception\UnexpectedTypeException;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
+use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Webmozart\Assert\Assert;
 
 final class CustomerNewsletterListener
 {
+    /** @var CustomerRepositoryInterface */
+    private $customerRepository;
+
     /** @var MailchimpApiClientInterface */
     private $mailChimpApiClient;
 
@@ -34,33 +38,57 @@ final class CustomerNewsletterListener
     /** @var EntityManagerInterface */
     private $mailChimpListManager;
 
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var array */
+    private $supportedRoutes;
+
     public function __construct(
+        CustomerRepositoryInterface $customerRepository,
         MailchimpApiClientInterface $mailChimpApiClient,
         MailchimpConfigContextInterface $mailChimpConfigContext,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
-        EntityManagerInterface $mailChimpListManager
+        EntityManagerInterface $mailChimpListManager,
+        LoggerInterface $logger,
+        array $supportedRoutes
     ) {
+        $this->customerRepository = $customerRepository;
         $this->mailChimpApiClient = $mailChimpApiClient;
         $this->mailChimpConfigContext = $mailChimpConfigContext;
         $this->channelContext = $channelContext;
         $this->localeContext = $localeContext;
         $this->mailChimpListManager = $mailChimpListManager;
+        $this->logger = $logger;
+        $this->supportedRoutes = $supportedRoutes;
     }
 
-    public function manageSubscription(GenericEvent $event): void
+
+    public function manageSubscription(PostResponseEvent $postResponseEvent): void
     {
-        $customer = $event->getSubject();
+        try {
+            $request = $postResponseEvent->getRequest();
 
-        if (!$customer instanceof CustomerInterface) {
-            throw new UnexpectedTypeException($customer, CustomerInterface::class);
+            if (!in_array($request->get('_route'), $this->supportedRoutes)) {
+                return;
+            }
+
+            $emailPieces = array_column($request->request->all(), 'email');
+            $email = end($emailPieces);
+            /** @var CustomerInterface $customer */
+            $customer = $this->customerRepository->findOneBy(['email' => $email]);
+
+            Assert::notNull($customer, sprintf('Customer with %s email not found.', $email));
+
+            if ($customer->isSubscribedToNewsletter()) {
+                $this->subscribe($customer);
+            }
+
+            $this->mailChimpListManager->flush();
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
         }
-
-        if ($customer->isSubscribedToNewsletter()) {
-            $this->subscribe($customer);
-        }
-
-        $this->mailChimpListManager->flush();
     }
 
     private function subscribe(CustomerInterface $customer): void
