@@ -79,9 +79,7 @@ final class CustomerNewsletterListener
             /** @var CustomerInterface $customer */
             $customer = $this->customerRepository->findOneBy(['email' => $email]);
 
-            if (null === $customer) {
-                return;
-            }
+            Assert::notNull($customer, sprintf('Customer with %s email not found.', $email));
 
             if ($customer->isSubscribedToNewsletter()) {
                 $this->subscribe($customer);
