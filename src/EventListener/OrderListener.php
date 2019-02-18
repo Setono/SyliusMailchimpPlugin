@@ -45,19 +45,15 @@ class OrderListener
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         MailchimpApiClientInterface $mailChimpApiClient,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
-        EntityManagerInterface $mailChimpListManager,
         LoggerInterface $logger,
         array $supportedRoutes
     ) {
         $this->orderRepository = $orderRepository;
         $this->mailChimpApiClient = $mailChimpApiClient;
-        $this->mailChimpConfigContext = $mailChimpConfigContext;
         $this->channelContext = $channelContext;
         $this->localeContext = $localeContext;
-        $this->mailChimpListManager = $mailChimpListManager;
         $this->logger = $logger;
         $this->supportedRoutes = $supportedRoutes;
     }
@@ -80,17 +76,10 @@ class OrderListener
             $customer = $order->getUser();
 
             if ($customer->isSubscribedToNewsletter()) {
-                $this->subscribe($order);
+                $this->mailChimpApiClient->exportOrder($order);
             }
-
-            $this->mailChimpListManager->flush();
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
         }
-    }
-
-    private function subscribe(OrderInterface $order): void
-    {
-        $this->mailChimpApiClient->exportOrder($order);
     }
 }

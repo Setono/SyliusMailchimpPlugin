@@ -29,10 +29,8 @@ services:
         arguments:
             - "@sylius.repository.order"
             - "@setono_sylius_mailchimp.api_client.mailchimp"
-            - "@setono_sylius_mailchimp.context.config"
             - "@sylius.context.channel.cached"
             - "@setono_sylius_mailchimp.context.locale"
-            - "@setono_sylius_mailchimp.manager.list"
             - "@logger"
             - ['sylius_shop_order_thank_you']
         tags:
