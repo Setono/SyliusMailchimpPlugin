@@ -9,19 +9,17 @@ use Psr\Log\LoggerInterface;
 use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
 use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Webmozart\Assert\Assert;
 
-final class CustomerNewsletterListener
+class OrderListener
 {
-    /** @var CustomerRepositoryInterface */
-    private $customerRepository;
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
 
     /** @var MailchimpApiClientInterface */
     private $mailChimpApiClient;
@@ -45,7 +43,7 @@ final class CustomerNewsletterListener
     private $supportedRoutes;
 
     public function __construct(
-        CustomerRepositoryInterface $customerRepository,
+        OrderRepositoryInterface $orderRepository,
         MailchimpApiClientInterface $mailChimpApiClient,
         MailchimpConfigContextInterface $mailChimpConfigContext,
         ChannelContextInterface $channelContext,
@@ -54,7 +52,7 @@ final class CustomerNewsletterListener
         LoggerInterface $logger,
         array $supportedRoutes
     ) {
-        $this->customerRepository = $customerRepository;
+        $this->orderRepository = $orderRepository;
         $this->mailChimpApiClient = $mailChimpApiClient;
         $this->mailChimpConfigContext = $mailChimpConfigContext;
         $this->channelContext = $channelContext;
@@ -73,15 +71,16 @@ final class CustomerNewsletterListener
                 return;
             }
 
-            $emailPieces = array_column($request->request->all(), 'email');
-            $email = end($emailPieces);
-            /** @var CustomerInterface $customer */
-            $customer = $this->customerRepository->findOneBy(['email' => $email]);
+            /** @var OrderInterface $order */
+            $order = $request->get('order');
 
-            Assert::notNull($customer, sprintf('Customer with %s email not found.', $email));
+            Assert::notNull($order, sprintf('Order not found.'));
+
+            /** @var CustomerInterface $customer */
+            $customer = $order->getUser();
 
             if ($customer->isSubscribedToNewsletter()) {
-                $this->subscribe($customer);
+                $this->subscribe($order);
             }
 
             $this->mailChimpListManager->flush();
@@ -90,27 +89,8 @@ final class CustomerNewsletterListener
         }
     }
 
-    private function subscribe(CustomerInterface $customer): void
+    private function subscribe(OrderInterface $order): void
     {
-        $list = $this->getList();
-        $email = $customer->getEmail();
-
-        $this->mailChimpApiClient->exportEmail($email, $list->getListId());
-
-        $list->addEmail($email);
-    }
-
-    private function getList(): MailchimpListInterface
-    {
-        /** @var ChannelInterface $channel */
-        $channel = $this->channelContext->getChannel();
-        $locale = $this->localeContext->getLocale();
-        /** @var MailchimpConfigInterface $config */
-        $config = $this->mailChimpConfigContext->getConfig();
-        $list = $config->getListForChannelAndLocale($channel, $locale);
-
-        Assert::notNull($list);
-
-        return $list;
+        $this->mailChimpApiClient->exportOrder($order);
     }
 }

@@ -3,6 +3,7 @@ setono_sylius_mailchimp:
         config_menu: Mailchimp
         export_menu: Newsletter export
         configs: Mailchimp configuration
+        store_id: Mailchimp store ID
         api_key: Mailchimp API Key
         code: Code
         config: Configure list(s)

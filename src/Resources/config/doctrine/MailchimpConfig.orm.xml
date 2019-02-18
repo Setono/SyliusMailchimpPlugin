@@ -11,6 +11,7 @@
         </id>
 
         <field name="code" type="string" nullable="true" unique="true"/>
+        <field name="storeId" type="string" nullable="true"/>
         <field name="apiKey" column="api_key" type="string" nullable="true"/>
         <field name="exportAll" column="export_all" type="boolean" nullable="false"/>
 

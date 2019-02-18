@@ -24,6 +24,20 @@ services:
         tags:
             - { name: "kernel.event_listener", event: "kernel.terminate", method: manageSubscription }
 
+    setono_sylius_mailchimp.event_listener.order_listener:
+        class: Setono\SyliusMailchimpPlugin\EventListener\OrderListener
+        arguments:
+            - "@sylius.repository.order"
+            - "@setono_sylius_mailchimp.api_client.mailchimp"
+            - "@setono_sylius_mailchimp.context.config"
+            - "@sylius.context.channel.cached"
+            - "@setono_sylius_mailchimp.context.locale"
+            - "@setono_sylius_mailchimp.manager.list"
+            - "@logger"
+            - ['sylius_shop_order_thank_you']
+        tags:
+            - { name: "kernel.event_listener", event: "kernel.terminate", method: manageSubscription }
+
     setono_sylius_mailchimp.repository.customer:
         class: Setono\SyliusMailchimpPlugin\Repository\CustomerRepository
         arguments:
