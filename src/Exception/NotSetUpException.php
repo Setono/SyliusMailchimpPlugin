@@ -8,6 +8,6 @@ final class NotSetUpException extends \RuntimeException
 {
     public function __construct()
     {
-        parent::__construct("Please set up the Mailchimp config properly first.");
+        parent::__construct('Please set up the Mailchimp config properly first.');
     }
 }

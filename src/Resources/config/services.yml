@@ -66,3 +66,10 @@ services:
         class: Setono\SyliusMailchimpPlugin\Form\Extension\CompleteTypeExtension
         tags:
             - { name: form.type_extension }
+
+    setonosylius_mailchimp_plugin.validator.unique_newsletter_email_validator:
+        class: Setono\SyliusMailchimpPlugin\Validator\Constraints\UniqueNewsletterEmailValidator
+        arguments:
+            - "@sylius.repository.customer"
+        tags:
+            - { name: "validator.constraint_validator" }

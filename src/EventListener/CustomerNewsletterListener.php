@@ -64,7 +64,6 @@ final class CustomerNewsletterListener
         $this->supportedRoutes = $supportedRoutes;
     }
 
-
     public function manageSubscription(PostResponseEvent $postResponseEvent): void
     {
         try {
