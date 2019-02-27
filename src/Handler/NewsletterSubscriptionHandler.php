@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMailChimpPlugin\Handler;
+namespace Setono\SyliusMailchimpPlugin\Handler;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
 use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
-use Setono\SyliusMailchimpPlugin\Handler\NewsletterSubscriptionHandlerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
@@ -23,11 +22,11 @@ final class NewsletterSubscriptionHandler implements NewsletterSubscriptionHandl
     /** @var FactoryInterface */
     private $customerFactory;
 
-    /** @var MailchimpApiClientInterface */
-    private $mailchimpApiClient;
-
     /** @var EntityManagerInterface */
     private $customerManager;
+
+    /** @var MailchimpApiClientInterface */
+    private $mailchimpApiClient;
 
     /** @var MailchimpConfigContextInterface */
     private $mailchimpConfigContext;

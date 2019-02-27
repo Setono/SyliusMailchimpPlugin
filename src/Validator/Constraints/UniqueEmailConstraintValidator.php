@@ -9,7 +9,7 @@ use Sylius\Component\Customer\Model\CustomerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-final class UniqueNewsletterEmailValidator extends ConstraintValidator
+final class UniqueEmailConstraintValidator extends ConstraintValidator
 {
     /** @var CustomerRepositoryInterface */
     private $customerRepository;
@@ -21,8 +21,8 @@ final class UniqueNewsletterEmailValidator extends ConstraintValidator
 
     public function validate($email, Constraint $constraint): void
     {
-        if ($this->isEmailValid($email) === false) {
-            /** @var UniqueNewsletterEmail $constraint */
+        if (!$this->isEmailValid($email)) {
+            /** @var UniqueEmailConstraint $constraint */
             $this->context->addViolation($constraint->message);
         }
     }
@@ -31,11 +31,11 @@ final class UniqueNewsletterEmailValidator extends ConstraintValidator
     {
         $customer = $this->customerRepository->findOneBy(['email' => $email]);
 
-        if ($customer instanceof CustomerInterface === false) {
+        if (!$customer instanceof CustomerInterface) {
             return true;
         }
 
-        if ($customer->isSubscribedToNewsletter() === true) {
+        if ($customer->isSubscribedToNewsletter()) {
             return false;
         }
 

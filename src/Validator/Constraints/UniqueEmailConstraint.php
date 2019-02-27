@@ -6,11 +6,11 @@ namespace Setono\SyliusMailchimpPlugin\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-final class UniqueNewsletterEmail extends Constraint
+final class UniqueEmailConstraint extends Constraint
 {
     public $message = 'setono_sylius_mailchimp_plugin.ui.unique_email';
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return get_class($this) . 'Validator';
     }

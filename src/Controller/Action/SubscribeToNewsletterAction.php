@@ -1,29 +1,21 @@
 <?php
 
-/*
- * This file has been created by developers from setono.
- * Feel free to contact us once you face any issues or want to start
- * another great project.
- * You can find more information about us on https://setono.shop and write us
- * an email on mikolaj.krol@setono.pl.
- */
-
 declare(strict_types=1);
 
-namespace spec\Setono\SyliusMailchimpPlugin\Controller\Action;
+namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
 use Setono\SyliusMailchimpPlugin\Handler\NewsletterSubscriptionHandlerInterface;
+use Setono\SyliusMailchimpPlugin\Validator\NewsletterEmailValidatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class SubscribeToNewsletterAction
 {
-    /** @var ValidatorInterface */
+    /** @var NewsletterEmailValidatorInterface */
     private $newsletterEmailValidator;
 
     /** @var NewsletterSubscriptionHandlerInterface */
@@ -36,7 +28,7 @@ final class SubscribeToNewsletterAction
     private $translator;
 
     public function __construct(
-        ValidatorInterface $newsletterEmailValidator,
+        NewsletterEmailValidatorInterface $newsletterEmailValidator,
         CsrfTokenManagerInterface $csrfTokenManager,
         NewsletterSubscriptionHandlerInterface $newsletterSubscriptionHandler,
         TranslatorInterface $translator
@@ -52,7 +44,7 @@ final class SubscribeToNewsletterAction
     {
         $email = $request->request->get('email');
         $errors = $this->newsletterEmailValidator->validate($email);
-        $token = new CsrfToken('newsletter', $request->request->get('_token'));
+        $token = new CsrfToken('setono_newsletter_subscribe', $request->request->get('_token'));
 
         $this->csrfTokenManager->isTokenValid($token);
 
