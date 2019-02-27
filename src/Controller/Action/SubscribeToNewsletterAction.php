@@ -32,8 +32,7 @@ final class SubscribeToNewsletterAction
         CsrfTokenManagerInterface $csrfTokenManager,
         NewsletterSubscriptionHandlerInterface $newsletterSubscriptionHandler,
         TranslatorInterface $translator
-    )
-    {
+    ) {
         $this->newsletterEmailValidator = $newsletterEmailValidator;
         $this->newsletterSubscriptionHandler = $newsletterSubscriptionHandler;
         $this->csrfTokenManager = $csrfTokenManager;
@@ -66,7 +65,7 @@ final class SubscribeToNewsletterAction
         return new JsonResponse(
             [
                 'success' => false,
-                'errors' => json_encode($errors)
+                'errors' => json_encode($errors),
             ],
             Response::HTTP_BAD_REQUEST
         );

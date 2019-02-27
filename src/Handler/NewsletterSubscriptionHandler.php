@@ -45,8 +45,7 @@ final class NewsletterSubscriptionHandler implements NewsletterSubscriptionHandl
         MailchimpConfigContextInterface $mailchimpConfigContext,
         LocaleContextInterface $localeContext,
         ChannelContextInterface $channelContext
-    )
-    {
+    ) {
         $this->customerRepository = $customerRepository;
         $this->customerFactory = $customerFactory;
         $this->customerManager = $customerManager;
@@ -78,7 +77,6 @@ final class NewsletterSubscriptionHandler implements NewsletterSubscriptionHandl
         $this->mailchimpApiClient->exportEmail($email, $listId);
         $this->updateCustomer($customer);
     }
-
 
     private function createNewCustomer(string $email): CustomerInterface
     {
