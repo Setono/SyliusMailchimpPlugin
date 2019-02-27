@@ -28,3 +28,8 @@ setono_sylius_mailchimp:
         export_succeeded: Export succeded
         export_failed: Export failed
         nothing_to_export: Nothing to export
+        newsletter: Newsletter
+        subscribe: Subscribe
+        your_email_address: Your email address
+        email_not_blank: Email cannot be blank.
+        subscribed_successfully: You are now subscribed to the newsletter.

@@ -44,9 +44,9 @@ final class SubscribeToNewsletterAction
         $email = $request->request->get('email');
         $errors = $this->newsletterEmailValidator->validate($email);
         $token = new CsrfToken('setono_newsletter_subscribe', $request->request->get('_token'));
-        
+
         if (false === $this->csrfTokenManager->isTokenValid($token)) {
-            $errors[] = $this->translator->trans('setono_sylius_mailchimp_plugin.ui.invalid_csrf_token');
+            $errors[] = $this->translator->trans('setono_sylius_mailchimp.ui.invalid_csrf_token');
         }
 
         if (0 === count($errors)) {
@@ -55,7 +55,7 @@ final class SubscribeToNewsletterAction
             return new JsonResponse(
                 [
                     'success' => true,
-                    'message' => $this->translator->trans('setono_sylius_mailchimp_plugin.ui.subscribed_successfully'),
+                    'message' => $this->translator->trans('setono_sylius_mailchimp.ui.subscribed_successfully'),
                 ]
             );
         }

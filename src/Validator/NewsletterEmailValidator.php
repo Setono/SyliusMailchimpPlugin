@@ -23,8 +23,8 @@ final class NewsletterEmailValidator implements NewsletterEmailValidatorInterfac
     public function validate(string $email): array
     {
         $violations = $this->validator->validate($email, [
-            new Email(['message' => 'setono_sylius_mailchimp_plugin.ui.invalid_email']),
-            new NotBlank(['message' => 'setono_sylius_mailchimp_plugin.ui.email_not_blank']),
+            new Email(['message' => 'setono_sylius_mailchimp.ui.invalid_email']),
+            new NotBlank(['message' => 'setono_sylius_mailchimp.ui.email_not_blank']),
             new UniqueEmailConstraint(),
         ]);
 

@@ -3,12 +3,12 @@
 
     $.fn.extend({
         joinNewsletter: function () {
-            var form = $(this);
+            let form = $(this);
             form.submit(function (event) {
                 event.preventDefault();
 
-                var successElement = form.find('.success-element');
-                var validationElement = form.find('.validation-element');
+                let successElement = form.find('.success-element');
+                let validationElement = form.find('.validation-element');
 
                 successElement.text('');
                 validationElement.text('');
@@ -25,8 +25,8 @@
                     })
                     .fail(function (response) {
                         if (response.responseJSON.hasOwnProperty('errors')) {
-                            var errors = $.parseJSON(response.responseJSON.errors);
-                            var message = '';
+                            let errors = $.parseJSON(response.responseJSON.errors);
+                            let message = '';
 
                             $(errors).each(function (key, value) {
                                 message += value + " ";
