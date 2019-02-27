@@ -44,9 +44,7 @@ final class SubscribeToNewsletterAction
         $email = $request->request->get('email');
         $errors = $this->newsletterEmailValidator->validate($email);
         $token = new CsrfToken('setono_newsletter_subscribe', $request->request->get('_token'));
-
-        $this->csrfTokenManager->isTokenValid($token);
-
+        
         if (false === $this->csrfTokenManager->isTokenValid($token)) {
             $errors[] = $this->translator->trans('setono_sylius_mailchimp_plugin.ui.invalid_csrf_token');
         }
