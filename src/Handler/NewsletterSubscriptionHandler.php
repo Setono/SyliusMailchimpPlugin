@@ -9,6 +9,7 @@ use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
 use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
@@ -65,16 +66,18 @@ final class NewsletterSubscriptionHandler implements NewsletterSubscriptionHandl
             $customer = $this->createNewCustomer($email);
         }
 
+        /** @var ChannelInterface $channel */
+        $channel = $this->channelContext->getChannel();
+        $locale = $this->localeContext->getLocale();
         $config = $this->mailchimpConfigContext->getConfig();
         $list = $config->getListForChannelAndLocale(
-            $this->channelContext->getChannel(),
-            $this->localeContext->getLocale()
+            $channel,
+            $locale
         );
 
         Assert::notNull($list);
 
-        $listId = $list->getListId();
-        $this->mailchimpApiClient->exportEmail($email, $listId);
+        $this->mailchimpApiClient->exportEmail($email, $list->getListId());
         $this->updateCustomer($customer);
     }
 

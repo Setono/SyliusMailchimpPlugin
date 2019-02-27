@@ -19,10 +19,13 @@ final class UniqueEmailConstraintValidator extends ConstraintValidator
         $this->customerRepository = $customerRepository;
     }
 
+    /**
+     * @param string $email
+     * @param UniqueEmailConstraint $constraint
+     */
     public function validate($email, Constraint $constraint): void
     {
         if (!$this->isEmailValid($email)) {
-            /** @var UniqueEmailConstraint $constraint */
             $this->context->addViolation($constraint->message);
         }
     }
