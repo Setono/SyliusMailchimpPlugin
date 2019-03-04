@@ -29,12 +29,10 @@ services:
         arguments:
             - "@sylius.repository.order"
             - "@setono_sylius_mailchimp.api_client.mailchimp"
-            - "@sylius.context.channel.cached"
-            - "@setono_sylius_mailchimp.context.locale"
             - "@logger"
             - ['sylius_shop_order_thank_you']
         tags:
-            - { name: "kernel.event_listener", event: "kernel.terminate", method: manageSubscription }
+            - { name: "kernel.event_listener", event: "kernel.terminate", method: manageOrderSubscription }
 
     setono_sylius_mailchimp.repository.customer:
         class: Setono\SyliusMailchimpPlugin\Repository\CustomerRepository
@@ -56,6 +54,12 @@ services:
             - "@setono_sylius_mailchimp.api_client.mailchimp"
             - "@setono_sylius_mailchimp.manager.export"
             - "@setono_sylius_mailchimp.manager.list"
+
+    setono_sylius_mailchimp.exporter.customer_order:
+        class: Setono\SyliusMailchimpPlugin\Exporter\CustomerOrderExporter
+        public: true
+        arguments:
+            - "@setono_sylius_mailchimp.api_client.mailchimp"
 
     setono_sylius_mailchimp.controller.action.export_to_mailchimp:
         class: Setono\SyliusMailchimpPlugin\Controller\Action\ExportToMailchimpAction
