@@ -39,10 +39,10 @@ class OrderListener
         $this->supportedRoutes = $supportedRoutes;
     }
 
-    public function manageOrderSubscription(Request $request): void
+    public function manageOrderSubscription(PostResponseEvent $postResponseEvent): void
     {
         try {
-//            $request = $postResponseEvent;
+            $request = $postResponseEvent->getRequest();
 
             if (!in_array($request->get('_route'), $this->supportedRoutes)) {
                 return;
