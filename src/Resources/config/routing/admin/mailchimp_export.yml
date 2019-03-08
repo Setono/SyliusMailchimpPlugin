@@ -13,25 +13,6 @@ setono_sylius_mailchimp_admin_export_index:
                 header: setono_sylius_mailchimp.ui.export_header
                 subheader: setono_sylius_mailchimp.ui.export_subheader
 
-sylius_admin_promotion_coupon_index:
-    path: /
-    methods: [GET]
-    defaults:
-        _controller: sylius.controller.promotion_coupon:indexAction
-        _sylius:
-            template: "@SyliusAdmin/PromotionCoupon/index.html.twig"
-            grid: sylius_admin_promotion_coupon
-            section: admin
-            permission: true
-            vars:
-                route:
-                    parameters:
-                        promotionId: $promotionId
-                templates:
-                    breadcrumb: "@SyliusAdmin/PromotionCoupon/Index/_breadcrumb.html.twig"
-                icon: tags
-                subheader: sylius.ui.manage_coupons
-
 setono_sylius_mailchimp_admin_export_to_mailchimp:
     path: /export
     methods: [POST]

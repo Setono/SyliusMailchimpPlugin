@@ -20,3 +20,7 @@ setono_sylius_mailchimp:
             max_length: List ID can not be longer than {{ limit }} characters.
         config:
             not_blank: Config cannot be blank.
+    ui:
+        invalid_email: The submitted email address is not valid.
+        email_not_blank: Please fill the email field.
+        unique_email: Given email address is already subscribed to the newsletter.

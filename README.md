@@ -5,6 +5,12 @@
 [![Build Status][ico-travis]][link-travis]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
+## Overview
+
+The plugin allows configuring various MailChimp lists, exporting emails via admin panel & CLI and signing to the newsletter 
+from the shop. It extends [BitBag/SyliusMailChimpPlugin](https://github.com/BitBagCommerce/SyliusMailChimpPlugin) and is
+developed with the contribution of the BitBag team.  
+
 ## Installation
 
 ### 1. Require plugin with composer:
@@ -42,23 +48,43 @@ $ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
 ```
 
-### 6. Install assets:
-
-```bash
-$ php bin/console assets:install
+### 6. Include the newsletter in your template:
+```twig
+{% include '@SetonoSyliusMailChimpPlugin/Shop/_subscribe.html.twig' %}
 ```
 
-### 7. Clear cache:
+Add these Javascripts to the layout template that includes your subscription form imported in the previous steps
+```html
+<script src="{{ asset(path) }}"></script>
+<script src="{{ asset('bundles/setonosyliusmailchimpplugin/setono-mailchimp-subscribe.js') }}"></script>
+<script>
+    $('#footer-newsletter-form').joinNewsletter();
+</script>
+```
+
+That's the simplest and fastest way to integrate the jQuery plugin. If you need to customize it, simply take a look at
+[setono-mailchimp-subscribe.js](src/Resources/public/setono-mailchimp-subscribe.js), create your own `*.js` plugin and 
+import it in your main `gulpfile.babel.js`.
+
+### 7. Install assets:
+
+```bash
+$ php bin/console assets:install --symlink
+```
+
+### 8. Clear cache:
 
 ```bash
 $ php bin/console cache:clear
 ```
 
-### 8. Activate cron job
+## Usage
+
+You can now configure Mailchimp lists in your admin UI and later on export them from via admin or the following command:
 
 ```bash
 $ php bin/console setono:mailchimp:export
-```
+````
     
 ## Testing
 
