@@ -17,6 +17,10 @@ interface MailchimpConfigInterface extends ResourceInterface
 
     public function setCode(?string $code): void;
 
+    public function getStoreId(): ?string;
+
+    public function setStoreId(string $storeId): void;
+
     public function getLists(): Collection;
 
     public function setLists($lists): void;

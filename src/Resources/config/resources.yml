@@ -2,3 +2,4 @@ imports:
     - { resource: resources/mailchimp_config.yml }
     - { resource: resources/mailchimp_list.yml }
     - { resource: resources/mailchimp_export.yml }
+    - { resource: state_machine.yml }

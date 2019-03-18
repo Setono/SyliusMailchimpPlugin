@@ -6,3 +6,7 @@ winzou_state_machine:
                     on: ["complete"]
                     do: ["@setono_sylius_mailchimp.exporter.customer_newsletter", "exportSingleCustomerForOrder"]
                     args: ["object"]
+                setono_mailchimp_export_order:
+                    on: ["complete"]
+                    do: ["@setono_sylius_mailchimp.exporter.customer_order", "exportOrder"]
+                    args: ["object"]
