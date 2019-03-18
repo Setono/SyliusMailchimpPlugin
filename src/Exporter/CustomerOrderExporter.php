@@ -3,11 +3,10 @@
 
 namespace Setono\SyliusMailchimpPlugin\Exporter;
 
-
 use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class CustomerOrderExporter implements CustomerOrderExporterInterface
+final class CustomerOrderExporter implements CustomerOrderExporterInterface
 {
     /** @var MailchimpApiClientInterface */
     private $mailChimpApiClient;
@@ -21,5 +20,4 @@ class CustomerOrderExporter implements CustomerOrderExporterInterface
     {
         $this->mailChimpApiClient->exportOrder($order);
     }
-
 }
