@@ -62,7 +62,7 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
     public function exportOrder(OrderInterface $order): void
     {
         /** @var CustomerInterface $customer */
-        $customer = $order->getUser();
+        $customer = $order->getCustomer();
 
         try {
             $this->request()->post(sprintf('/ecommerce/stores/%s/orders',
