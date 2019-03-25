@@ -12,7 +12,7 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Webmozart\Assert\Assert;
 
-class OrderListener
+final class OrderListener
 {
     /** @var OrderRepositoryInterface */
     private $orderRepository;
