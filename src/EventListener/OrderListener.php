@@ -9,7 +9,6 @@ use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Webmozart\Assert\Assert;
 
