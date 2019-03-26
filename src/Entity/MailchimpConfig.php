@@ -17,6 +17,9 @@ class MailchimpConfig implements MailchimpConfigInterface
     /** @var string|null */
     protected $code;
 
+    /** @var string|null */
+    protected $storeId;
+
     /** @var string */
     protected $apiKey;
 
@@ -44,6 +47,16 @@ class MailchimpConfig implements MailchimpConfigInterface
     public function setCode(?string $code): void
     {
         $this->code = $code;
+    }
+
+    public function getStoreId(): ?string
+    {
+        return $this->storeId;
+    }
+
+    public function setStoreId(?string $storeId): void
+    {
+        $this->storeId = $storeId;
     }
 
     public function getApiKey(): ?string

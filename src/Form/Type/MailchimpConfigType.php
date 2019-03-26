@@ -23,6 +23,9 @@ final class MailchimpConfigType extends AbstractResourceType
                 'label' => 'setono_sylius_mailchimp.ui.code',
                 'disabled' => null !== $config->getCode(),
             ])
+            ->add('storeId', TextType::class, [
+                'label' => 'setono_sylius_mailchimp.ui.store_id',
+            ])
             ->add('apiKey', TextType::class, [
                 'label' => 'setono_sylius_mailchimp.ui.api_key',
             ])
