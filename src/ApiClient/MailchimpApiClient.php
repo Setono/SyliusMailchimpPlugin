@@ -9,6 +9,7 @@ use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Exception\MailchimpApiException;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Webmozart\Assert\Assert;
 
 final class MailchimpApiClient implements MailchimpApiClientInterface
 {
@@ -131,6 +132,8 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
     private function getExportData(OrderInterface $order, CustomerInterface $customer): array
     {
         $shippingAddress = $order->getShippingAddress();
+
+        Assert::notNull($shippingAddress);
 
         $exportData = [
             'id' => (string) $order->getId(),
