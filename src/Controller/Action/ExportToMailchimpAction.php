@@ -66,20 +66,20 @@ final class ExportToMailchimpAction
         $export = $this->customerNewsletterExporter->exportNotExportedCustomers();
 
         if (null === $export) {
+            $this->flashBag->add('info', $this->translator->trans('setono_sylius_mailchimp.ui.nothing_to_export'));
             if ($request->isXmlHttpRequest()) {
                 return new JsonResponse(['message' => 'Nothing to export.'], Response::HTTP_OK);
             }
-            $this->flashBag->add('info', $this->translator->trans('setono_sylius_mailchimp.ui.nothing_to_export'));
         } elseif (MailchimpExportInterface::COMPLETED_STATE === $export->getState()) {
+            $this->flashBag->add('success', $this->translator->trans('setono_sylius_mailchimp.ui.export_succeeded'));
             if ($request->isXmlHttpRequest()) {
                 return new JsonResponse(['message' => 'Export succeeded.'], Response::HTTP_OK);
             }
-            $this->flashBag->add('success', $this->translator->trans('setono_sylius_mailchimp.ui.export_succeeded'));
         } else {
+            $this->flashBag->add('error', $this->translator->trans('setono_sylius_mailchimp.ui.export_failed'));
             if ($request->isXmlHttpRequest()) {
                 return new JsonResponse(['message' => 'Export failed.'], Response::HTTP_EXPECTATION_FAILED);
             }
-            $this->flashBag->add('error', $this->translator->trans('setono_sylius_mailchimp.ui.export_failed'));
         }
 
         return new RedirectResponse(
