@@ -22,8 +22,9 @@ $ composer require setono/sylius-mailchimp-plugin
 ### 2. Import configuration:
 
 ```yaml
+# config/packages/_sylius.yaml
 imports:
-    - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/config.yml" }
+    - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/app/config.yaml" }
 ```
 
 ### 3. Import routing:

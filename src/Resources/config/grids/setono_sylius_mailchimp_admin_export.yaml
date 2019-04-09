@@ -1,4 +1,7 @@
 sylius_grid:
+    templates:
+        action:
+            mailchimp_export: "@SetonoSyliusMailchimpPlugin/MailchimpExport/Grid/Action/export.html.twig"
     grids:
         setono_sylius_mailchimp_admin_export:
             driver:
