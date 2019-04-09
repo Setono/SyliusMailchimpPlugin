@@ -37,7 +37,10 @@ final class ExportToMailchimpCommand extends Command
         try {
             $this->customerNewsletterExporter->exportNotExportedCustomers();
         } catch (\Exception $exception) {
-            $output->write(sprintf('<error>%s</error>', $exception->getMessage()));
+            $output->writeln(sprintf(
+                '<error>%s</error>',
+                $exception->getMessage()
+            ));
         }
     }
 }

@@ -57,9 +57,9 @@ final class ExportToMailchimpAction
 
             if ($request->isXmlHttpRequest()) {
                 return new JsonResponse(['redirect' => $url], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
-            } else {
-                return new RedirectResponse($url);
             }
+
+            return new RedirectResponse($url);
         }
 
         // @todo Move to queue

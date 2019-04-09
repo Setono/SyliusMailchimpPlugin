@@ -13,7 +13,7 @@ setono_sylius_mailchimp:
             unique: There is an existing configuration with this code.
             not_blank: Code cannot be blank.
             min_length: Code must be at least {{ limit }} characters long.
-        listId:
+        list_id:
             unique: There is an existing list with this ID.
             not_blank: List ID cannot be blank.
             min_length: List ID must be at least {{ limit }} characters long.
