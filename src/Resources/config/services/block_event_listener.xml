@@ -5,11 +5,11 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="setono_sylius_mailchimp.block_event_listener.admin.layout.javascripts"
+        <service id="setono_sylius_mailchimp.block_event_listener.admin.export.index.javascripts"
                  class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
-            <argument>@SetonoSyliusMailchimpPlugin/Admin/_javascripts.html.twig</argument>
+            <argument>@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/_javascripts.html.twig</argument>
 
-            <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.layout.javascripts" method="onBlockEvent" />
+            <tag name="kernel.event_listener" event="sonata.block.event.setono_sylius_mailchimp.admin.export.index.javascripts" method="onBlockEvent" />
         </service>
 
         <service id="setono_sylius_mailchimp.block_event_listener.shop.layout.javascripts"

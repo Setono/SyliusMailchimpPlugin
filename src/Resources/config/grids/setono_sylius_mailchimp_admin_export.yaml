@@ -1,7 +1,7 @@
 sylius_grid:
     templates:
         action:
-            mailchimp_export: "@SetonoSyliusMailchimpPlugin/MailchimpExport/Grid/Action/export.html.twig"
+            mailchimp_export: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Action/export.html.twig"
     grids:
         setono_sylius_mailchimp_admin_export:
             driver:
@@ -16,7 +16,7 @@ sylius_grid:
                     type: twig
                     label: setono_sylius_mailchimp.ui.state
                     options:
-                        template: "@SetonoSyliusMailchimpPlugin/MailchimpExport/Grid/Field/state.html.twig"
+                        template: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Field/state.html.twig"
                 createdAt:
                     type: datetime
                     label: setono_sylius_mailchimp.ui.exported_at
