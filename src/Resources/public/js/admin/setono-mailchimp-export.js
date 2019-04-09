@@ -9,7 +9,7 @@
                 event.preventDefault();
                 element.addClass('disabled');
 
-                let href = $(element).attr('href');
+                let href = $(element).closest('form').attr('action');
 
                 $.ajax({
                     method: 'POST',
