@@ -27,6 +27,6 @@ sylius_grid:
                     sortable: ~
             actions:
                 main:
-                    mailChimpExport:
+                    create:
                         type: mailchimp_export
                         label: setono_sylius_mailchimp.ui.export
