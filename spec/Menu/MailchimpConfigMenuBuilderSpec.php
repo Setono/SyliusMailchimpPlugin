@@ -7,7 +7,7 @@ namespace spec\Setono\SyliusMailchimpPlugin\Menu;
 use Knp\Menu\ItemInterface;
 use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Menu\MailchimpConfigMenuBuilder;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 

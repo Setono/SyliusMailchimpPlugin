@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Context;
 
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 
 interface MailchimpConfigContextInterface
 {

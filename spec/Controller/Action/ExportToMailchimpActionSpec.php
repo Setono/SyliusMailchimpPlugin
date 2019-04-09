@@ -7,7 +7,7 @@ namespace spec\Setono\SyliusMailchimpPlugin\Controller\Action;
 use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Controller\Action\ExportToMailchimpAction;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

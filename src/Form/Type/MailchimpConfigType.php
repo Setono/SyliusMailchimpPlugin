@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Form\Type;
 
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

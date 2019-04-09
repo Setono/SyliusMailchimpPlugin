@@ -3,6 +3,6 @@ sylius_resource:
         setono_sylius_mailchimp.list:
             driver: doctrine/orm
             classes:
-                model: Setono\SyliusMailchimpPlugin\Entity\MailchimpList
-                interface: Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface
+                model: Setono\SyliusMailchimpPlugin\Model\MailchimpList
+                interface: Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface
                 form: Setono\SyliusMailchimpPlugin\Form\Type\MailchimpListType

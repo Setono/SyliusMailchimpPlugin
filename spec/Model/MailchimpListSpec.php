@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace spec\Setono\SyliusMailchimpPlugin\Entity;
+namespace spec\Setono\SyliusMailchimpPlugin\Model;
 
 use PhpSpec\ObjectBehavior;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpList;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpList;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;

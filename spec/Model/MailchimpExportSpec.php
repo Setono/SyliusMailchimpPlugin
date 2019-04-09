@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace spec\Setono\SyliusMailchimpPlugin\Entity;
+namespace spec\Setono\SyliusMailchimpPlugin\Model;
 
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpExport;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpExportInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpExport;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 final class MailchimpExportSpec extends ObjectBehavior

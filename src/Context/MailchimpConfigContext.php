@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Context;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;

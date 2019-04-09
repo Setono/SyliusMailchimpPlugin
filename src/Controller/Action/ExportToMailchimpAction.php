@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpExportInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporterInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;

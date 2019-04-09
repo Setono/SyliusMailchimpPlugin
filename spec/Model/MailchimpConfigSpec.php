@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace spec\Setono\SyliusMailchimpPlugin\Entity;
+namespace spec\Setono\SyliusMailchimpPlugin\Model;
 
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfig;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfig;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 final class MailchimpConfigSpec extends ObjectBehavior

@@ -7,7 +7,7 @@ namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Shop;
 use Behat\Behat\Context\Context;
 use Doctrine\ORM\EntityManagerInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Sylius\Behat\Element\Shop\Account\RegisterElementInterface;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\Shop\Account\LoginPageInterface;

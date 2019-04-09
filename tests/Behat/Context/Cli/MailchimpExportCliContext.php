@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Cli;
 
 use Behat\Behat\Context\Context;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Service\NotificationCheckerInterface;

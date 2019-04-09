@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Repository;
 
 use Doctrine\ORM\QueryBuilder;
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpExportInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\CustomerInterface;
 

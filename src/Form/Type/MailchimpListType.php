@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Form\Type;
 
-use Setono\SyliusMailchimpPlugin\Entity\MailchimpList;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpList;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\LocaleBundle\Form\Type\LocaleChoiceType;
 use Symfony\Component\Form\AbstractType;

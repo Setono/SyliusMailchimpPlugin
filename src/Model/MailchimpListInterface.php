@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailchimpPlugin\Entity;
+namespace Setono\SyliusMailchimpPlugin\Model;
 
 use Sylius\Component\Channel\Model\ChannelsAwareInterface;
 use Sylius\Component\Locale\Model\LocalesAwareInterface;
