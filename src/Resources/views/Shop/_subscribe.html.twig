@@ -1,11 +1,9 @@
-<form action="{{ path('setono_sylius_mailchimp_shop_subscribe') }}" method="POST" class="ui form" id="footer-newsletter-form">
-    <div class="success-element"></div>
-    <div class="validation-element"></div>
-    <div class="inline field">
-        <input type="text" id="setono-newsletter-email" name="email" placeholder="{{ 'setono_sylius_mailchimp.ui.your_email_address'|trans }}"/>
-        <input type="hidden" id="newsletter-token" name="_token" value="{{ csrf_token('setono_newsletter_subscribe') }}">
-        <button title="{{ 'setono_sylius_mailchimp.ui.subscribe' }}" type="submit" class="ui button">
-            {{ 'setono_sylius_mailchimp.ui.subscribe'|trans }}
-        </button>
     </div>
-</form>
+</div>
+
+<div class="ui container">
+    <div class="ui inverted divided equal height stackable grid">
+        <div class="twelve wide column">
+            <h4 class="ui inverted header">{{ 'setono_sylius_mailchimp.ui.newsletter'|trans }}</h4>
+            {% include '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/_form.html.twig' %}
+        </div>

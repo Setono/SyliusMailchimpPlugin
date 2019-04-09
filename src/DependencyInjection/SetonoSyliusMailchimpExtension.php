@@ -23,6 +23,10 @@ final class SetonoSyliusMailchimpExtension extends AbstractResourceExtension
 
         $this->registerResources('setono_sylius_mailchimp', $config['driver'], $config['resources'], $container);
 
+        if ($config['subscribe']) {
+            $loader->load('services/conditional/subscribe.xml');
+        }
+
         $loader->load('services.xml');
     }
 }

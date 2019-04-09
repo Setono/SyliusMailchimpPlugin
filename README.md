@@ -54,24 +54,37 @@ $ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
 ```
 
-### 6. Include the newsletter in your template:
+### 6. Configure subscription form:
 
-```twig
-{% include '@SetonoSyliusMailChimpPlugin/Shop/_subscribe.html.twig' %}
-```
+- By default, subscription form will be added to footer via block events.
 
-Add these Javascripts to the layout template that includes your subscription form imported in the previous steps
-```html
-<script src="{{ asset(path) }}"></script>
-<script src="{{ asset('bundles/setonosyliusmailchimpplugin/setono-mailchimp-subscribe.js') }}"></script>
-<script>
-    $('#footer-newsletter-form').joinNewsletter();
-</script>
-```
+- If you want to disable subscription form, configure plugin like this: 
 
-That's the simplest and fastest way to integrate the jQuery plugin. If you need to customize it, simply take a look at
-[setono-mailchimp-subscribe.js](src/Resources/public/setono-mailchimp-subscribe.js), create your own `*.js` plugin and 
-import it in your main `gulpfile.babel.js`.
+    ```yaml
+    # config/packages/setono_sylius_mailchimp.yaml
+    setono_sylius_mailchimp:
+        subscribe: false
+    ```
+ 
+- If you want to add subscription form to custom place:
+
+  - Configure plugin like this to disable automatic form inclusion to footer:
+   
+    ```yaml
+    # config/packages/setono_sylius_mailchimp.yaml
+    setono_sylius_mailchimp:
+        subscribe: false
+    ```
+
+  - Include the subscribe form in your template to place you need:
+
+    ```twig
+    {# templates/bundles/SyliusShopBundle/_footer.html.twig #}
+
+    {% include '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/_form.html.twig' %}
+    ```
+    
+    See example at `tests/Application/templates/bundles/SyliusShopBundle/_footer.html.twig`.
 
 ### 7. Install assets:
 
