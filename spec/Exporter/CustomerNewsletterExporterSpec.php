@@ -98,6 +98,7 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
         $mailChimpList->getListId()->willReturn('test');
         $mailChimpConfig->getListForChannelAndLocale($channel, $locale)->willReturn($mailChimpList);
         $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
+        $mailChimpConfigContext->isFullySetUp()->willReturn(true);
         $order->getChannel()->willReturn($channel);
         $order->getLocaleCode()->willReturn('en_US');
         $localeRepository->findOneBy(['code' => 'en_US'])->willReturn($locale);
