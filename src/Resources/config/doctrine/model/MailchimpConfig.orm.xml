@@ -10,10 +10,10 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="code" type="string" nullable="true" unique="true"/>
-        <field name="storeId" type="string" nullable="true"/>
-        <field name="apiKey" column="api_key" type="string" nullable="true"/>
-        <field name="exportAll" column="export_all" type="boolean" nullable="false"/>
+        <field name="code" unique="true" />
+        <field name="storeId" column="store_id" nullable="true" />
+        <field name="apiKey" column="api_key" nullable="true" />
+        <field name="exportAll" column="export_all" type="boolean" />
 
         <one-to-many field="lists"
                      target-entity="Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface"

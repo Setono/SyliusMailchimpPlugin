@@ -10,7 +10,7 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="listId" type="string" nullable="true" column="list_id" unique="true"/>
+        <field name="listId" column="list_id" nullable="true" unique="true" />
         <field name="emails" type="json_array" nullable="true" />
 
         <many-to-one field="config"
