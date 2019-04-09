@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Exporter;
 
 use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\Exception\NotSetUpException;
 use Sylius\Component\Core\Model\OrderInterface;
 
 final class CustomerOrderExporter implements CustomerOrderExporterInterface
@@ -19,6 +20,9 @@ final class CustomerOrderExporter implements CustomerOrderExporterInterface
 
     public function exportOrder(OrderInterface $order): void
     {
-        $this->mailChimpApiClient->exportOrder($order);
+        try {
+            $this->mailChimpApiClient->exportOrder($order);
+        } catch (NotSetUpException $e) {
+        }
     }
 }

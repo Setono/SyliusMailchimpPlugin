@@ -80,15 +80,15 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
 
     public function exportNotExportedCustomers(): ?MailchimpExportInterface
     {
+        if (false === $this->mailChimpConfigContext->isFullySetUp()) {
+            throw new NotSetUpException();
+        }
+
         $config = $this->mailChimpConfigContext->getConfig();
         $customers = $config->getExportAll() ? $this->customerRepository->findAll() : $this->customerRepository->findNonExportedCustomers();
 
         if (0 === count($customers)) {
             return null;
-        }
-
-        if (false === $this->mailChimpConfigContext->isFullySetUp()) {
-            throw new NotSetUpException();
         }
 
         /** @var MailchimpExportInterface $export */
@@ -127,6 +127,10 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
 
     public function exportSingleCustomerForOrder(OrderInterface $order): void
     {
+        if (false === $this->mailChimpConfigContext->isFullySetUp()) {
+            return;
+        }
+
         $config = $this->mailChimpConfigContext->getConfig();
         /** @var CustomerInterface $customer */
         $customer = $order->getCustomer();

@@ -7,6 +7,7 @@ namespace Setono\SyliusMailchimpPlugin\ApiClient;
 use DrewM\MailChimp\MailChimp;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Exception\MailchimpApiException;
+use Setono\SyliusMailchimpPlugin\Exception\NotSetUpException;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Webmozart\Assert\Assert;
@@ -62,6 +63,10 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
 
     public function exportOrder(OrderInterface $order): void
     {
+        if (false === $this->mailchimpConfigContext->isFullySetUp()) {
+            throw new NotSetUpException();
+        }
+
         /** @var CustomerInterface $customer */
         $customer = $order->getCustomer();
 
