@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="setono_sylius_mailchimp.api_client.mailchimp"
+                 class="Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClient">
+            <argument type="service" id="setono_sylius_mailchimp.context.config"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.repository.customer"
+                 class="Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepository">
+            <argument type="service" id="sylius.repository.customer"/>
+            <argument type="service" id="setono_sylius_mailchimp.repository.export"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.exporter.customer_newsletter"
+                 class="Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporter"
+                 public="true">
+            <argument type="service" id="setono_sylius_mailchimp.factory.export"/>
+            <argument type="service" id="setono_sylius_mailchimp.repository.export"/>
+            <argument type="service" id="setono_sylius_mailchimp.repository.customer"/>
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="setono_sylius_mailchimp.context.locale"/>
+            <argument type="service" id="sylius.repository.locale"/>
+            <argument type="service" id="setono_sylius_mailchimp.context.config"/>
+            <argument type="service" id="setono_sylius_mailchimp.api_client.mailchimp"/>
+            <argument type="service" id="setono_sylius_mailchimp.manager.export"/>
+            <argument type="service" id="setono_sylius_mailchimp.manager.list"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.exporter.customer_order"
+                 class="Setono\SyliusMailchimpPlugin\Exporter\CustomerOrderExporter"
+                 public="true">
+            <argument type="service" id="setono_sylius_mailchimp.api_client.mailchimp"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.handler.newsletter_subscription"
+                 class="Setono\SyliusMailchimpPlugin\Handler\NewsletterSubscriptionHandler">
+            <argument type="service" id="sylius.repository.customer"/>
+            <argument type="service" id="sylius.factory.customer"/>
+            <argument type="service" id="sylius.manager.customer"/>
+            <argument type="service" id="setono_sylius_mailchimp.api_client.mailchimp"/>
+            <argument type="service" id="setono_sylius_mailchimp.context.config"/>
+            <argument type="service" id="setono_sylius_mailchimp.context.locale"/>
+            <argument type="service" id="sylius.context.channel"/>
+        </service>
+    </services>
+
+</container>
