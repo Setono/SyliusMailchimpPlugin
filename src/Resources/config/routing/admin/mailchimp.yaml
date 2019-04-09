@@ -1,0 +1,5 @@
+setono_sylius_mailchimp_admin_mailchimp_config:
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp/config.yaml"
+
+setono_sylius_mailchimp_admin_mailchimp_export:
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp/export.yaml"

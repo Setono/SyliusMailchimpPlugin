@@ -4,5 +4,5 @@ services:
         parent: sylius.behat.page.admin.crud.index
         public: false
         arguments:
-            - 'setono_sylius_mailchimp_admin_export_index'
+            - 'setono_sylius_mailchimp_admin_mailchimp_export_index'
 

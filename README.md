@@ -30,8 +30,9 @@ imports:
 ### 3. Import routing:
    
 ```yaml
+# config/routes/setono_sylius_mailchimp.yaml
 setono_sylius_mailchimp:
-    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yml"
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routes.yaml"
 ```
 
 ### 4. Add plugin class to your `bundles.php`:

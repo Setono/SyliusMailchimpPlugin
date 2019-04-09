@@ -1,4 +1,4 @@
-setono_sylius_mailchimp_admin_config:
+setono_sylius_mailchimp_admin_mailchimp_config:
     resource: |
         section: admin
         alias: setono_sylius_mailchimp.config

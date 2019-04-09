@@ -83,7 +83,7 @@ final class ExportToMailchimpAction
         }
 
         return new RedirectResponse(
-            $this->urlGenerator->generate('setono_sylius_mailchimp_admin_export_index')
+            $this->urlGenerator->generate('setono_sylius_mailchimp_admin_mailchimp_export_index')
         );
     }
 }
