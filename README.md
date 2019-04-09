@@ -49,6 +49,7 @@ $ php bin/console doctrine:migrations:migrate
 ```
 
 ### 6. Include the newsletter in your template:
+
 ```twig
 {% include '@SetonoSyliusMailChimpPlugin/Shop/_subscribe.html.twig' %}
 ```
@@ -85,25 +86,14 @@ You can now configure Mailchimp lists in your admin UI and later on export them 
 ```bash
 $ php bin/console setono:mailchimp:export
 ````
-    
+
 ## Testing
 
-```bash
-$ composer install
-$ cd tests/Application
-$ yarn install
-$ yarn run gulp
-$ bin/console assets:install -e test
-$ bin/console doctrine:database:create -e test
-$ bin/console doctrine:schema:create -e test
-$ bin/console server:run 127.0.0.1:8080 -e test
-$ bin/behat
-$ bin/phpspec run
-```
+Run `composer tests` to run all tests.
 
 ## Contribution
 
-Learn more about our contribution workflow on http://docs.sylius.org/en/latest/contributing/.
+Run `composer all` before pusing changes to run all checks and tests.
 
 [ico-version]: https://img.shields.io/packagist/v/setono/sylius-mailchimp-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
