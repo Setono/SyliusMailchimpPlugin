@@ -11,9 +11,9 @@ interface MailchimpConfigContextInterface
     public const DEFAULT_CODE = 'default';
 
     /**
-     * @return MailchimpConfigInterface
+     * @return MailchimpConfigInterface|null
      */
-    public function getConfig(): MailchimpConfigInterface;
+    public function getConfig(): ?MailchimpConfigInterface;
 
     /**
      * @return bool

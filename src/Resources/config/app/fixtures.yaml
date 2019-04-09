@@ -1,0 +1,19 @@
+sylius_fixtures:
+    suites:
+        default:
+            fixtures:
+                setono_sylius_mailchimp_config:
+                    options:
+                        custom:
+                            mailchimp_config_default:
+                                code: default
+                                store_id: default
+                                api_key: API_KEY
+                                export_all: true
+                                lists:
+                                    -
+                                        list_id: LIST_ID
+                                        channels:
+                                            - "US_WEB"
+                                        locales:
+                                            - "%locale%"
