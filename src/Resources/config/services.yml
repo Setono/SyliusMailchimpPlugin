@@ -61,16 +61,6 @@ services:
         arguments:
             - "@setono_sylius_mailchimp.api_client.mailchimp"
 
-    setono_sylius_mailchimp.controller.action.export_to_mailchimp:
-        class: Setono\SyliusMailchimpPlugin\Controller\Action\ExportToMailchimpAction
-        public: true
-        arguments:
-            - "@setono_sylius_mailchimp.exporter.customer_newsletter"
-            - "@setono_sylius_mailchimp.context.config"
-            - "@session.flash_bag"
-            - "@translator"
-            - "@router"
-
     setono_sylius_mailchimp.command.export_to_mailchimp:
         class: Setono\SyliusMailchimpPlugin\Command\ExportToMailchimpCommand
         arguments:
