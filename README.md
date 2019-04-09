@@ -37,9 +37,13 @@ setono_sylius_mailchimp:
 
 ```php
 $bundles = [
-    new Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin(),
+    Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin::class => ['all' => true],
+    Sylius\Bundle\GridBundle\SyliusGridBundle::class => ['all' => true],
 ];
 ```
+
+Make sure you've added it **before** `SyliusGridBundle`. Otherwise you'll get exception like
+`You have requested a non-existent parameter "setono_sylius_mailchimp.model.export.class"`.
 
 ### 5. Update your database:
 

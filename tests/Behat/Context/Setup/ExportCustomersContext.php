@@ -7,7 +7,7 @@ namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Setup;
 use Behat\Behat\Context\Context;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
-use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;

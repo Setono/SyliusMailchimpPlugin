@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
-use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Tests\Setono\SyliusMailchimpPlugin\Behat\Service\RandomStringGeneratorInterface;

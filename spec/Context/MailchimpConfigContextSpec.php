@@ -10,7 +10,7 @@ use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContext;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
-use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepository;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpConfigRepository;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;

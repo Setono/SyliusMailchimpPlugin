@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporterInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

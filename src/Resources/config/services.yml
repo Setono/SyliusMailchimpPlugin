@@ -35,7 +35,7 @@ services:
             - { name: "kernel.event_listener", event: "kernel.terminate", method: manageOrderSubscription }
 
     setono_sylius_mailchimp.repository.customer:
-        class: Setono\SyliusMailchimpPlugin\Repository\CustomerRepository
+        class: Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepository
         arguments:
             - "@sylius.repository.customer"
             - "@setono_sylius_mailchimp.repository.export"

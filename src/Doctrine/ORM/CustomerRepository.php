@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailchimpPlugin\Repository;
+namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface as SyliusCustomerRepositoryInterface;
