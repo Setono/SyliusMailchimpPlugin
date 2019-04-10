@@ -1,7 +1,7 @@
 sylius_grid:
     templates:
         action:
-            mailchimp_export: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Action/export.html.twig"
+            setono_mailchimp_export: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Action/export.html.twig"
     grids:
         setono_sylius_mailchimp_admin_export:
             driver:
@@ -30,6 +30,6 @@ sylius_grid:
                     sortable: ~
             actions:
                 main:
-                    create:
-                        type: mailchimp_export
+                    export:
+                        type: setono_mailchimp_export
                         label: setono_sylius_mailchimp.ui.export
