@@ -27,8 +27,7 @@ final class MailchimpConfigMenuBuilder
 
         $configurationMenu
             ->addChild('mailchimp', [
-                'route' => 'setono_sylius_mailchimp_admin_config_update',
-                'routeParameters' => ['id' => $this->mailchimpConfigContext->getConfig()->getId()],
+                'route' => 'setono_sylius_mailchimp_admin_config_index',
             ])
             ->setLabel('setono_sylius_mailchimp.ui.config_menu')
             ->setLabelAttribute('icon', 'envelope open outline')

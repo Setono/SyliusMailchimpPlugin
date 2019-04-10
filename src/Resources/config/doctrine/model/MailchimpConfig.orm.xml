@@ -11,8 +11,8 @@
         </id>
 
         <field name="code" unique="true" />
-        <field name="storeId" column="store_id" nullable="true" />
-        <field name="apiKey" column="api_key" nullable="true" />
+        <field name="storeId" column="store_id" />
+        <field name="apiKey" column="api_key" />
         <field name="exportAll" column="export_all" type="boolean" />
 
         <one-to-many field="lists"

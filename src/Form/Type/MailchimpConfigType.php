@@ -30,7 +30,7 @@ final class MailchimpConfigType extends AbstractResourceType
                 'label' => 'setono_sylius_mailchimp.ui.api_key',
             ])
             ->add('exportAll', CheckboxType::class, [
-                'label' => 'setono_sylius_mailchimp.ui.export_all_emails',
+                'label' => 'setono_sylius_mailchimp.ui.export_all',
             ])
             ->add('lists', CollectionType::class, [
                 'label' => 'setono_sylius_mailchimp.ui.config',

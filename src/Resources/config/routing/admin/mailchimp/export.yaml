@@ -1,5 +1,5 @@
-setono_sylius_mailchimp_admin_mailchimp_export_index:
-    path: /exports
+setono_sylius_mailchimp_admin_export_index:
+    path: /exports/
     methods: [GET]
     defaults:
         _controller: setono_sylius_mailchimp.controller.export:indexAction
@@ -13,7 +13,7 @@ setono_sylius_mailchimp_admin_mailchimp_export_index:
                 header: setono_sylius_mailchimp.ui.export_header
                 subheader: setono_sylius_mailchimp.ui.export_subheader
 
-setono_sylius_mailchimp_admin_mailchimp_export_create:
+setono_sylius_mailchimp_admin_export_create:
     path: /exports/new
     methods: [POST]
     defaults:

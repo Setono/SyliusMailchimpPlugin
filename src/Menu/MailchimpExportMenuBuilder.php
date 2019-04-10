@@ -17,7 +17,9 @@ final class MailchimpExportMenuBuilder
         }
 
         $marketingMenu
-            ->addChild('mailchimp', ['route' => 'setono_sylius_mailchimp_admin_mailchimp_export_index'])
+            ->addChild('mailchimp', [
+                'route' => 'setono_sylius_mailchimp_admin_export_index'
+            ])
             ->setLabel('setono_sylius_mailchimp.ui.export_menu')
             ->setLabelAttribute('icon', 'arrow up')
         ;

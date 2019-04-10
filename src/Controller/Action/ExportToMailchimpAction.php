@@ -6,6 +6,7 @@ namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporterInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -51,9 +52,14 @@ final class ExportToMailchimpAction
         if (false === $this->mailchimpConfigContext->isFullySetUp()) {
             $this->flashBag->add('error', $this->translator->trans('setono_sylius_mailchimp.ui.configure_first'));
 
-            $url = $this->urlGenerator->generate('setono_sylius_mailchimp_admin_config_update', [
-                'id' => $this->mailchimpConfigContext->getConfig()->getId(),
-            ]);
+            $mailchimpConfig = $this->mailchimpConfigContext->getConfig();
+            if ($mailchimpConfig instanceof MailchimpConfigInterface) {
+                $url = $this->urlGenerator->generate('setono_sylius_mailchimp_admin_config_update', [
+                    'id' => $mailchimpConfig->getId(),
+                ]);
+            } else {
+                $url = $this->urlGenerator->generate('setono_sylius_mailchimp_admin_config_create');
+            }
 
             return new RedirectResponse($url);
         }
@@ -70,7 +76,7 @@ final class ExportToMailchimpAction
         }
 
         return new RedirectResponse(
-            $this->urlGenerator->generate('setono_sylius_mailchimp_admin_mailchimp_export_index')
+            $this->urlGenerator->generate('setono_sylius_mailchimp_admin_export_index')
         );
     }
 }

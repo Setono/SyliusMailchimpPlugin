@@ -25,7 +25,7 @@ final class MailchimpExportMenuBuilderSpec extends ObjectBehavior
         $menuBuilderEvent->getMenu()->willReturn($globalMenu);
         $globalMenu->getChild('marketing')->willReturn($subMenu);
         $subMenu
-            ->addChild('mailchimp', ['route' => 'setono_sylius_mailchimp_admin_mailchimp_export_index'])
+            ->addChild('mailchimp', ['route' => 'setono_sylius_mailchimp_admin_export_index'])
             ->willReturn($mailChimpMenuItem)
         ;
         $mailChimpMenuItem

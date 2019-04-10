@@ -1,2 +1,3 @@
 imports:
+    - { resource: ../grids/setono_sylius_mailchimp_admin_config.yaml }
     - { resource: ../grids/setono_sylius_mailchimp_admin_export.yaml }

@@ -7,7 +7,6 @@ namespace Setono\SyliusMailchimpPlugin\Context;
 use Doctrine\ORM\EntityManagerInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpConfigRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
@@ -54,27 +53,18 @@ final class MailchimpConfigContext implements MailchimpConfigContextInterface
         $this->configEntityManager = $configEntityManager;
     }
 
-    public function getConfig(): MailchimpConfigInterface
+    public function getConfig(): ?MailchimpConfigInterface
     {
-        $config = $this->mailChimpConfigRepository->findConfig();
-
-        if (null === $config) {
-            /** @var MailchimpConfigInterface $config */
-            $config = $this->mailChimpConfigFactory->createNew();
-
-            $config->setCode(self::DEFAULT_CODE);
-
-            $this->mailChimpConfigRepository->add($config);
-        }
-
-        $this->resolveDefaultLists($config);
-
-        return $config;
+        return $this->mailChimpConfigRepository->findOneActive();
     }
 
     public function isFullySetUp(): bool
     {
         $config = $this->getConfig();
+
+        if (!$config instanceof MailchimpConfigInterface) {
+            return false;
+        }
 
         if (null === $config->getApiKey()) {
             return false;
@@ -85,26 +75,5 @@ final class MailchimpConfigContext implements MailchimpConfigContextInterface
         $locale = $this->localeContext->getLocale();
 
         return !(null === $config->getListForChannelAndLocale($channel, $locale));
-    }
-
-    private function resolveDefaultLists(MailchimpConfigInterface $config): void
-    {
-        /** @var ChannelInterface $channel */
-        $channel = $this->channelContext->getChannel();
-        $locale = $this->localeContext->getLocale();
-
-        if (null === $config->getListForChannelAndLocale($channel, $locale)) {
-            /** @var MailchimpListInterface $list */
-            $list = $this->mailChimpListFactory->createNew();
-
-            $list->setConfig($config);
-            $list->addChannel($channel);
-            $list->addLocale($locale);
-            $list->setListId(uniqid($config->getCode(), true));
-            $config->addList($list);
-
-            $this->mailChimpListRepository->add($list);
-            $this->configEntityManager->flush();
-        }
     }
 }

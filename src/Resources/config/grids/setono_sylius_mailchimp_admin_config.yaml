@@ -1,0 +1,32 @@
+sylius_grid:
+    grids:
+        setono_sylius_mailchimp_admin_config:
+            driver:
+                options:
+                    class: "%setono_sylius_mailchimp.model.config.class%"
+                    repository:
+                        method: createListQueryBuilder
+            sorting:
+                code: desc
+            fields:
+                code:
+                    type: string
+                    label: sylius.ui.code
+                    sortable: ~
+                storeId:
+                    type: string
+                    label: setono_sylius_mailchimp.ui.store_id
+                exportAll:
+                    type: twig
+                    label: setono_sylius_mailchimp.ui.export_all
+                    options:
+                        template: "@SyliusUi/Grid/Field/yesNo.html.twig"
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete

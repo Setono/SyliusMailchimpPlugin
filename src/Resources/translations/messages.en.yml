@@ -5,6 +5,7 @@ setono_sylius_mailchimp:
         configs: Mailchimp configuration
         store_id: Mailchimp store ID
         api_key: Mailchimp API Key
+        export_all: Export all emails
         code: Code
         config: Configure list(s)
         config_header: Mailchimp configuration
@@ -25,7 +26,6 @@ setono_sylius_mailchimp:
         in_progress: In progress
         completed: Completed
         failed: Failed
-        export_all_emails: Export all emails
         export_succeeded: Export succeded
         export_failed: Export failed
         nothing_to_export: Nothing to export
