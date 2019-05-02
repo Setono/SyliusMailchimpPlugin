@@ -11,6 +11,10 @@
             <generator strategy="AUTO"/>
         </id>
 
+        <many-to-one field="list"
+                     target-entity="Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface"
+                     inversed-by="exports" />
+
         <field name="state" />
         <field name="errors" type="json_array" nullable="true" />
         <field name="createdAt" column="created_at" type="datetime">
@@ -19,8 +23,12 @@
         <field name="updatedAt" column="updated_at" type="datetime" nullable="true">
             <gedmo:timestampable on="update"/>
         </field>
+        <field name="finishedAt" column="finished_at" type="datetime" nullable="true" />
 
-        <many-to-many field="customers" target-entity="Sylius\Component\Customer\Model\CustomerInterface">
+        <many-to-many field="customers"
+                      target-entity="Sylius\Component\Customer\Model\CustomerInterface"
+                      inversed-by="mailchimpExports"
+                      fetch="EXTRA_LAZY">
             <join-table name="setono_sylius_mailchimp_export__customers">
                 <join-columns>
                     <join-column name="export_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />

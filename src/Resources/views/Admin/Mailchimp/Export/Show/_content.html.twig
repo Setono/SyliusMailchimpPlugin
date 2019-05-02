@@ -1,0 +1,56 @@
+{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
+
+<div class="ui stackable grid">
+    <div class="four wide column">
+
+        {{ sonata_block_render_event(event_prefix ~ '.before_information', {'resource': resource}) }}
+
+        <div class="ui fluid card">
+            <div class="content">
+                <div class="meta">
+                    <span class="date">{{ 'sylius.ui.created_at'|trans }}: {{ export.createdAt|date }}</span>
+                </div>
+                <div class="meta">
+                    <span class="date">{{ 'setono_sylius_mailchimp.ui.updated_at'|trans }}: {{ export.updatedAt|date }}</span>
+                </div>
+                <div class="meta">
+                    <span class="date">{{ 'setono_sylius_mailchimp.ui.finished_at'|trans }}: {{ export.finishedAt|date }}</span>
+                </div>
+            </div>
+
+            <div class="extra content">
+                <div class="meta">
+                    <span class="state">{{ 'setono_sylius_mailchimp.ui.state'|trans }}: {{ export.state }}</span>
+                </div>
+            </div>
+        </div>
+
+        {{ sonata_block_render_event(event_prefix ~ '.after_information', {'resource': resource}) }}
+
+    </div>
+
+    <div class="twelve wide column">
+        {{ sonata_block_render_event(event_prefix ~ '.before_errors', {'resource': resource}) }}
+
+        <div class="ui segment">
+            <h2>{{ 'setono_sylius_mailchimp.ui.errors_header'|trans }}</h2>
+
+            {% if export.hasErrors %}
+            <ul>
+                {% for error in export.errors %}
+                    <li>
+                        {{ error }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>
+                    {{ 'setono_sylius_mailchimp.ui.no_errors'|trans }}
+                </p>
+            {% endif %}
+        </div>
+
+        {{ sonata_block_render_event(event_prefix ~ '.after_errors', {'resource': resource}) }}
+    </div>
+
+</div>

@@ -11,16 +11,5 @@
             <argument type="service" id="sylius.context.locale"/>
         </service>
 
-        <service id="setono_sylius_mailchimp.context.config"
-                 class="Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContext"
-                 public="true">
-            <argument type="service" id="setono_sylius_mailchimp.repository.config"/>
-            <argument type="service" id="setono_sylius_mailchimp.repository.list"/>
-            <argument type="service" id="sylius.context.channel"/>
-            <argument type="service" id="setono_sylius_mailchimp.context.locale"/>
-            <argument type="service" id="setono_sylius_mailchimp.factory.config"/>
-            <argument type="service" id="setono_sylius_mailchimp.factory.list"/>
-            <argument type="service" id="setono_sylius_mailchimp.manager.config"/>
-        </service>
     </services>
 </container>

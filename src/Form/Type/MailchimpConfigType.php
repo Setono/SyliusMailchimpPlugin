@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Form\Type;
 
-use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
+use Sylius\Bundle\ResourceBundle\Form\EventSubscriber\AddCodeFormSubscriber;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,25 +14,15 @@ final class MailchimpConfigType extends AbstractResourceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var MailchimpConfigInterface $config */
-        $config = $builder->getData();
-
         $builder
-            ->add('code', TextType::class, [
+            ->addEventSubscriber(new AddCodeFormSubscriber(null, [
                 'label' => 'setono_sylius_mailchimp.ui.code',
-                'disabled' => null !== $config->getCode(),
-            ])
-            ->add('storeId', TextType::class, [
-                'label' => 'setono_sylius_mailchimp.ui.store_id',
-            ])
+            ]))
             ->add('apiKey', TextType::class, [
                 'label' => 'setono_sylius_mailchimp.ui.api_key',
             ])
-            ->add('exportAll', CheckboxType::class, [
-                'label' => 'setono_sylius_mailchimp.ui.export_all',
-            ])
             ->add('lists', CollectionType::class, [
-                'label' => 'setono_sylius_mailchimp.ui.config',
+                'label' => 'setono_sylius_mailchimp.ui.lists',
                 'entry_type' => MailchimpListType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

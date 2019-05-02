@@ -1,0 +1,16 @@
+setono_sylius_mailchimp_admin_export_customer_index:
+    path: /exports/{mailchimpExportId}/customers/
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.customer:indexAction
+        _sylius:
+            template: SyliusAdminBundle:Crud:index.html.twig
+            grid: setono_sylius_mailchimp_admin_export_customer
+            section: admin
+            permission: true
+            vars:
+                icon: users
+                header: setono_sylius_mailchimp.ui.export_customers_header
+                subheader: setono_sylius_mailchimp.ui.export_customers_subheader
+                templates:
+                    breadcrumb: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Customer/Index/_breadcrumb.html.twig"

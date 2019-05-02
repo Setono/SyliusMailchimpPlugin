@@ -5,41 +5,42 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Model;
 
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
+use Sylius\Component\Resource\Model\CodeAwareInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-interface MailchimpConfigInterface extends ResourceInterface
+interface MailchimpConfigInterface extends ResourceInterface, CodeAwareInterface
 {
     public function getId(): ?int;
 
-    public function getCode(): ?string;
-
-    public function setCode(?string $code): void;
-
-    public function getStoreId(): ?string;
-
-    public function setStoreId(string $storeId): void;
-
-    public function getLists(): Collection;
-
-    public function setLists($lists): void;
-
+    /**
+     * @return string|null
+     */
     public function getApiKey(): ?string;
 
+    /**
+     * @param string $apiKey
+     */
     public function setApiKey(string $apiKey): void;
 
-    public function getExportAll(): bool;
+    /**
+     * @param MailchimpListInterface $mailchimpList
+     *
+     * @return bool
+     */
+    public function hasList(MailchimpListInterface $mailchimpList): bool;
 
-    public function setExportAll(bool $exportAll): void;
+    /**
+     * @return Collection
+     */
+    public function getLists(): Collection;
 
-    public function addList(MailchimpListInterface $mailChimpList): void;
+    /**
+     * @param MailchimpListInterface $mailchimpList
+     */
+    public function addList(MailchimpListInterface $mailchimpList): void;
 
-    public function removeList(MailchimpListInterface $mailChimpList): void;
-
-    public function hasList(MailchimpListInterface $mailChimpList): bool;
-
-    public function getListForChannelAndLocale(ChannelInterface $channel, LocaleInterface $locale): ?MailchimpListInterface;
-
-    public function hasListForChannelAndLocale(ChannelInterface $channel, LocaleInterface $locale): bool;
+    /**
+     * @param MailchimpListInterface $mailchimpList
+     */
+    public function removeList(MailchimpListInterface $mailchimpList): void;
 }

@@ -21,6 +21,19 @@ class MailchimpConfigRepository extends EntityRepository implements MailchimpCon
     /**
      * {@inheritdoc}
      */
+    public function findByPhrase(string $phrase): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.code LIKE :phrase')
+            ->setParameter('phrase', '%' . $phrase . '%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findOneActive(): ?MailchimpConfigInterface
     {
         return $this->createQueryBuilder('o')

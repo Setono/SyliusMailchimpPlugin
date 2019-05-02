@@ -51,16 +51,4 @@ final class MailchimpListSpec extends ObjectBehavior
 
         $this->hasLocale($locale)->shouldReturn(false);
     }
-
-    function it_associates_emails(): void
-    {
-        $this->hasEmail('shop@example.com')->shouldReturn(false);
-
-        $this->addEmail('shop@example.com');
-        $this->hasEmail('shop@example.com')->shouldReturn(true);
-
-        $this->removeEmail('shop@example.com');
-
-        $this->hasEmail('shop@example.com')->shouldReturn(false);
-    }
 }

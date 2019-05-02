@@ -20,19 +20,19 @@ final class MailchimpExportMenuBuilderSpec extends ObjectBehavior
         MenuBuilderEvent $menuBuilderEvent,
         ItemInterface $globalMenu,
         ItemInterface $subMenu,
-        ItemInterface $mailChimpMenuItem
+        ItemInterface $mailchimpMenuItem
     ): void {
         $menuBuilderEvent->getMenu()->willReturn($globalMenu);
         $globalMenu->getChild('marketing')->willReturn($subMenu);
         $subMenu
             ->addChild('mailchimp', ['route' => 'setono_sylius_mailchimp_admin_export_index'])
-            ->willReturn($mailChimpMenuItem)
+            ->willReturn($mailchimpMenuItem)
         ;
-        $mailChimpMenuItem
-            ->setLabel('setono_sylius_mailchimp.ui.export_menu')
-            ->willReturn($mailChimpMenuItem)
+        $mailchimpMenuItem
+            ->setLabel('setono_sylius_mailchimp.ui.menu.export_menu')
+            ->willReturn($mailchimpMenuItem)
         ;
-        $mailChimpMenuItem->setLabelAttribute('icon', 'arrow up')->shouldBeCalled();
+        $mailchimpMenuItem->setLabelAttribute('icon', 'arrow up')->shouldBeCalled();
 
         $this->addMarketingItem($menuBuilderEvent);
     }

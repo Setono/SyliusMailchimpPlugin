@@ -27,6 +27,8 @@ final class SetonoSyliusMailchimpExtension extends AbstractResourceExtension
             $loader->load('services/conditional/subscribe.xml');
         }
 
+        $container->setParameter('setono_sylius_mailchimp.merge_fields', $config['merge_fields']);
+
         $loader->load('services.xml');
     }
 }

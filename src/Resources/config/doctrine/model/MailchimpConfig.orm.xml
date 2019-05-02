@@ -11,13 +11,12 @@
         </id>
 
         <field name="code" unique="true" />
-        <field name="storeId" column="store_id" />
-        <field name="apiKey" column="api_key" />
-        <field name="exportAll" column="export_all" type="boolean" />
+        <field name="apiKey" column="api_key" length="36" />
 
         <one-to-many field="lists"
                      target-entity="Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface"
-                     mapped-by="config" orphan-removal="true">
+                     mapped-by="config"
+                     orphan-removal="true">
             <cascade>
                 <cascade-all/>
             </cascade>

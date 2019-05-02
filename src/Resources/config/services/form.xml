@@ -4,13 +4,31 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="setono_sylius_mailchimp.form.type.config.validation_groups" type="collection">
+            <parameter>setono_sylius_mailchimp</parameter>
+        </parameter>
+        <parameter key="setono_sylius_mailchimp.form.type.list.validation_groups" type="collection">
+            <parameter>setono_sylius_mailchimp</parameter>
+        </parameter>
+        <parameter key="setono_sylius_mailchimp.form.type.customer_newsletter_subscription.validation_groups" type="collection">
+            <parameter>setono_sylius_mailchimp</parameter>
+        </parameter>
+    </parameters>
+
     <services>
         <service id="setono_sylius_mailchimp.form.type.config"
                  class="Setono\SyliusMailchimpPlugin\Form\Type\MailchimpConfigType">
             <argument>%setono_sylius_mailchimp.model.config.class%</argument>
-            <argument type="collection">
-                <argument>setono</argument>
-            </argument>
+            <argument>%setono_sylius_mailchimp.form.type.config.validation_groups%</argument>
+
+            <tag name="form.type"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.form.type.config_autocomplete"
+                 class="Setono\SyliusMailchimpPlugin\Form\Type\MailchimpConfigAutocompleteChoiceType">
+            <argument>%setono_sylius_mailchimp.model.config.class%</argument>
+            <argument>%setono_sylius_mailchimp.form.type.config.validation_groups%</argument>
 
             <tag name="form.type"/>
         </service>
@@ -18,9 +36,7 @@
         <service id="setono_sylius_mailchimp.form.type.list"
                  class="Setono\SyliusMailchimpPlugin\Form\Type\MailchimpListType">
             <argument>%setono_sylius_mailchimp.model.list.class%</argument>
-            <argument type="collection">
-                <argument>setono</argument>
-            </argument>
+            <argument>%setono_sylius_mailchimp.form.type.list.validation_groups%</argument>
 
             <tag name="form.type"/>
         </service>
@@ -28,15 +44,14 @@
         <service id="setono_sylius_mailchimp.form.type.customer_newsletter_subscription"
                  class="Setono\SyliusMailchimpPlugin\Form\Type\CustomerNewsletterSubscriptionType">
             <argument>%sylius.model.customer.class%</argument>
-            <argument type="collection">
-                <argument>setono</argument>
-            </argument>
+            <argument>%setono_sylius_mailchimp.form.type.customer_newsletter_subscription.validation_groups%</argument>
 
             <tag name="form.type"/>
         </service>
 
         <service id="setono_sylius_mailchimp.form.extension.type.checkout.complete"
                  class="Setono\SyliusMailchimpPlugin\Form\Extension\CompleteTypeExtension">
+
             <tag name="form.type_extension"/>
         </service>
     </services>

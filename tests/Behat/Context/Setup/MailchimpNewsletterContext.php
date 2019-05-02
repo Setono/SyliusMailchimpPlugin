@@ -27,7 +27,7 @@ final class MailchimpNewsletterContext implements Context
     private $channelRepository;
 
     /** @var MailchimpConfigRepositoryInterface */
-    private $mailChimpConfigRepository;
+    private $mailchimpConfigRepository;
 
     /** @var UserRepositoryInterface */
     private $userRepository;
@@ -51,12 +51,12 @@ final class MailchimpNewsletterContext implements Context
     private $randomStringGenerator;
 
     /** @var FactoryInterface */
-    private $mailChimpExportFactory;
+    private $mailchimpExportFactory;
 
     public function __construct(
         SharedStorageInterface $sharedStorage,
         ChannelRepositoryInterface $channelRepository,
-        MailchimpConfigRepositoryInterface $mailChimpConfigRepository,
+        MailchimpConfigRepositoryInterface $mailchimpConfigRepository,
         UserRepositoryInterface $userRepository,
         LoginPageInterface $loginPage,
         FactoryInterface $userFactory,
@@ -64,11 +64,11 @@ final class MailchimpNewsletterContext implements Context
         SecurityServiceInterface $securityService,
         FactoryInterface $configFactory,
         RandomStringGeneratorInterface $randomStringGenerator,
-        FactoryInterface $mailChimpExportFactory
+        FactoryInterface $mailchimpExportFactory
     ) {
         $this->sharedStorage = $sharedStorage;
         $this->channelRepository = $channelRepository;
-        $this->mailChimpConfigRepository = $mailChimpConfigRepository;
+        $this->mailchimpConfigRepository = $mailchimpConfigRepository;
         $this->userRepository = $userRepository;
         $this->loginPage = $loginPage;
         $this->userFactory = $userFactory;
@@ -76,7 +76,7 @@ final class MailchimpNewsletterContext implements Context
         $this->securityService = $securityService;
         $this->configFactory = $configFactory;
         $this->randomStringGenerator = $randomStringGenerator;
-        $this->mailChimpExportFactory = $mailChimpExportFactory;
+        $this->mailchimpExportFactory = $mailchimpExportFactory;
     }
 
     /**
@@ -95,7 +95,7 @@ final class MailchimpNewsletterContext implements Context
      */
     public function theStoreAllowsAllEmailsToBeExported(): void
     {
-        $this->mailChimpConfigRepository->findConfig()->setExportAll(true);
+        $this->mailchimpConfigRepository->findConfig()->setExportSubscribedOnly(true);
     }
 
     /**
@@ -115,8 +115,8 @@ final class MailchimpNewsletterContext implements Context
      */
     public function thisEmailIsAlsoSubscribedToTheDefaultMailchimpList(): void
     {
-        /** @var MailchimpExportInterface $mailChimpExport */
-        $mailChimpExport = $this->mailChimpExportFactory->createNew();
+        /** @var MailchimpExportInterface $mailchimpExport */
+        $mailchimpExport = $this->mailchimpExportFactory->createNew();
 
         /** @var ShopUserInterface $user */
         $user = $this->sharedStorage->get('user');
@@ -124,7 +124,7 @@ final class MailchimpNewsletterContext implements Context
         /** @var CustomerInterface $customer */
         $customer = $user->getCustomer();
 
-        $mailChimpExport->addCustomer($customer);
+        $mailchimpExport->addCustomer($customer);
     }
 
     private function createConfig(
@@ -142,7 +142,7 @@ final class MailchimpNewsletterContext implements Context
 
     private function saveConfig(MailchimpConfigInterface $config): void
     {
-        $this->mailChimpConfigRepository->add($config);
+        $this->mailchimpConfigRepository->add($config);
 
         $this->sharedStorage->set('config', $config);
     }

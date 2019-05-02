@@ -5,10 +5,32 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="setono_sylius_mailchimp.command.export_to_mailchimp"
-                 class="Setono\SyliusMailchimpPlugin\Command\ExportToMailchimpCommand"
-                 public="true">
+        <defaults public="true" />
+
+        <service id="setono_sylius_mailchimp.command.mailchimp_export_create"
+                 class="Setono\SyliusMailchimpPlugin\Command\MailchimpExportCreateCommand">
+            <argument type="service" id="setono_sylius_mailchimp.repository.list"/>
+            <argument type="service" id="setono_sylius_mailchimp.factory.export"/>
+            <argument type="service" id="setono_sylius_mailchimp.repository.export"/>
+
+            <tag name="console.command"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.command.mailchimp_export_handle"
+                 class="Setono\SyliusMailchimpPlugin\Command\MailchimpExportHandleCommand">
+            <argument type="service" id="setono_sylius_mailchimp.repository.list"/>
+            <argument type="service" id="setono_sylius_mailchimp.factory.export"/>
+            <argument type="service" id="setono_sylius_mailchimp.repository.export"/>
             <argument type="service" id="setono_sylius_mailchimp.exporter.customer_newsletter"/>
+
+            <tag name="console.command"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.command.check_config"
+                 class="Setono\SyliusMailchimpPlugin\Command\CheckConfigsCommand">
+            <argument type="service" id="setono_sylius_mailchimp.repository.list"/>
+            <argument type="service" id="setono_sylius_mailchimp.api_client.factory"/>
+            <argument>%setono_sylius_mailchimp.merge_fields%</argument>
 
             <tag name="console.command"/>
         </service>

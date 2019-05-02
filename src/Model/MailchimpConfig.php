@@ -6,8 +6,6 @@ namespace Setono\SyliusMailchimpPlugin\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
 
 class MailchimpConfig implements MailchimpConfigInterface
 {
@@ -17,14 +15,8 @@ class MailchimpConfig implements MailchimpConfigInterface
     /** @var string|null */
     protected $code;
 
-    /** @var string|null */
-    protected $storeId;
-
     /** @var string */
     protected $apiKey;
-
-    /** @var bool */
-    protected $exportAll = false;
 
     /** @var Collection|MailchimpListInterface[] */
     protected $lists;
@@ -34,103 +26,81 @@ class MailchimpConfig implements MailchimpConfigInterface
         $this->lists = new ArrayCollection();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setCode(?string $code): void
     {
         $this->code = $code;
     }
 
-    public function getStoreId(): ?string
-    {
-        return $this->storeId;
-    }
-
-    public function setStoreId(?string $storeId): void
-    {
-        $this->storeId = $storeId;
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function getApiKey(): ?string
     {
         return $this->apiKey;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setApiKey(string $apiKey): void
     {
         $this->apiKey = $apiKey;
     }
 
-    public function getExportAll(): bool
-    {
-        return $this->exportAll;
-    }
-
-    public function setExportAll(bool $exportAll): void
-    {
-        $this->exportAll = $exportAll;
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function getLists(): Collection
     {
         return $this->lists;
     }
 
-    public function setLists($lists): void
+    /**
+     * {@inheritdoc}
+     */
+    public function hasList(MailchimpListInterface $mailchimpList): bool
     {
-        $this->lists = $lists;
+        return $this->lists->contains($mailchimpList);
     }
 
-    public function addList(MailchimpListInterface $mailChimpList): void
+    /**
+     * {@inheritdoc}
+     */
+    public function addList(MailchimpListInterface $mailchimpList): void
     {
-        if (!$this->hasList($mailChimpList)) {
-            $mailChimpList->setConfig($this);
-            $this->lists->add($mailChimpList);
+        if (!$this->hasList($mailchimpList)) {
+            $mailchimpList->setConfig($this);
+            $this->lists->add($mailchimpList);
         }
     }
 
-    public function removeList(MailchimpListInterface $mailChimpList): void
+    /**
+     * {@inheritdoc}
+     */
+    public function removeList(MailchimpListInterface $mailchimpList): void
     {
-        if ($this->hasList($mailChimpList)) {
-            $mailChimpList->setConfig(null);
-            $this->lists->removeElement($mailChimpList);
+        if ($this->hasList($mailchimpList)) {
+            $mailchimpList->setConfig(null);
+            $this->lists->removeElement($mailchimpList);
         }
-    }
-
-    public function hasList(MailchimpListInterface $mailChimpList): bool
-    {
-        return $this->lists->contains($mailChimpList);
-    }
-
-    public function getListForChannelAndLocale(ChannelInterface $channel, LocaleInterface $locale): ?MailchimpListInterface
-    {
-        /** @var MailchimpListInterface $list */
-        foreach ($this->getLists() as $list) {
-            if ($list->hasChannel($channel) && $list->hasLocale($locale)) {
-                return $list;
-            }
-        }
-
-        return null;
-    }
-
-    public function hasListForChannelAndLocale(ChannelInterface $channel, LocaleInterface $locale): bool
-    {
-        /** @var MailchimpListInterface $list */
-        foreach ($this->getLists() as $list) {
-            if ($list->hasChannel($channel) && $list->hasLocale($locale)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

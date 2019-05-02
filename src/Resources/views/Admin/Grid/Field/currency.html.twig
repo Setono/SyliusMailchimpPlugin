@@ -1,0 +1,5 @@
+{% import '@SyliusUi/Macro/labels.html.twig' as label %}
+
+{% if data is not null %}
+    {{ label.default(data.code) }}
+{% endif %}

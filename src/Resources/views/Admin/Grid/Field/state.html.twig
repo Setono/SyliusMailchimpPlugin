@@ -1,14 +1,7 @@
-{% import '@SyliusUi/Macro/labels.html.twig' as label %}
+{% set value = 'setono_sylius_mailchimp.ui.' ~ data %}
 
-{% set state = data %}
-{% set label = ('setono_sylius_mailchimp.ui.'~state)|trans %}
-
-{% if data == constant('Setono\\SyliusMailchimpPlugin\\Model\\MailchimpExportInterface::NEW_STATE') %}
-    <div class="ui label">{{ label }}</div>
-{% elseif data == constant('Setono\\SyliusMailchimpPlugin\\Model\\MailchimpExportInterface::IN_PROGRESS_STATE') %}
-    <div class="ui blue label">{{ label }}</div>
-{% elseif data == constant('Setono\\SyliusMailchimpPlugin\\Model\\MailchimpExportInterface::COMPLETED_STATE') %}
-    <div class="ui green label">{{ label }}</div>
-{% elseif data == constant('Setono\\SyliusMailchimpPlugin\\Model\\MailchimpExportInterface::FAILED_STATE') %}
-    <div class="ui red label">{{ label }}</div>
+{% if options.vars.labels is defined %}
+    {% include [(options.vars.labels ~ '/' ~ data ~ '.html.twig'), '@SyliusUi/Label/_default.html.twig'] with {'value': value} %}
+{% else %}
+    {% include '@SyliusUi/Label/_default.html.twig' with {'value': value} %}
 {% endif %}

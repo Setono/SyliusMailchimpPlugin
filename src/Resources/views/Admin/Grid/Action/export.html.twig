@@ -1,5 +1,10 @@
-{% import '@SetonoSyliusMailchimpPlugin/Admin/Macro/buttons.html.twig' as buttons %}
+{% set path = options.link.url|default(path(options.link.route, options.link.parameters|default({}))) %}
+{% set method = options.link.method|default('get') %}
 
-{% set path = path('setono_sylius_mailchimp_admin_export_create') %}
-
-{{ buttons.post(path, action.label, null, 'arrow up', 'primary') }}
+{% if method == 'post' %}
+    {% import '@SetonoSyliusMailchimpPlugin/Admin/Macro/buttons.html.twig' as buttons %}
+    {{ buttons.post(path, action.label, null, 'arrow up', 'primary') }}
+{% else %}
+    {% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
+    {{ buttons.default(path, action.label, null, 'arrow up', 'primary') }}
+{% endif %}

@@ -13,9 +13,9 @@ use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
 final class MailchimpConfigMenuBuilderSpec extends ObjectBehavior
 {
-    function let(MailchimpConfigContextInterface $mailChimpConfigContext): void
+    function let(MailchimpConfigContextInterface $mailchimpConfigContext): void
     {
-        $this->beConstructedWith($mailChimpConfigContext);
+        $this->beConstructedWith($mailchimpConfigContext);
     }
 
     function it_is_initializable(): void
@@ -27,21 +27,21 @@ final class MailchimpConfigMenuBuilderSpec extends ObjectBehavior
         MenuBuilderEvent $menuBuilderEvent,
         ItemInterface $menu,
         ItemInterface $configurationMenu,
-        ItemInterface $mailChimpMenuItem,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
-        MailchimpConfigInterface $mailChimpConfig
+        ItemInterface $mailchimpMenuItem,
+        MailchimpConfigContextInterface $mailchimpConfigContext,
+        MailchimpConfigInterface $mailchimpConfig
     ): void {
-        $mailChimpConfig->getId()->willReturn(1);
-        $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
+        $mailchimpConfig->getId()->willReturn(1);
+        $mailchimpConfigContext->getConfig()->willReturn($mailchimpConfig);
         $menuBuilderEvent->getMenu()->willReturn($menu);
         $menu->getChild('configuration')->willReturn($configurationMenu);
         $configurationMenu->addChild('mailchimp', [
             'route' => 'setono_sylius_mailchimp_admin_config_update',
             'routeParameters' => ['id' => 1],
-        ])->willReturn($mailChimpMenuItem);
+        ])->willReturn($mailchimpMenuItem);
 
-        $mailChimpMenuItem->setLabel('setono_sylius_mailchimp.ui.config_menu')->willReturn($mailChimpMenuItem);
-        $mailChimpMenuItem->setLabelAttribute('icon', 'envelope open outline')->shouldBeCalledOnce();
+        $mailchimpMenuItem->setLabel('setono_sylius_mailchimp.ui.config_menu')->willReturn($mailchimpMenuItem);
+        $mailchimpMenuItem->setLabelAttribute('icon', 'envelope open outline')->shouldBeCalledOnce();
 
         $this->addConfigItem($menuBuilderEvent);
     }

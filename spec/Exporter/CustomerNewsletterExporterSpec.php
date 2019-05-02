@@ -27,28 +27,28 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 final class CustomerNewsletterExporterSpec extends ObjectBehavior
 {
     function let(
-        FactoryInterface $mailChimpExportFactory,
-        MailchimpExportRepositoryInterface $mailChimpExportRepository,
+        FactoryInterface $mailchimpExportFactory,
+        MailchimpExportRepositoryInterface $mailchimpExportRepository,
         CustomerRepositoryInterface $customerRepository,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
         RepositoryInterface $localeRepository,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
-        MailchimpApiClientInterface $mailChimpApiClient,
-        EntityManagerInterface $mailChimpExportManager,
-        EntityManagerInterface $mailChimpListManager
+        MailchimpConfigContextInterface $mailchimpConfigContext,
+        MailchimpApiClientInterface $mailchimpApiClient,
+        EntityManagerInterface $mailchimpExportManager,
+        EntityManagerInterface $mailchimpListManager
     ): void {
         $this->beConstructedWith(
-            $mailChimpExportFactory,
-            $mailChimpExportRepository,
+            $mailchimpExportFactory,
+            $mailchimpExportRepository,
             $customerRepository,
             $channelContext,
             $localeContext,
             $localeRepository,
-            $mailChimpConfigContext,
-            $mailChimpApiClient,
-            $mailChimpExportManager,
-            $mailChimpListManager
+            $mailchimpConfigContext,
+            $mailchimpApiClient,
+            $mailchimpExportManager,
+            $mailchimpListManager
         );
     }
 
@@ -58,22 +58,22 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
     }
 
     function it_exports_not_exported_customers(
-        MailchimpConfigContextInterface $mailChimpConfigContext,
-        MailchimpConfigInterface $mailChimpConfig,
+        MailchimpConfigContextInterface $mailchimpConfigContext,
+        MailchimpConfigInterface $mailchimpConfig,
         CustomerRepositoryInterface $customerRepository,
         CustomerInterface $customer,
-        FactoryInterface $mailChimpExportFactory,
-        MailchimpExportInterface $mailChimpExport,
+        FactoryInterface $mailchimpExportFactory,
+        MailchimpExportInterface $mailchimpExport,
         OrderInterface $order,
         ChannelInterface $channel,
         LocaleInterface $locale,
         RepositoryInterface $localeRepository
     ): void {
-        $mailChimpExportFactory->createNew()->willReturn($mailChimpExport);
-        $mailChimpConfig->getExportAll()->willReturn(false);
-        $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
-        $mailChimpConfigContext->isFullySetUp()->willReturn(true);
-        $customerRepository->findNonExportedCustomers()->willReturn([$customer])->shouldBeCalled();
+        $mailchimpExportFactory->createNew()->willReturn($mailchimpExport);
+        $mailchimpConfig->isExportSubscribedOnly()->willReturn(false);
+        $mailchimpConfigContext->getConfig()->willReturn($mailchimpConfig);
+        $mailchimpConfigContext->isFullySetUp()->willReturn(true);
+        $customerRepository->findNotExportedSubscribers()->willReturn([$customer])->shouldBeCalled();
         $customer->getOrders()->willReturn(new ArrayCollection([$order->getWrappedObject()]));
         $order->getChannel()->willReturn($channel);
         $order->getLocaleCode()->willReturn('en_US');
@@ -84,26 +84,24 @@ final class CustomerNewsletterExporterSpec extends ObjectBehavior
 
     function it_exports_single_customer_for_order(
         OrderInterface $order,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
-        MailchimpConfigInterface $mailChimpConfig,
+        MailchimpConfigContextInterface $mailchimpConfigContext,
+        MailchimpConfigInterface $mailchimpConfig,
         ChannelInterface $channel,
         RepositoryInterface $localeRepository,
         LocaleInterface $locale,
         CustomerInterface $customer,
-        MailchimpListInterface $mailChimpList
+        MailchimpListInterface $mailchimpList
     ): void {
         $customer->getEmail()->willReturn('user@example.com');
         $order->getCustomer()->willReturn($customer);
-        $mailChimpConfig->getExportAll()->willReturn(true);
-        $mailChimpList->getListId()->willReturn('test');
-        $mailChimpConfig->getListForChannelAndLocale($channel, $locale)->willReturn($mailChimpList);
-        $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
-        $mailChimpConfigContext->isFullySetUp()->willReturn(true);
+        $mailchimpConfig->isExportSubscribedOnly()->willReturn(true);
+        $mailchimpList->getListId()->willReturn('test');
+        $mailchimpConfig->getListForChannelAndLocale($channel, $locale)->willReturn($mailchimpList);
+        $mailchimpConfigContext->getConfig()->willReturn($mailchimpConfig);
+        $mailchimpConfigContext->isFullySetUp()->willReturn(true);
         $order->getChannel()->willReturn($channel);
         $order->getLocaleCode()->willReturn('en_US');
         $localeRepository->findOneBy(['code' => 'en_US'])->willReturn($locale);
-
-        $mailChimpList->addEmail('user@example.com')->shouldBeCalled();
 
         $this->exportSingleCustomerForOrder($order);
     }

@@ -1,0 +1,7 @@
+<div class="ui right floated buttons">
+    {% if export.hasCustomers %}
+        <a href="{{ path('setono_sylius_mailchimp_admin_export_customer_index', {'mailchimpExportId': export.id}) }}" class="ui labeled icon button">
+            <i class="user icon"></i>{{ 'setono_sylius_mailchimp.ui.exported_customers'|trans }}
+        </a>
+    {% endif %}
+</div>

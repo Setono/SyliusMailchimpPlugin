@@ -40,7 +40,7 @@ final class MailchimpExportCliContext implements Context
     private $indexPage;
 
     /** @var MailchimpConfigRepositoryInterface */
-    private $mailChimpConfigRepository;
+    private $mailchimpConfigRepository;
 
     /** @var RandomStringGeneratorInterface */
     private $randomStringGenerator;
@@ -63,7 +63,7 @@ final class MailchimpExportCliContext implements Context
     public function __construct(
         KernelInterface $kernel,
         IndexPageInterface $indexPage,
-        MailchimpConfigRepositoryInterface $mailChimpConfigRepository,
+        MailchimpConfigRepositoryInterface $mailchimpConfigRepository,
         RandomStringGeneratorInterface $randomStringGenerator,
         FactoryInterface $configFactory,
         SharedStorageInterface $sharedStorage,
@@ -73,7 +73,7 @@ final class MailchimpExportCliContext implements Context
     ) {
         $this->kernel = $kernel;
         $this->indexPage = $indexPage;
-        $this->mailChimpConfigRepository = $mailChimpConfigRepository;
+        $this->mailchimpConfigRepository = $mailchimpConfigRepository;
         $this->randomStringGenerator = $randomStringGenerator;
         $this->configFactory = $configFactory;
         $this->sharedStorage = $sharedStorage;
@@ -122,7 +122,7 @@ final class MailchimpExportCliContext implements Context
     {
         $config = $this->sharedStorage->get('config');
 
-        Assert::true($config->getExportAll());
+        Assert::false($config->isExportSubscribedOnly());
     }
 
     /**
@@ -207,14 +207,14 @@ final class MailchimpExportCliContext implements Context
         $config->setCode($code ?? $this->randomStringGenerator->generate(10));
         $config->setApiKey($apiKey ?? $this->randomStringGenerator->generate(10));
 
-        $config->setExportAll(true);
+        $config->setExportSubscribedOnly(true);
 
         return $config;
     }
 
     private function saveConfig(MailchimpConfigInterface $config): void
     {
-        $this->mailChimpConfigRepository->add($config);
+        $this->mailchimpConfigRepository->add($config);
 
         $this->sharedStorage->set('config', $config);
     }

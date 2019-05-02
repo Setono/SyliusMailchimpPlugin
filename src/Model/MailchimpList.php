@@ -7,72 +7,191 @@ namespace Setono\SyliusMailchimpPlugin\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Channel\Model\ChannelInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
+use Sylius\Component\Currency\Model\CurrencyInterface;
+use Webmozart\Assert\Assert;
 
 class MailchimpList implements MailchimpListInterface
 {
     /** @var int */
     protected $id;
 
-    /** @var string */
-    protected $listId;
+    /** @var string|null */
+    protected $name;
 
     /** @var MailchimpConfigInterface|null */
     protected $config;
 
-    /** @var MailchimpListInterface */
-    protected $list;
+    /** @var string */
+    protected $listId;
+
+    /** @var bool */
+    protected $exportSubscribedOnly = true;
+
+    /** @var string|null */
+    protected $storeId;
+
+    /** @var CurrencyInterface|null */
+    protected $storeCurrency;
 
     /** @var Collection|ChannelInterface[] */
     protected $channels;
 
-    /** @var Collection|LocaleInterface[] */
-    protected $locales;
+    /** @var Collection|MailchimpExportInterface[] */
+    protected $exports;
 
-    /** @var array */
-    protected $emails = [];
+    /** @var Collection|CustomerInterface */
+    protected $exportedCustomers;
 
     public function __construct()
     {
         $this->channels = new ArrayCollection();
-        $this->locales = new ArrayCollection();
+        $this->exports = new ArrayCollection();
+        $this->exportedCustomers = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
+    public function getFullname(): string
+    {
+        $config = $this->getConfig();
+
+        Assert::notNull($config);
+
+        return sprintf(
+            '%s > %s',
+            $config->getCode(),
+            $this->getName()
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStoreId(): ?string
+    {
+        return $this->storeId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStoreId(?string $storeId): void
+    {
+        $this->storeId = $storeId;
+    }
+
+    /**
+     * @return CurrencyInterface|null
+     */
+    public function getStoreCurrency(): ?CurrencyInterface
+    {
+        return $this->storeCurrency;
+    }
+
+    /**
+     * @param CurrencyInterface|null $storeCurrency
+     */
+    public function setStoreCurrency(?CurrencyInterface $storeCurrency): void
+    {
+        $this->storeCurrency = $storeCurrency;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStoreCurrencyCode(): ?string
+    {
+        if (null === $this->storeCurrency) {
+            return null;
+        }
+
+        return $this->storeCurrency->getCode();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAudienceId(): ?string
+    {
+        return $this->getListId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getListId(): ?string
     {
         return $this->listId;
     }
 
-    public function setListId($listId): void
+    /**
+     * {@inheritdoc}
+     */
+    public function setListId(?string $listId): void
     {
         $this->listId = $listId;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getConfig(): ?MailchimpConfigInterface
     {
         return $this->config;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setConfig(?MailchimpConfigInterface $config): void
     {
         $this->config = $config;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getChannels(): Collection
     {
         return $this->channels;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function hasChannel(ChannelInterface $channel): bool
     {
         return $this->channels->contains($channel);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function addChannel(ChannelInterface $channel): void
     {
         if (!$this->hasChannel($channel)) {
@@ -80,6 +199,9 @@ class MailchimpList implements MailchimpListInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function removeChannel(ChannelInterface $channel): void
     {
         if ($this->hasChannel($channel)) {
@@ -87,50 +209,128 @@ class MailchimpList implements MailchimpListInterface
         }
     }
 
-    public function getLocales(): Collection
+    /**
+     * {@inheritdoc}
+     */
+    public function shouldCustomerBeExported(CustomerInterface $customer): bool
     {
-        return $this->locales;
+        return !$this->isExportSubscribedOnly() || $customer->isSubscribedToNewsletter();
     }
 
-    public function addLocale(LocaleInterface $locale): void
+    /**
+     * {@inheritdoc}
+     */
+    public function isExportSubscribedOnly(): bool
     {
-        if (!$this->hasLocale($locale)) {
-            $this->locales->add($locale);
+        return $this->exportSubscribedOnly;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExportSubscribedOnly(bool $exportSubscribedOnly): void
+    {
+        $this->exportSubscribedOnly = $exportSubscribedOnly;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExports(): Collection
+    {
+        return $this->exports;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasExports(): bool
+    {
+        return !$this->exports->isEmpty();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasExport(MailchimpExportInterface $mailchimpExport): bool
+    {
+        return $this->exports->contains($mailchimpExport);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addExport(MailchimpExportInterface $mailchimpExport): void
+    {
+        if (!$this->hasExport($mailchimpExport)) {
+            $this->exports->add($mailchimpExport);
+        }
+
+        if ($this !== $mailchimpExport->getList()) {
+            $mailchimpExport->setList($this);
         }
     }
 
-    public function removeLocale(LocaleInterface $locale): void
+    /**
+     * {@inheritdoc}
+     */
+    public function removeExport(MailchimpExportInterface $mailchimpExport): void
     {
-        if ($this->hasLocale($locale)) {
-            $this->locales->removeElement($locale);
+        if ($this->hasExport($mailchimpExport)) {
+            $mailchimpExport->setList(null);
+            $this->exports->removeElement($mailchimpExport);
         }
     }
 
-    public function hasLocale(LocaleInterface $locale): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function getExportedCustomers(): Collection
     {
-        return $this->locales->contains($locale);
+        return $this->exportedCustomers;
     }
 
-    public function addEmail(string $email): void
+    /**
+     * {@inheritdoc}
+     */
+    public function hasExportedCustomers(): bool
     {
-        if (!$this->hasEmail($email)) {
-            $this->emails[] = $email;
+        return !$this->exportedCustomers->isEmpty();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasExportedCustomer(CustomerInterface $customer): bool
+    {
+        return $this->exportedCustomers->contains($customer);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addExportedCustomer(CustomerInterface $customer): void
+    {
+        if (!$this->hasExportedCustomer($customer)) {
+            $this->exportedCustomers->add($customer);
+        }
+
+        if (!$customer->hasExportedToMailchimpList($this)) {
+            $customer->addExportedToMailchimpList($this);
         }
     }
 
-    public function removeEmail(string $email): void
+    /**
+     * {@inheritdoc}
+     */
+    public function removeExportedCustomer(CustomerInterface $customer): void
     {
-        $key = array_search($email, $this->emails, true);
-
-        if ($key === false) {
-            return;
+        if ($this->hasExportedCustomer($customer)) {
+            $this->exportedCustomers->removeElement($customer);
         }
 
-        unset($this->emails[$key]);
-    }
-
-    public function hasEmail(string $email): bool
-    {
-        return \in_array($email, $this->emails, true);
+        if ($customer->hasExportedToMailchimpList($this)) {
+            $customer->removeExportedToMailchimpList($this);
+        }
     }
 }

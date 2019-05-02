@@ -1,9 +1,2 @@
-{{ form_errors(form) }}
-{{ form_row(form.code) }}
-{{ form_row(form.storeId) }}
-{{ form_row(form.apiKey, {'attr': {'autocomplete' : 'off'}}) }}
-{{ form_row(form.exportAll) }}
-
-<div class="ui divider"></div>
-
-{{ form_row(form.lists) }}
+{% set menu = knp_menu_get('setono_sylius_mailchimp.admin.config_form', [], {'config': config}) %}
+{{ knp_menu_render(menu, {'template': '@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Config/_menu.html.twig', 'form': form, 'config': config}) }}

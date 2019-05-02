@@ -45,32 +45,26 @@ final class MailchimpConfigSpec extends ObjectBehavior
         $this->getApiKey()->shouldReturn('123');
     }
 
-    function its_export_all_is_mutable(): void
+    function its_export_subscribed_only_is_mutable(): void
     {
-        $this->setExportAll(true);
-        $this->getExportAll()->shouldReturn(true);
+        $this->setExportSubscribedOnly(true);
+        $this->isExportSubscribedOnly()->shouldReturn(true);
     }
 
-    function its_lists_is_mutable(Collection $lists): void
+    function it_adds_list(MailchimpListInterface $mailchimpList): void
     {
-        $this->setLists($lists);
-        $this->getLists()->shouldReturn($lists);
+        $mailchimpList->setConfig($this)->shouldBeCalled();
+
+        $this->addList($mailchimpList);
+        $this->hasList($mailchimpList)->shouldReturn(true);
     }
 
-    function it_adds_list(MailchimpListInterface $mailChimpList): void
+    function it_removes_list(MailchimpListInterface $mailchimpList): void
     {
-        $mailChimpList->setConfig($this)->shouldBeCalled();
+        $this->addList($mailchimpList);
+        $this->hasList($mailchimpList)->shouldReturn(true);
 
-        $this->addList($mailChimpList);
-        $this->hasList($mailChimpList)->shouldReturn(true);
-    }
-
-    function it_removes_list(MailchimpListInterface $mailChimpList): void
-    {
-        $this->addList($mailChimpList);
-        $this->hasList($mailChimpList)->shouldReturn(true);
-
-        $this->removeList($mailChimpList);
-        $this->hasList($mailChimpList)->shouldReturn(false);
+        $this->removeList($mailchimpList);
+        $this->hasList($mailchimpList)->shouldReturn(false);
     }
 }

@@ -5,12 +5,27 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use Sylius\Component\Core\Model\CustomerInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 interface MailchimpExportRepositoryInterface extends RepositoryInterface
 {
+    /**
+     * @param string|null $mailchimpListId
+     *
+     * @return QueryBuilder
+     */
     public function createListQueryBuilder(): QueryBuilder;
 
-    public function isCustomerExported(CustomerInterface $customer): bool;
+    /**
+     * @param string $mailchimpListId
+     *
+     * @return QueryBuilder
+     */
+    public function createByMailchimpListIdQueryBuilder(string $mailchimpListId): QueryBuilder;
+
+    /**
+     * @return MailchimpExportInterface|null
+     */
+    public function findOnePending(): ?MailchimpExportInterface;
 }

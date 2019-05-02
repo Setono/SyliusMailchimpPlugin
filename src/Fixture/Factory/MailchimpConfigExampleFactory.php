@@ -12,7 +12,6 @@ use Sylius\Bundle\CoreBundle\Fixture\Factory\AbstractExampleFactory;
 use Sylius\Bundle\CoreBundle\Fixture\OptionsResolver\LazyOption;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
-use Sylius\Component\Core\Formatter\StringInflector;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,6 +31,9 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
     protected $channelRepository;
 
     /** @var EntityRepository */
+    protected $currencyRepository;
+
+    /** @var EntityRepository */
     protected $localeRepository;
 
     /** @var FactoryInterface */
@@ -48,6 +50,7 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
 
     public function __construct(
         ChannelRepositoryInterface $channelRepository,
+        EntityRepository $currencyRepository,
         EntityRepository $localeRepository,
         FactoryInterface $mailchimpConfigFactory,
         MailchimpConfigRepositoryInterface $mailchimpConfigRepository,
@@ -55,6 +58,7 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
         MailchimpListRepositoryInterface $mailchimpListRepository
     ) {
         $this->channelRepository = $channelRepository;
+        $this->currencyRepository = $currencyRepository;
         $this->localeRepository = $localeRepository;
         $this->mailchimpConfigFactory = $mailchimpConfigFactory;
         $this->mailchimpConfigRepository = $mailchimpConfigRepository;
@@ -77,28 +81,13 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
     {
         $resolver
             ->setRequired('code')
-            ->setDefault('code', function (Options $options): string {
-                return StringInflector::nameToCode($options['store_id']);
-            })
             ->setAllowedTypes('code', 'string')
-
-            ->setRequired('store_id')
-            ->setDefault('store_id', function () {
-                return $this->faker->uuid;
-            })
-            ->setAllowedTypes('store_id', 'string')
 
             ->setRequired('api_key')
             ->setDefault('api_key', function () {
                 return $this->faker->uuid;
             })
             ->setAllowedTypes('api_key', 'string')
-
-            ->setRequired('export_all')
-            ->setDefault('export_all', function () {
-                return $this->faker->boolean(30);
-            })
-            ->setAllowedTypes('export_all', 'boolean')
 
             ->setRequired('lists')
             ->setAllowedTypes('lists', 'array')
@@ -111,19 +100,33 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
     protected function configureListOptions(OptionsResolver $resolver): void
     {
         $resolver
+            ->setRequired('name')
+            ->setDefault('name', function (Options $options): string {
+                return $this->faker->words(3, true);
+            })
+
             ->setRequired('list_id')
             ->setDefault('list_id', function () {
                 return $this->faker->uuid;
             })
             ->setAllowedTypes('list_id', 'string')
 
+            ->setRequired('export_subscribed_only')
+            ->setDefault('export_subscribed_only', function () {
+                return $this->faker->boolean(30);
+            })
+            ->setAllowedTypes('export_subscribed_only', 'boolean')
+
+            ->setDefault('store_id', null)
+            ->setAllowedTypes('store_id', ['null', 'string'])
+
+            ->setDefault('store_currency', null)
+            ->setAllowedTypes('store_currency', ['null', 'string'])
+            ->setNormalizer('store_currency', LazyOption::findOneBy($this->currencyRepository, 'code'))
+
             ->setDefault('channels', LazyOption::all($this->channelRepository))
             ->setAllowedTypes('channels', 'array')
             ->setNormalizer('channels', LazyOption::findBy($this->channelRepository, 'code'))
-
-            ->setDefault('locales', LazyOption::all($this->localeRepository))
-            ->setAllowedTypes('locales', 'array')
-            ->setNormalizer('locales', LazyOption::findBy($this->localeRepository, 'code'))
         ;
     }
 
@@ -137,9 +140,7 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
         /** @var MailchimpConfigInterface $mailchimpConfig */
         $mailchimpConfig = $this->mailchimpConfigFactory->createNew();
         $mailchimpConfig->setCode($options['code']);
-        $mailchimpConfig->setStoreId($options['store_id']);
         $mailchimpConfig->setApiKey($options['api_key']);
-        $mailchimpConfig->setExportAll($options['export_all']);
         $this->mailchimpConfigRepository->add($mailchimpConfig);
 
         $this->createLists($mailchimpConfig, $options);
@@ -157,14 +158,14 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
             $listOptions = $this->listOptionsResolver->resolve($listOptions);
 
             $mailchimpList = $this->mailchimpListFactory->createForMailchimpConfig($mailchimpConfig);
+            $mailchimpList->setName($listOptions['name']);
             $mailchimpList->setListId($listOptions['list_id']);
+            $mailchimpList->setExportSubscribedOnly($listOptions['export_subscribed_only']);
 
+            $mailchimpList->setStoreId($listOptions['store_id']);
+            $mailchimpList->setStoreCurrency($listOptions['store_currency']);
             foreach ($listOptions['channels'] as $channel) {
                 $mailchimpList->addChannel($channel);
-            }
-
-            foreach ($listOptions['locales'] as $locale) {
-                $mailchimpList->addLocale($locale);
             }
 
             $this->mailchimpListRepository->add($mailchimpList);

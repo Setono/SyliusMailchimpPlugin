@@ -10,15 +10,29 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="listId" column="list_id" nullable="true" unique="true" />
-        <field name="emails" type="json_array" nullable="true" />
+        <unique-constraints>
+            <unique-constraint columns="config_id,store_id,list_id" name="setono_sylius_mailchimp_list_idx" />
+        </unique-constraints>
 
         <many-to-one field="config"
                      target-entity="Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface"
-                     inversed-by="lists">
-            <join-column name="config_id" referenced-column-name="id" nullable="false"/>
+                     inversed-by="lists"
+                     fetch="EAGER">
+            <join-column name="config_id" referenced-column-name="id" nullable="false" />
         </many-to-one>
-        <many-to-many field="channels" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
+
+        <field name="name" column="name" nullable="false" />
+        <field name="listId" column="list_id" length="10" />
+        <field name="exportSubscribedOnly" column="export_subscribed_only" type="boolean" />
+
+        <field name="storeId" column="store_id" nullable="true" />
+        <many-to-one field="storeCurrency"
+                     target-entity="Sylius\Component\Currency\Model\CurrencyInterface"
+                     fetch="EAGER">
+            <join-column name="store_currency_id" referenced-column-name="id" nullable="true" />
+        </many-to-one>
+        <many-to-many field="channels"
+                      target-entity="Sylius\Component\Channel\Model\ChannelInterface">
             <join-table name="setono_sylius_mailchimp_list__channels">
                 <join-columns>
                     <join-column name="list_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
@@ -28,13 +42,24 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
-        <many-to-many field="locales" target-entity="Sylius\Component\Locale\Model\LocaleInterface" fetch="EAGER">
-            <join-table name="setono_sylius_mailchimp_list__locales">
+
+        <one-to-many field="exports"
+                     target-entity="Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface"
+                     mapped-by="list"
+                     orphan-removal="true"
+                     fetch="EXTRA_LAZY">
+        </one-to-many>
+
+        <many-to-many field="exportedCustomers"
+                      target-entity="Sylius\Component\Customer\Model\CustomerInterface"
+                      inversed-by="exportedToMailchimpLists"
+                      fetch="EXTRA_LAZY">
+            <join-table name="setono_sylius_mailchimp_list__exported_customers">
                 <join-columns>
-                    <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+                    <join-column name="list_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
                 </join-columns>
                 <inverse-join-columns>
-                    <join-column name="locale_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+                    <join-column name="customer_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
                 </inverse-join-columns>
             </join-table>
         </many-to-many>

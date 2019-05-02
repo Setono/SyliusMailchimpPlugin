@@ -28,9 +28,7 @@ final class MailchimpConfigFixture extends AbstractResourceFixture
         /** @var NodeBuilder $node */
         $node = $resourceNode->children();
         $node->scalarNode('code')->cannotBeEmpty();
-        $node->scalarNode('store_id')->cannotBeEmpty();
-        $node->scalarNode('api_key')->cannotBeEmpty();
-        $node->booleanNode('export_all')->defaultNull();
+        $node->scalarNode('api_key');
 
         /** @var NodeBuilder $listsNode */
         $listsNode = $node->arrayNode('lists')
@@ -38,8 +36,13 @@ final class MailchimpConfigFixture extends AbstractResourceFixture
             ->arrayPrototype()
                 ->children()
         ;
+
+        $listsNode->scalarNode('name');
         $listsNode->scalarNode('list_id');
+        $listsNode->booleanNode('export_subscribed_only');
+
+        $listsNode->scalarNode('store_id');
+        $listsNode->scalarNode('store_currency');
         $listsNode->arrayNode('channels')->scalarPrototype();
-        $listsNode->arrayNode('locales')->scalarPrototype();
     }
 }

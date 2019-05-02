@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\EventListener;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientFactoryInterface;
 use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
-use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporterInterface;
+use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Webmozart\Assert\Assert;
@@ -23,20 +21,20 @@ final class CustomerNewsletterListener
     /** @var CustomerRepositoryInterface */
     private $customerRepository;
 
-    /** @var MailchimpApiClientInterface */
-    private $mailChimpApiClient;
+    /** @var MailchimpListRepositoryInterface */
+    private $mailchimpListRepository;
 
-    /** @var MailchimpConfigContextInterface */
-    private $mailChimpConfigContext;
+    /** @var MailchimpApiClientFactoryInterface */
+    private $mailchimpApiClientFactory;
+
+    /** @var CustomerNewsletterExporterInterface */
+    private $customerNewsletterExporter;
 
     /** @var ChannelContextInterface */
     private $channelContext;
 
     /** @var LocaleContextInterface */
     private $localeContext;
-
-    /** @var EntityManagerInterface */
-    private $mailChimpListManager;
 
     /** @var LoggerInterface */
     private $logger;
@@ -46,71 +44,68 @@ final class CustomerNewsletterListener
 
     public function __construct(
         CustomerRepositoryInterface $customerRepository,
-        MailchimpApiClientInterface $mailChimpApiClient,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpListRepositoryInterface $mailchimpListRepository,
+        MailchimpApiClientFactoryInterface $mailchimpApiClientFactory,
+        CustomerNewsletterExporterInterface $customerNewsletterExporter,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
-        EntityManagerInterface $mailChimpListManager,
         LoggerInterface $logger,
         array $supportedRoutes
     ) {
         $this->customerRepository = $customerRepository;
-        $this->mailChimpApiClient = $mailChimpApiClient;
-        $this->mailChimpConfigContext = $mailChimpConfigContext;
+        $this->mailchimpListRepository = $mailchimpListRepository;
+        $this->mailchimpApiClientFactory = $mailchimpApiClientFactory;
+        $this->customerNewsletterExporter = $customerNewsletterExporter;
         $this->channelContext = $channelContext;
         $this->localeContext = $localeContext;
-        $this->mailChimpListManager = $mailChimpListManager;
         $this->logger = $logger;
         $this->supportedRoutes = $supportedRoutes;
     }
 
     public function manageSubscription(PostResponseEvent $postResponseEvent): void
     {
-        try {
-            $request = $postResponseEvent->getRequest();
+        $request = $postResponseEvent->getRequest();
 
-            if (!in_array($request->get('_route'), $this->supportedRoutes)) {
-                return;
-            }
-
-            $emailPieces = array_column($request->request->all(), 'email');
-            $email = end($emailPieces);
-            /** @var CustomerInterface $customer */
-            $customer = $this->customerRepository->findOneBy(['email' => $email]);
-
-            Assert::notNull($customer, sprintf('Customer with %s email not found.', $email));
-
-            if ($customer->isSubscribedToNewsletter()) {
-                $this->subscribe($customer);
-            }
-
-            $this->mailChimpListManager->flush();
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage());
+        if (!in_array($request->get('_route'), $this->supportedRoutes)) {
+            return;
         }
-    }
 
-    private function subscribe(CustomerInterface $customer): void
-    {
-        $list = $this->getList();
-        $email = $customer->getEmail();
+        // @todo Check why it done this weird way...
+        $emailPieces = array_column($request->request->all(), 'email');
+        $email = end($emailPieces);
 
-        $this->mailChimpApiClient->exportEmail($email, $list->getListId());
+        /** @var CustomerInterface $customer */
+        $customer = $this->customerRepository->findOneBy(['email' => $email]);
 
-        $list->addEmail($email);
-    }
+        Assert::notNull($customer, sprintf('Customer with %s email not found.', $email));
 
-    private function getList(): MailchimpListInterface
-    {
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
-        $locale = $this->localeContext->getLocale();
-        /** @var MailchimpConfigInterface $config */
-        $config = $this->mailChimpConfigContext->getConfig();
-        $list = $config->getListForChannelAndLocale($channel, $locale);
+        $mailchimpLists = $this->mailchimpListRepository->findByChannel($channel);
+        foreach ($mailchimpLists as $mailchimpList) {
+            try {
+                if ($mailchimpList->shouldCustomerBeExported($customer)) {
+                    $this->customerNewsletterExporter->exportCustomer(
+                        $mailchimpList,
+                        $customer
+                    );
+                } else {
+                    try {
+                        $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+                    } catch (\Exception $e) {
+                        return;
+                    }
 
-        Assert::notNull($list);
+                    $apiClient->removeEmail(
+                        $mailchimpList->getAudienceId(),
+                        $customer->getEmailCanonical()
+                    );
+                }
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
+            }
+        }
 
-        return $list;
+        $this->mailchimpListRepository->add($mailchimpList);
     }
 }

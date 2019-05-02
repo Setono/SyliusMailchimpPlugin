@@ -13,20 +13,42 @@ sylius_grid:
                     type: string
                     label: sylius.ui.code
                     sortable: ~
-                storeId:
-                    type: string
-                    label: setono_sylius_mailchimp.ui.store_id
-                exportAll:
+                lists:
                     type: twig
-                    label: setono_sylius_mailchimp.ui.export_all
+                    label: setono_sylius_mailchimp.ui.lists
                     options:
-                        template: "@SyliusUi/Grid/Field/yesNo.html.twig"
+                        template: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Field/collection.html.twig"
+                        vars:
+                            field_template: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Field/list.html.twig"
             actions:
                 main:
                     create:
                         type: create
+                    list_index:
+                        type: setono_mailchimp_index
+                        label: setono_sylius_mailchimp.ui.lists
+                        options:
+                            link:
+                                route: setono_sylius_mailchimp_admin_list_index
                 item:
                     update:
                         type: update
                     delete:
                         type: delete
+                    create_list:
+                        type: create
+                        label: setono_sylius_mailchimp.ui.list_create
+                        options:
+                            link:
+                                route: setono_sylius_mailchimp_admin_config_list_create
+                                parameters:
+                                    mailchimpConfigId: resource.id
+                    config_lists_index:
+                        type: setono_mailchimp_index
+                        label: setono_sylius_mailchimp.ui.config_lists
+                        options:
+                            link:
+                                route: setono_sylius_mailchimp_admin_config_list_index
+                                parameters:
+                                    mailchimpConfigId: resource.id
+

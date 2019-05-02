@@ -47,6 +47,129 @@ $bundles = [
 Make sure you've added it **before** `SyliusGridBundle`. Otherwise you'll get exception like
 `You have requested a non-existent parameter "setono_sylius_mailchimp.model.export.class"`.
 
+### 5. Override core classes
+
+- Override `Customer` entity:
+     
+    - If you use `annotations` mapping:
+    
+        ```php
+        <?php
+        
+        # src/Entity/Customer.php 
+  
+        declare(strict_types=1);
+        
+        namespace App\Entity;
+        
+        use Sylius\Component\Core\Model\Customer as BaseCustomer;
+        use Setono\SyliusMailchimpPlugin\Model\CustomerInterface as SetonoSyliusMailchimpPluginCustomerInterface;
+        use Setono\SyliusMailchimpPlugin\Model\CustomerTrait as SetonoSyliusMailchimpPluginCustomerTrait;
+        use Doctrine\ORM\Mapping as ORM;
+            
+        /**
+         * @ORM\Entity
+         * @ORM\Table(name="sylius_customer")
+         */
+        class Customer extends BaseCustomer implements SetonoSyliusMailchimpPluginCustomerInterface
+        {
+            use SetonoSyliusMailchimpPluginCustomerTrait;
+        }
+        ```
+    
+    - If you use `xml` mapping:
+    
+        ```php
+        <?php
+        
+        # src/Model/Customer.php 
+  
+        declare(strict_types=1);
+        
+        namespace App\Entity;
+        
+        use Sylius\Component\Core\Model\Customer as BaseCustomer;
+        use Setono\SyliusMailchimpPlugin\Model\CustomerInterface as SetonoSyliusMailchimpPluginCustomerInterface;
+        use Setono\SyliusMailchimpPlugin\Model\CustomerTrait as SetonoSyliusMailchimpPluginCustomerTrait;
+        
+        class Customer extends BaseCustomer implements SetonoSyliusMailchimpPluginCustomerInterface
+        {
+            use SetonoSyliusMailchimpPluginCustomerTrait {
+                SetonoSyliusMailchimpPluginCustomerTrait::__construct as private __setonoSyliusMailchimpPluginCustomerTraitConstruct;
+            }
+        
+            public function __construct()
+            {
+                parent::__construct();
+                $this->__setonoSyliusMailchimpPluginCustomerTraitConstruct();
+            }
+        }
+        ```
+        
+        ```xml
+        <?xml version="1.0" encoding="UTF-8"?>
+        
+        <!-- config/doctrine/model/Product.orm.xml -->
+        
+        <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                              http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+        
+            <mapped-superclass name="App\Model\Customer" table="sylius_customer">
+                ...
+            </mapped-superclass>
+        
+        </doctrine-mapping>
+        ```
+
+- Create `Doctrine/ORM/CustomerRepository.php`:
+
+    ```php
+    <?php
+    
+    declare(strict_types=1);
+    
+    namespace App\Doctrine\ORM;
+    
+    use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface as SetonoSyliusMailchimpPluginCustomerRepositoryInterface;
+    use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryTrait as SetonoSyliusMailchimpPluginCustomerRepositoryTrait;
+    use Sylius\Bundle\CoreBundle\Doctrine\ORM\CustomerRepository as BaseCustomerRepository;
+    
+    class CustomerRepository extends BaseCustomerRepository implements SetonoSyliusMailchimpPluginCustomerRepositoryInterface
+    {
+        use SetonoSyliusMailchimpPluginCustomerRepositoryTrait;
+    }
+    ```
+
+- Add configuration: 
+
+    ```yaml
+    # config/packages/_sylius.yaml
+    sylius_customer:
+        resources:
+            customer:
+                classes:
+                    model: App\Entity\Customer # or App\Model\Customer
+                    repository: App\Doctrine\ORM\CustomerRepository
+    ```
+
+- Check:
+
+    ```bash
+    bin/console doctrine:mapping:info | grep Customer
+    
+    # You should see:
+    # [OK]   App\Entity\Customer 
+    # or: 
+    # [OK]   App\Model\Customer
+    
+    bin/console debug:container | grep CustomerRepository
+    
+    # You should see:
+    # sylius.repository.customer    App\Doctrine\ORM\CustomerRepository
+    ```
+
 ### 5. Update your database:
 
 ```bash
@@ -98,21 +221,46 @@ $ php bin/console assets:install --symlink
 $ php bin/console cache:clear
 ```
 
+### 9. (production) Configure CRON jobs 
+
+- To create exports - every day:
+
+    ```bash
+    * 03 * * * path/to/php path/to/app/bin/console setono:mailchimp:export:create -n
+    ````
+
+- To handle exports - every minute:
+
+    ```bash
+    01 * * * * path/to/php path/to/app/bin/console setono:mailchimp:export:handle --limit=30
+    ````
+    
+    Providing such `limit` allow to export 30 customers per minute. 
+
 ## Usage
 
-You can now configure Mailchimp lists in your admin UI and later on export them from via admin or the following command:
+- You can now configure Mailchimp lists in your admin UI and later on 
+  export them from via admin or the following command:
 
-```bash
-$ php bin/console setono:mailchimp:export
-````
+    ```bash
+    $ php bin/console setono:mailchimp:export:create
+    ````
 
-## Testing
+- To handle created export, run: 
 
-Run `composer tests` to run all tests.
+    ```bash
+    $ php bin/console setono:mailchimp:export:handle
+    ````
 
 ## Contribution
 
-Run `composer all` before pusing changes to run all checks and tests.
+Run `composer try` to setup plugin environment and try test application.
+
+Please, run `composer all` before pusing changes to run all checks and tests.
+
+### Testing
+
+Run `composer tests` to run all tests.
 
 [ico-version]: https://img.shields.io/packagist/v/setono/sylius-mailchimp-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square

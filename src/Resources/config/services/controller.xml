@@ -7,10 +7,9 @@
     <services>
         <defaults public="true" />
 
-        <service id="setono_sylius_mailchimp.controller.action.export_to_mailchimp"
-                 class="Setono\SyliusMailchimpPlugin\Controller\Action\ExportToMailchimpAction">
-            <argument type="service" id="setono_sylius_mailchimp.exporter.customer_newsletter"/>
-            <argument type="service" id="setono_sylius_mailchimp.context.config"/>
+        <service id="setono_sylius_mailchimp.controller.action.export_restart"
+                 class="Setono\SyliusMailchimpPlugin\Controller\Action\ExportRestartAction">
+            <argument type="service" id="setono_sylius_mailchimp.repository.export"/>
             <argument type="service" id="session.flash_bag"/>
             <argument type="service" id="translator"/>
             <argument type="service" id="router"/>

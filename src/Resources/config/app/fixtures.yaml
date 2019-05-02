@@ -7,13 +7,64 @@ sylius_fixtures:
                         custom:
                             mailchimp_config_default:
                                 code: default
-                                store_id: default
-                                api_key: API_KEY
-                                export_all: true
+                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
                                 lists:
-                                    -
-                                        list_id: LIST_ID
+                                    -   name: Default list
+                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID)%"
+                                        export_subscribed_only: false
+                                        store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
+                                        store_currency: USD
                                         channels:
                                             - "US_WEB"
-                                        locales:
-                                            - "%locale%"
+#                            mailchimp_config_no_store_configured:
+#                                code: no_store
+#                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
+#                                lists:
+#                                    -   name: No store configured list
+#                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID)%"
+#                                        export_subscribed_only: true
+#                                        channels:
+#                                            - "US_WEB"
+#                            mailchimp_config_no_lists:
+#                                code: no_lists
+#                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
+#                            mailchimp_config_invalid_api_key:
+#                                code: invalid_api_key
+#                                api_key: invalid
+#                                lists:
+#                                    -   name: Invalid API key list
+#                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID)%"
+#                                        export_subscribed_only: true
+#                                        store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
+#                                        store_currency: USD
+#                                        channels:
+#                                            - "US_WEB"
+#                            mailchimp_config_invalid_store_id:
+#                                code: invalid_store_id
+#                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
+#                                lists:
+#                                    -   name: Invalid store ID list
+#                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID)%"
+#                                        export_subscribed_only: true
+#                                        store_id: invalid
+#                                        store_currency: USD
+#                                        channels:
+#                                            - "US_WEB"
+#                            mailchimp_config_invalid_audience_id:
+#                                code: invalid_audience_id
+#                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
+#                                lists:
+#                                    -   name: Invalid list
+#                                        list_id: invalid
+#                                        export_subscribed_only: true
+#                            mailchimp_config_invalid_mergefields_configured:
+#                                code: invalid_mergefields_configured
+#                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
+#                                lists:
+#                                    -   name: Invalid mergetags configured
+#                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID_WITH_INVALID_MERGEFIELDS)%"
+#                                        export_subscribed_only: true
+#                                        store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
+#                                        store_currency: USD
+#                                        channels:
+#                                            - "US_WEB"

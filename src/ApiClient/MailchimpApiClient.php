@@ -4,113 +4,134 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\ApiClient;
 
-use DrewM\MailChimp\MailChimp;
-use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
+use DrewM\MailChimp\MailChimp as Client;
 use Setono\SyliusMailchimpPlugin\Exception\MailchimpApiException;
-use Setono\SyliusMailchimpPlugin\Exception\NotSetUpException;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Webmozart\Assert\Assert;
 
 final class MailchimpApiClient implements MailchimpApiClientInterface
 {
-    /** @var MailchimpConfigContextInterface */
-    private $mailchimpConfigContext;
+    /** @var Client */
+    private $apiClient;
 
-    public function __construct(MailchimpConfigContextInterface $mailchimpConfigContext)
+    public function __construct(Client $apiClient)
     {
-        $this->mailchimpConfigContext = $mailchimpConfigContext;
+        $this->apiClient = $apiClient;
     }
 
     /**
-     * @param string $email
-     * @param string $listId
-     *
-     * @throws MailchimpApiException
+     * {@inheritdoc}
      */
-    public function exportEmail(string $email, string $listId): void
+    public function isApiKeyValid(): bool
     {
         try {
-            $this->request()->post(sprintf('lists/%s/members', $listId), [
+            $this->apiClient->get('/lists');
+        } catch (\Exception $exception) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAudienceIdExists(string $audienceId): bool
+    {
+        try {
+            $list = $this->apiClient->get(sprintf('/lists/%s', $audienceId));
+
+            return isset($list['id']);
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isStoreIdExists(string $storeId): bool
+    {
+        try {
+            $store = $this->apiClient->get(sprintf('/ecommerce/stores/%s', $storeId));
+
+            return isset($store['id']);
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMergeFields(string $audienceId, array $requiredMergeFields): array
+    {
+        try {
+            return $this->apiClient->get(
+                sprintf('/lists/%s/merge-fields', $audienceId)
+            );
+        } catch (\Exception $exception) {
+            throw new MailchimpApiException($exception->getMessage());
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createStore(array $storeData): void
+    {
+        try {
+            $this->apiClient->post(
+                '/ecommerce/stores',
+                $storeData
+            );
+        } catch (\Exception $exception) {
+            throw new MailchimpApiException($exception->getMessage());
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function exportEmail(string $listId, string $email, array $options = []): bool
+    {
+        try {
+            $response = $this->apiClient->post(sprintf('/lists/%s/members', $listId), $options + [
                 'email_address' => $email,
                 'status' => 'subscribed',
             ]);
+
+            return true;
+        } catch (\Exception $exception) {
+            throw new MailchimpApiException($exception->getMessage());
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeEmail(string $listId, string $email): void
+    {
+        try {
+            $this->apiClient->delete(sprintf(
+                '/lists/%s/members/%s',
+                $listId,
+                $this->apiClient->subscriberHash($email)
+            ));
         } catch (\Exception $exception) {
             throw new MailchimpApiException($exception->getMessage());
         }
     }
 
     /**
-     * @param string $email
-     * @param string $listId
-     *
-     * @throws MailchimpApiException
+     * {@inheritdoc}
      */
-    public function removeEmail(string $email, string $listId): void
-    {
-        $request = $this->request();
-
-        try {
-            $request->delete(sprintf('lists/%s/members/%s',
-                    $listId,
-                    $request->subscriberHash($email)
-                )
-            );
-        } catch (\Exception $exception) {
-            throw new MailchimpApiException($exception->getMessage());
-        }
-    }
-
-    public function exportOrder(OrderInterface $order): void
-    {
-        if (false === $this->mailchimpConfigContext->isFullySetUp()) {
-            throw new NotSetUpException();
-        }
-
-        /** @var CustomerInterface $customer */
-        $customer = $order->getCustomer();
-
-        $exportData = $this->getExportData($order, $customer);
-
-        $mailLists = $this->mailchimpConfigContext->getConfig()->getLists();
-
-        foreach ($mailLists as $mailList) {
-            $storeData = [
-                'id' => $this->mailchimpConfigContext->getConfig()->getStoreId(),
-                'list_id' => $mailList->getListId(),
-                'name' => 'Store_' . $this->mailchimpConfigContext->getConfig()->getStoreId(),
-                'domain' => 'Domain' . $this->mailchimpConfigContext->getConfig()->getStoreId(),
-                'currency_code' => (string) $order->getCurrencyCode() ?: 'USD',
-            ];
-
-            try {
-                $this->request()->post('/ecommerce/stores',
-                    $storeData
-                );
-            } catch (\Exception $exception) {
-                throw new MailchimpApiException($exception->getMessage());
-            }
-        }
-
-        $this->exportOrderProducts($order);
-
-        try {
-            $this->request()->post(sprintf('/ecommerce/stores/%s/orders',
-                $this->mailchimpConfigContext->getConfig()->getStoreId()),
-                $exportData
-            );
-        } catch (\Exception $exception) {
-            throw new MailchimpApiException($exception->getMessage());
-        }
-    }
-
-    public function removeOrder(OrderInterface $order): void
+    public function exportProduct(string $storeId, array $productData): void
     {
         try {
-            $this->request()->delete(sprintf('/ecommerce/stores/%s/orders/%s',
-                    $this->mailchimpConfigContext->getConfig()->getStoreId(),
-                    $order->getId()
-                )
+            $this->apiClient->post(
+                sprintf('/ecommerce/stores/%s/products', $storeId),
+                $productData
             );
         } catch (\Exception $exception) {
             throw new MailchimpApiException($exception->getMessage());
@@ -118,100 +139,33 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
     }
 
     /**
-     * @return MailChimp
-     *
-     * @throws MailchimpApiException
+     * {@inheritdoc}
      */
-    private function request(): MailChimp
+    public function exportOrder(string $storeId, array $orderData): void
     {
         try {
-            $config = $this->mailchimpConfigContext->getConfig();
-            $mailchimpClient = new MailChimp($config->getApiKey());
+            $this->apiClient->post(
+                sprintf('/ecommerce/stores/%s/orders', $storeId),
+                $orderData
+            );
         } catch (\Exception $exception) {
             throw new MailchimpApiException($exception->getMessage());
         }
-
-        return $mailchimpClient;
     }
 
-    private function getExportData(OrderInterface $order, CustomerInterface $customer): array
+    /**
+     * {@inheritdoc}
+     */
+    public function removeOrder(string $storeId, string $orderId): void
     {
-        $shippingAddress = $order->getShippingAddress();
-
-        Assert::notNull($shippingAddress);
-
-        $exportData = [
-            'id' => (string) $order->getId(),
-            'customer' => [
-                'id' => (string) $customer->getId(),
-                'email_address' => (string) $customer->getEmail(),
-                'opt_in_status' => $customer->isSubscribedToNewsletter(),
-                'company' => (string) $shippingAddress->getCompany(),
-                'first_name' => (string) $shippingAddress->getFirstName(),
-                'last_name' => (string) $shippingAddress->getLastName(),
-                'address' => [
-                    'address1' => (string) $shippingAddress->getStreet(),
-                    'city' => (string) $shippingAddress->getCity(),
-                    'province' => (string) $shippingAddress->getProvinceName(),
-                    'province_code' => (string) $shippingAddress->getProvinceCode(),
-                    'postal_code' => (string) $shippingAddress->getPostcode(),
-                    'country_code' => (string) $shippingAddress->getCountryCode(),
-                ],
-            ],
-            'currency_code' => (string) $order->getCurrencyCode() ?: 'USD',
-            'order_total' => $order->getTotal() / 100,
-            'lines' => [],
-        ];
-
-        foreach ($order->getItems() as $orderItem) {
-            $product = $orderItem->getProduct();
-            $variant = $orderItem->getVariant();
-
-            if (null === $product || null === $variant) {
-                continue;
-            }
-
-            $exportData['lines'][] = [
-                'id' => (string) $orderItem->getId(),
-                'product_id' => (string) $product->getId(),
-                'product_variant_id' => (string) $variant->getId(),
-                'quantity' => $orderItem->getQuantity(),
-                'price' => $orderItem->getTotal() / 100,
-            ];
-        }
-
-        return $exportData;
-    }
-
-    private function exportOrderProducts(OrderInterface $order): void
-    {
-        foreach ($order->getItems() as $orderItem) {
-            $product = $orderItem->getProduct();
-            $variant = $orderItem->getVariant();
-
-            if (null === $product || null === $variant) {
-                continue;
-            }
-
-            $productData = [
-                'id' => (string) $product->getId(),
-                'title' => (string) $product->getName(),
-                'variants' => [],
-            ];
-
-            $productData['variants'][] = [
-                'id' => (string) $variant->getId(),
-                'title' => (string) $variant->getName(),
-            ];
-
-            try {
-                $this->request()->post(sprintf('/ecommerce/stores/%s/products',
-                    $this->mailchimpConfigContext->getConfig()->getStoreId()),
-                    $productData
-                );
-            } catch (\Exception $exception) {
-                throw new MailchimpApiException($exception->getMessage());
-            }
+        try {
+            $this->apiClient->delete(sprintf(
+                '/ecommerce/stores/%s/orders/%s',
+                $storeId,
+                $orderId
+            ));
+        } catch (\Exception $exception) {
+            throw new MailchimpApiException($exception->getMessage());
         }
     }
 }

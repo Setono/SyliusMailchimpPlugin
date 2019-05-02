@@ -9,23 +9,34 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 final class MailchimpApiClientMocker implements MailchimpApiClientInterface
 {
-    public function exportEmail(string $email, string $listId): void
+    public function isApiKeyValid(): bool
     {
-        return;
+        return true;
+    }
+
+    public function isAudienceIdValid(string $audienceId): bool
+    {
+        return true;
+    }
+
+    public function isMergeFieldsConfigured(string $audienceId, array $requiredMergeTags): bool
+    {
+        return true;
+    }
+
+    public function exportEmail(string $listId, string $email, array $options = []): void
+    {
     }
 
     public function removeEmail(string $email, string $listId): void
     {
-        return;
     }
 
     public function exportOrder(OrderInterface $order): void
     {
-        return;
     }
 
     public function removeOrder(OrderInterface $order): void
     {
-        return;
     }
 }

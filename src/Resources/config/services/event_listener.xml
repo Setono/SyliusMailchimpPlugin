@@ -9,11 +9,11 @@
         <service id="setono_sylius_mailchimp.event_listener.customer_listener"
                  class="Setono\SyliusMailchimpPlugin\EventListener\CustomerNewsletterListener">
             <argument type="service" id="sylius.repository.customer"/>
-            <argument type="service" id="setono_sylius_mailchimp.api_client.mailchimp"/>
-            <argument type="service" id="setono_sylius_mailchimp.context.config"/>
+            <argument type="service" id="setono_sylius_mailchimp.repository.list"/>
+            <argument type="service" id="setono_sylius_mailchimp.api_client.factory"/>
+            <argument type="service" id="setono_sylius_mailchimp.exporter.customer_newsletter"/>
             <argument type="service" id="sylius.context.channel"/>
             <argument type="service" id="setono_sylius_mailchimp.context.locale"/>
-            <argument type="service" id="setono_sylius_mailchimp.manager.list"/>
             <argument type="service" id="logger"/>
             <argument type="collection">
                 <argument>sylius_shop_register</argument>
@@ -26,7 +26,7 @@
         <service id="setono_sylius_mailchimp.event_listener.order_listener"
                  class="Setono\SyliusMailchimpPlugin\EventListener\OrderListener">
             <argument type="service" id="sylius.repository.order"/>
-            <argument type="service" id="setono_sylius_mailchimp.api_client.mailchimp"/>
+            <argument type="service" id="setono_sylius_mailchimp.exporter.customer_order"/>
             <argument type="service" id="logger"/>
             <argument type="collection">
                 <argument>sylius_shop_order_thank_you</argument>

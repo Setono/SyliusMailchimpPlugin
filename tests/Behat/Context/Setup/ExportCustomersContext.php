@@ -35,7 +35,7 @@ final class ExportCustomersContext implements Context
     private $customerRepository;
 
     /** @var FactoryInterface */
-    private $mailChimpList;
+    private $mailchimpList;
 
     public function __construct(
         MailchimpConfigRepositoryInterface $configRepository,
@@ -44,7 +44,7 @@ final class ExportCustomersContext implements Context
         RandomStringGeneratorInterface $randomStringGenerator,
         FactoryInterface $customerFactory,
         CustomerRepositoryInterface $customerRepository,
-        FactoryInterface $mailChimpList
+        FactoryInterface $mailchimpList
     ) {
         $this->configRepository = $configRepository;
         $this->configFactory = $configFactory;
@@ -52,7 +52,7 @@ final class ExportCustomersContext implements Context
         $this->randomStringGenerator = $randomStringGenerator;
         $this->customerFactory = $customerFactory;
         $this->customerRepository = $customerRepository;
-        $this->mailChimpList = $mailChimpList;
+        $this->mailchimpList = $mailchimpList;
     }
 
     /**
@@ -63,7 +63,7 @@ final class ExportCustomersContext implements Context
         $config = $this->createConfig();
 
         /** @var MailchimpListInterface $list */
-        $list = $this->mailChimpList->createNew();
+        $list = $this->mailchimpList->createNew();
 
         $list->setListId($this->randomStringGenerator->generate(10));
 
@@ -79,7 +79,7 @@ final class ExportCustomersContext implements Context
      */
     public function theStoreAllowsAllEmailsToBeExported(): void
     {
-        $this->configRepository->findConfig()->setExportAll(true);
+        $this->configRepository->findConfig()->setExportSubscribedOnly(true);
     }
 
     /**

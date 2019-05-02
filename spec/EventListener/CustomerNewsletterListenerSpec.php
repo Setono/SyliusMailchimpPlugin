@@ -26,20 +26,20 @@ final class CustomerNewsletterListenerSpec extends ObjectBehavior
 {
     function let(
         CustomerRepositoryInterface $customerRepository,
-        MailchimpApiClientInterface $mailChimpApiClient,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
+        MailchimpApiClientInterface $mailchimpApiClient,
+        MailchimpConfigContextInterface $mailchimpConfigContext,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
-        EntityManagerInterface $mailChimpListManager,
+        EntityManagerInterface $mailchimpListManager,
         LoggerInterface $logger
     ): void {
         $this->beConstructedWith(
             $customerRepository,
-            $mailChimpApiClient,
-            $mailChimpConfigContext,
+            $mailchimpApiClient,
+            $mailchimpConfigContext,
             $channelContext,
             $localeContext,
-            $mailChimpListManager,
+            $mailchimpListManager,
             $logger,
             ['sylius_shop_register', 'sylius_shop_account_profile_update']
         );
@@ -60,10 +60,10 @@ final class CustomerNewsletterListenerSpec extends ObjectBehavior
         ChannelInterface $channel,
         LocaleInterface $locale,
         ChannelContextInterface $channelContext,
-        MailchimpConfigInterface $mailChimpConfig,
-        MailchimpListInterface $mailChimpList,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
-        MailchimpApiClientInterface $mailChimpApiClient
+        MailchimpConfigInterface $mailchimpConfig,
+        MailchimpListInterface $mailchimpList,
+        MailchimpConfigContextInterface $mailchimpConfigContext,
+        MailchimpApiClientInterface $mailchimpApiClient
     ): void {
         $request->request = $parameterBag;
 
@@ -75,12 +75,11 @@ final class CustomerNewsletterListenerSpec extends ObjectBehavior
         $customer->getEmail()->willReturn('user@example.com');
         $channelContext->getChannel()->willReturn($channel);
         $localeContext->getLocale()->willReturn($locale);
-        $mailChimpList->getListId()->willReturn('test');
-        $mailChimpConfig->getListForChannelAndLocale($channel, $locale)->willReturn($mailChimpList);
-        $mailChimpConfigContext->getConfig()->willReturn($mailChimpConfig);
+        $mailchimpList->getListId()->willReturn('test');
+        $mailchimpConfig->getListForChannelAndLocale($channel, $locale)->willReturn($mailchimpList);
+        $mailchimpConfigContext->getConfig()->willReturn($mailchimpConfig);
 
-        $mailChimpApiClient->exportEmail('user@example.com', 'test')->shouldBeCalled();
-        $mailChimpList->addEmail('user@example.com')->shouldBeCalled();
+        $mailchimpApiClient->exportEmail('user@example.com', 'test')->shouldBeCalled();
 
         $this->manageSubscription($postResponseEvent);
     }

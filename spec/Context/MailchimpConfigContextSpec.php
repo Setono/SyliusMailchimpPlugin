@@ -25,37 +25,37 @@ final class MailchimpConfigContextSpec extends ObjectBehavior
     }
 
     function let(
-        MailchimpConfigRepository $mailChimpConfigRepository,
-        RepositoryInterface $mailChimpListRepository,
+        MailchimpConfigRepository $mailchimpConfigRepository,
+        RepositoryInterface $mailchimpListRepository,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
-        FactoryInterface $mailChimpConfigFactory,
-        FactoryInterface $mailChimpListFactory,
+        FactoryInterface $mailchimpConfigFactory,
+        FactoryInterface $mailchimpListFactory,
         EntityManagerInterface $configEntityManager
     ): void {
         $this->beConstructedWith(
-            $mailChimpConfigRepository,
-            $mailChimpListRepository,
+            $mailchimpConfigRepository,
+            $mailchimpListRepository,
             $channelContext,
             $localeContext,
-            $mailChimpConfigFactory,
-            $mailChimpListFactory,
+            $mailchimpConfigFactory,
+            $mailchimpListFactory,
             $configEntityManager
         );
     }
 
     function it_gets_config(
-        FactoryInterface $mailChimpConfigFactory,
+        FactoryInterface $mailchimpConfigFactory,
         MailchimpConfigInterface $config,
-        FactoryInterface $mailChimpListFactory,
+        FactoryInterface $mailchimpListFactory,
         MailchimpListInterface $list,
         ChannelContextInterface $channelContext,
         ChannelInterface $channel,
         LocaleContextInterface $localeContext,
         LocaleInterface $locale
     ): void {
-        $mailChimpConfigFactory->createNew()->willReturn($config);
-        $mailChimpListFactory->createNew()->willReturn($list);
+        $mailchimpConfigFactory->createNew()->willReturn($config);
+        $mailchimpListFactory->createNew()->willReturn($list);
         $channelContext->getChannel()->willReturn($channel);
         $localeContext->getLocale()->willReturn($locale);
 

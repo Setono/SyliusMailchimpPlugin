@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\EventListener;
 
 use Psr\Log\LoggerInterface;
-use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
+use Setono\SyliusMailchimpPlugin\Exporter\CustomerOrderExporterInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
@@ -17,8 +16,8 @@ final class OrderListener
     /** @var OrderRepositoryInterface */
     private $orderRepository;
 
-    /** @var MailchimpApiClientInterface */
-    private $mailChimpApiClient;
+    /** @var CustomerOrderExporterInterface */
+    private $customerOrderExporter;
 
     /** @var LoggerInterface */
     private $logger;
@@ -28,12 +27,12 @@ final class OrderListener
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        MailchimpApiClientInterface $mailChimpApiClient,
+        CustomerOrderExporterInterface $customerOrderExporter,
         LoggerInterface $logger,
         array $supportedRoutes
     ) {
         $this->orderRepository = $orderRepository;
-        $this->mailChimpApiClient = $mailChimpApiClient;
+        $this->customerOrderExporter = $customerOrderExporter;
         $this->logger = $logger;
         $this->supportedRoutes = $supportedRoutes;
     }
@@ -52,12 +51,7 @@ final class OrderListener
 
             Assert::notNull($order, sprintf('Order not found.'));
 
-            /** @var CustomerInterface $customer */
-            $customer = $order->getUser();
-
-            if ($customer->isSubscribedToNewsletter()) {
-                $this->mailChimpApiClient->exportOrder($order);
-            }
+            $this->customerOrderExporter->exportOrder($order);
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
         }

@@ -5,30 +5,29 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Exporter;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
-use Setono\SyliusMailchimpPlugin\Context\LocaleContextInterface;
-use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
+use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientFactoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpExportRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Exception\NotSetUpException;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Factory\MailchimpExportFactoryInterface;
+use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
+use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Webmozart\Assert\Assert;
 
 final class CustomerNewsletterExporter implements CustomerNewsletterExporterInterface
 {
-    /** @var FactoryInterface */
-    private $mailChimpExportFactory;
+    /** @var MailchimpExportFactoryInterface */
+    private $mailchimpExportFactory;
 
     /** @var MailchimpExportRepositoryInterface */
-    private $mailChimpExportRepository;
+    private $mailchimpExportRepository;
 
     /** @var CustomerRepositoryInterface */
     private $customerRepository;
@@ -42,142 +41,242 @@ final class CustomerNewsletterExporter implements CustomerNewsletterExporterInte
     /** @var RepositoryInterface */
     private $localeRepository;
 
-    /** @var MailchimpConfigContextInterface */
-    private $mailChimpConfigContext;
+    /** @var EntityManagerInterface */
+    private $mailchimpExportManager;
 
-    /** @var MailchimpApiClientInterface */
-    private $mailChimpApiClient;
+    /** @var MailchimpListRepositoryInterface */
+    private $mailchimpListRepository;
 
     /** @var EntityManagerInterface */
-    private $mailChimpExportManager;
+    private $mailchimpListManager;
 
-    /** @var EntityManagerInterface */
-    private $mailChimpListManager;
+    /** @var MailchimpApiClientFactoryInterface */
+    private $mailchimpApiClientFactory;
+
+    /** @var array */
+    private $mailchimpMergeFields;
 
     public function __construct(
-        FactoryInterface $mailChimpExportFactory,
-        MailchimpExportRepositoryInterface $mailChimpExportRepository,
+        FactoryInterface $mailchimpExportFactory,
+        MailchimpExportRepositoryInterface $mailchimpExportRepository,
         CustomerRepositoryInterface $customerRepository,
         ChannelContextInterface $channelContext,
         LocaleContextInterface $localeContext,
         RepositoryInterface $localeRepository,
-        MailchimpConfigContextInterface $mailChimpConfigContext,
-        MailchimpApiClientInterface $mailChimpApiClient,
-        EntityManagerInterface $mailChimpExportManager,
-        EntityManagerInterface $mailChimpListManager
+        MailchimpApiClientFactoryInterface $mailchimpApiClientFactory,
+        EntityManagerInterface $mailchimpExportManager,
+        MailchimpListRepositoryInterface $mailchimpListRepository,
+        EntityManagerInterface $mailchimpListManager,
+        array $mailchimpMergeFields
     ) {
-        $this->mailChimpExportFactory = $mailChimpExportFactory;
-        $this->mailChimpExportRepository = $mailChimpExportRepository;
+        $this->mailchimpExportFactory = $mailchimpExportFactory;
+        $this->mailchimpExportRepository = $mailchimpExportRepository;
         $this->customerRepository = $customerRepository;
         $this->channelContext = $channelContext;
         $this->localeContext = $localeContext;
         $this->localeRepository = $localeRepository;
-        $this->mailChimpConfigContext = $mailChimpConfigContext;
-        $this->mailChimpApiClient = $mailChimpApiClient;
-        $this->mailChimpExportManager = $mailChimpExportManager;
-        $this->mailChimpListManager = $mailChimpListManager;
+        $this->mailchimpApiClientFactory = $mailchimpApiClientFactory;
+        $this->mailchimpExportManager = $mailchimpExportManager;
+        $this->mailchimpListRepository = $mailchimpListRepository;
+        $this->mailchimpListManager = $mailchimpListManager;
+        $this->mailchimpMergeFields = $mailchimpMergeFields;
     }
 
-    public function exportNotExportedCustomers(): ?MailchimpExportInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function handleExport(MailchimpExportInterface $mailchimpExport, int $limit = 100): int
     {
-        if (false === $this->mailChimpConfigContext->isFullySetUp()) {
-            throw new NotSetUpException();
-        }
+        /** @var MailchimpListInterface $mailchimpList */
+        $mailchimpList = $mailchimpExport->getList();
 
-        $config = $this->mailChimpConfigContext->getConfig();
-        $customers = $config->getExportAll() ? $this->customerRepository->findAll() : $this->customerRepository->findNonExportedCustomers();
+        $customers = $mailchimpList->isExportSubscribedOnly() ?
+            $this->customerRepository->findNotExportedSubscribers($mailchimpList, $limit) :
+            $this->customerRepository->findAllNotExported($mailchimpList, $limit)
+        ;
 
-        if (0 === count($customers)) {
-            return null;
-        }
+        $customersExported = 0;
+        $initialErrorsCount = $mailchimpExport->getErrorsCount();
+        if (0 == count($customers)) {
+            // Once no unexported customers found, count this export as completed
+            $mailchimpExport->setState(MailchimpExportInterface::COMPLETED_STATE);
+            $mailchimpExport->setFinishedAt(new \DateTime());
+        } else {
+            /** @var CustomerInterface $customer */
+            foreach ($customers as $customer) {
+                try {
+                    $isCustomerExported = $this->exportCustomer($mailchimpList, $customer);
+                    if ($isCustomerExported) {
+                        $mailchimpExport->addCustomer($customer);
+                        $customer->addMailchimpExport($mailchimpExport);
+                        $mailchimpList->addExportedCustomer($customer);
+                    }
 
-        /** @var MailchimpExportInterface $export */
-        $export = $this->mailChimpExportFactory->createNew();
+                    $customersExported++;
+                } catch (\Exception $exception) {
+                    $mailchimpExport->addError($exception->getMessage());
+                }
+            }
 
-        $export->setState(MailchimpExportInterface::IN_PROGRESS_STATE);
-
-        $this->mailChimpExportRepository->add($export);
-
-        foreach ($customers as $customer) {
-            try {
-                $channel = $this->resolveCustomerChannel($customer);
-                $locale = $this->resolveCustomerLocale($customer);
-                /** @var MailchimpListInterface $globalList */
-                $globalList = $config->getListForChannelAndLocale($channel, $locale);
-                $email = $customer->getEmail();
-
-                $export->addCustomer($customer);
-                $globalList->addEmail($email);
-
-                $this->mailChimpApiClient->exportEmail($email, $globalList->getListId());
-            } catch (\Exception $exception) {
-                $export->setState(MailchimpExportInterface::FAILED_STATE);
-                $export->addError($exception->getMessage());
-
-                return $export;
+            if ($mailchimpExport->getErrorsCount() > $initialErrorsCount) {
+                $mailchimpExport->setState(MailchimpExportInterface::FAILED_STATE);
+                $mailchimpExport->setFinishedAt(new \DateTime());
+            } else {
+                $mailchimpExport->setState(MailchimpExportInterface::IN_PROGRESS_STATE);
             }
         }
 
-        $export->setState(MailchimpExportInterface::COMPLETED_STATE);
+        $this->mailchimpExportRepository->add($mailchimpExport);
 
-        $this->mailChimpExportManager->flush();
-
-        return $export;
+        return $customersExported;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function exportSingleCustomerForOrder(OrderInterface $order): void
     {
-        if (false === $this->mailChimpConfigContext->isFullySetUp()) {
-            return;
-        }
+        $mailchimpLists = $this->mailchimpListRepository->findByChannel($order->getChannel());
 
-        $config = $this->mailChimpConfigContext->getConfig();
         /** @var CustomerInterface $customer */
         $customer = $order->getCustomer();
-        $channel = $order->getChannel();
-        $locale = $this->getLocaleForCode($order->getLocaleCode());
+        foreach ($mailchimpLists as $mailchimpList) {
+            if (!$mailchimpList->shouldCustomerBeExported($customer)) {
+                continue;
+            }
 
-        if ($config->getExportAll() || $customer->isSubscribedToNewsletter()) {
-            /** @var MailchimpListInterface $globalList */
-            $globalList = $config->getListForChannelAndLocale($channel, $locale);
-            $email = $customer->getEmail();
+            $isCustomerExported = $this->exportCustomer(
+                $mailchimpList,
+                $customer,
+                $this->channelContext->getChannel()->getCode(),
+                $order->getLocaleCode()
+            );
 
-            $this->mailChimpApiClient->exportEmail($email, $globalList->getListId());
-
-            $globalList->addEmail($email);
-
-            $this->mailChimpListManager->flush();
+            if ($isCustomerExported) {
+                // @todo
+            }
         }
+
+        $this->mailchimpListManager->flush();
     }
 
-    private function resolveCustomerChannel(CustomerInterface $customer): ChannelInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @todo OptionsBuilder
+     */
+    public function exportCustomer(MailchimpListInterface $mailchimpList, CustomerInterface $customer, ?string $channelCode = null, ?string $localeCode = null): bool
+    {
+        if (!$localeCode) {
+            $localeCode = $this->resolveCustomerLocaleCode($customer);
+        }
+
+        $mergeFields = [];
+
+        if ($this->mailchimpMergeFields['first_name'] && $customer->getFirstName()) {
+            $mergeFields[$this->mailchimpMergeFields['first_name']] = $customer->getFirstName();
+        }
+
+        if ($this->mailchimpMergeFields['last_name'] && $customer->getLastName()) {
+            $mergeFields[$this->mailchimpMergeFields['last_name']] = $customer->getLastName();
+        }
+
+        if ($this->mailchimpMergeFields['address']) {
+            if (null !== $customer->getDefaultAddress()) {
+                /** @var AddressInterface $address */
+                $address = $customer->getDefaultAddress();
+            } elseif (!$customer->getAddresses()->isEmpty()) {
+                $address = $customer->getAddresses()->first();
+            } else {
+                $address = null;
+            }
+
+            if (null !== $address) {
+                $mergeFields[$this->mailchimpMergeFields['address']] = sprintf(
+                    '%s, %s, %s, %s',
+                    $address->getCountryCode(),
+                    $address->getProvinceName(),
+                    $address->getCity(),
+                    $address->getStreet()
+                );
+            }
+        }
+
+        if ($this->mailchimpMergeFields['phone']) {
+            if (null !== $customer->getPhoneNumber()) {
+                $mergeFields[$this->mailchimpMergeFields['phone']] = $customer->getPhoneNumber();
+            } elseif (null !== $customer->getDefaultAddress()) {
+                /** @var AddressInterface $address */
+                $address = $customer->getDefaultAddress();
+                $mergeFields[$this->mailchimpMergeFields['phone']] = $address->getPhoneNumber();
+            } elseif (!$customer->getAddresses()->isEmpty()) {
+                foreach ($customer->getAddresses() as $address) {
+                    if (null !== $address->getPhoneNumber()) {
+                        $mergeFields[$this->mailchimpMergeFields['phone']] = $address->getPhoneNumber();
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        if ($this->mailchimpMergeFields['channel']) {
+            if (!$channelCode) {
+                $channelCode = $this->resolveCustomerChannelCode($customer);
+            }
+            $mergeFields[$this->mailchimpMergeFields['channel']] = $channelCode;
+        }
+
+        if ($this->mailchimpMergeFields['locale']) {
+            $mergeFields[$this->mailchimpMergeFields['locale']] = $localeCode;
+        }
+
+        try {
+            $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return $apiClient->exportEmail(
+            $mailchimpList->getListId(),
+            $customer->getEmail(),
+            [
+                'merge_fields' => $mergeFields,
+
+                // @see https://mailchimp.com/help/view-and-edit-contact-languages/
+                'language' => substr($localeCode, 0, 2),
+            ]
+        );
+    }
+
+    /**
+     * @param CustomerInterface $customer
+     *
+     * @return string
+     */
+    private function resolveCustomerChannelCode(CustomerInterface $customer): string
     {
         if (0 === $customer->getOrders()->count()) {
             /** @var ChannelInterface $channel */
             $channel = $this->channelContext->getChannel();
 
-            return $channel;
+            return $channel->getCode();
         }
 
-        return $customer->getOrders()->last()->getChannel();
+        return $customer->getOrders()->last()->getChannel()->getCode();
     }
 
-    private function resolveCustomerLocale(CustomerInterface $customer): LocaleInterface
+    /**
+     * @param CustomerInterface $customer
+     *
+     * @return string
+     */
+    private function resolveCustomerLocaleCode(CustomerInterface $customer): string
     {
         if (0 === $customer->getOrders()->count()) {
-            return $this->localeContext->getLocale();
+            return $this->localeContext->getLocaleCode();
         }
 
-        return $this->getLocaleForCode($customer->getOrders()->last()->getLocaleCode());
-    }
-
-    private function getLocaleForCode(string $localeCode): LocaleInterface
-    {
-        /** @var LocaleInterface $locale */
-        $locale = $this->localeRepository->findOneBy(['code' => $localeCode]);
-
-        Assert::isInstanceOf($locale, LocaleInterface::class);
-
-        return $locale;
+        return $customer->getOrders()->last()->getLocaleCode();
     }
 }

@@ -1,3 +1,7 @@
+setono_sylius_mailchimp_admin_ajax:
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/ajax.yaml"
+    prefix: /ajax/mailchimp
+
 setono_sylius_mailchimp_admin:
     resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp.yaml"
     prefix: /mailchimp
