@@ -17,9 +17,9 @@ use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-class MailchimpConfigContextSpec extends ObjectBehavior
+final class MailchimpConfigContextSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(MailchimpConfigContext::class);
     }

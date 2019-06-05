@@ -11,7 +11,7 @@ use Sylius\Component\Locale\Context\LocaleContextInterface as BaseLocaleContextI
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-class LocaleContextSpec extends ObjectBehavior
+final class LocaleContextSpec extends ObjectBehavior
 {
     function let(
         RepositoryInterface $localeRepository,
@@ -20,7 +20,7 @@ class LocaleContextSpec extends ObjectBehavior
         $this->beConstructedWith($localeRepository, $baseLocaleContext);
     }
 
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(LocaleContext::class);
     }

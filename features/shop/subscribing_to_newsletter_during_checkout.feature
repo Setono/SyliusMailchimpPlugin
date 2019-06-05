@@ -14,7 +14,7 @@ Feature: Subscribing to the newsletter during the checkout
         And there is a customer account "kimi@raikkonen.fi" identified by "sylius"
         And I am logged in as "kimi@raikkonen.fi"
 
-    @ui
+    @ui @javascript
     Scenario: Exporting an email during the checkout
         Given I have product "PHP T-Shirt" in the cart
         And I specified the shipping address as "Ankh Morpork", "Frost Alley", "90210", "United States" for "Jon Snow"

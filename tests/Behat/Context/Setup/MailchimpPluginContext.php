@@ -6,6 +6,7 @@ namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Doctrine\ORM\EntityManagerInterface;
+use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Entity\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Entity\MailchimpListInterface;
 use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
@@ -21,8 +22,8 @@ final class MailchimpPluginContext implements Context
     /** @var SharedStorageInterface */
     private $sharedStorage;
 
-    /** @var FactoryInterface */
-    private $configFactory;
+    /** @var MailchimpConfigContextInterface */
+    private $mailchimpConfigContext;
 
     /** @var RandomStringGeneratorInterface */
     private $randomStringGenerator;
@@ -36,14 +37,14 @@ final class MailchimpPluginContext implements Context
     public function __construct(
         MailchimpConfigRepositoryInterface $configRepository,
         SharedStorageInterface $sharedStorage,
-        FactoryInterface $configFactory,
+        MailchimpConfigContextInterface $mailchimpConfigContext,
         FactoryInterface $listFactory,
         RandomStringGeneratorInterface $randomStringGenerator,
         EntityManagerInterface $entityManager
     ) {
         $this->configRepository = $configRepository;
         $this->sharedStorage = $sharedStorage;
-        $this->configFactory = $configFactory;
+        $this->mailchimpConfigContext = $mailchimpConfigContext;
         $this->listFactory = $listFactory;
         $this->randomStringGenerator = $randomStringGenerator;
         $this->entityManager = $entityManager;
@@ -86,8 +87,7 @@ final class MailchimpPluginContext implements Context
         ?string $code = null,
         ?string $apiKey = null
     ): MailchimpConfigInterface {
-        /** @var MailchimpConfigInterface $config */
-        $config = $this->configFactory->createNew();
+        $config = $this->mailchimpConfigContext->getConfig();
 
         $config->setCode($code ?? $this->randomStringGenerator->generate(10));
         $config->setApiKey($apiKey ?? $this->randomStringGenerator->generate(10));

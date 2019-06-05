@@ -11,9 +11,9 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-class MailchimpListSpec extends ObjectBehavior
+final class MailchimpListSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(MailchimpList::class);
     }

@@ -2,25 +2,37 @@ imports:
     - { resource: services/form.yml }
     - { resource: services/menu.yml }
     - { resource: services/context.yml }
+    - { resource: services/controller.yml }
 
 services:
     setono_sylius_mailchimp.api_client.mailchimp:
         class: Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClient
-        public: true
         arguments:
             - "@setono_sylius_mailchimp.context.config"
 
     setono_sylius_mailchimp.event_listener.customer_listener:
         class: Setono\SyliusMailchimpPlugin\EventListener\CustomerNewsletterListener
         arguments:
+            - "@sylius.repository.customer"
             - "@setono_sylius_mailchimp.api_client.mailchimp"
             - "@setono_sylius_mailchimp.context.config"
             - "@sylius.context.channel"
             - "@setono_sylius_mailchimp.context.locale"
             - "@setono_sylius_mailchimp.manager.list"
+            - "@logger"
+            - ['sylius_shop_register', 'sylius_shop_account_profile_update']
         tags:
-            - { name: "kernel.event_listener", event: "sylius.customer.post_register", method: manageSubscription }
-            - { name: "kernel.event_listener", event: "sylius.customer.pre_update", method: manageSubscription }
+            - { name: "kernel.event_listener", event: "kernel.terminate", method: manageSubscription }
+
+    setono_sylius_mailchimp.event_listener.order_listener:
+        class: Setono\SyliusMailchimpPlugin\EventListener\OrderListener
+        arguments:
+            - "@sylius.repository.order"
+            - "@setono_sylius_mailchimp.api_client.mailchimp"
+            - "@logger"
+            - ['sylius_shop_order_thank_you']
+        tags:
+            - { name: "kernel.event_listener", event: "kernel.terminate", method: manageOrderSubscription }
 
     setono_sylius_mailchimp.repository.customer:
         class: Setono\SyliusMailchimpPlugin\Repository\CustomerRepository
@@ -37,10 +49,17 @@ services:
             - "@setono_sylius_mailchimp.repository.customer"
             - "@sylius.context.channel"
             - "@setono_sylius_mailchimp.context.locale"
+            - "@sylius.repository.locale"
             - "@setono_sylius_mailchimp.context.config"
             - "@setono_sylius_mailchimp.api_client.mailchimp"
             - "@setono_sylius_mailchimp.manager.export"
             - "@setono_sylius_mailchimp.manager.list"
+
+    setono_sylius_mailchimp.exporter.customer_order:
+        class: Setono\SyliusMailchimpPlugin\Exporter\CustomerOrderExporter
+        public: true
+        arguments:
+            - "@setono_sylius_mailchimp.api_client.mailchimp"
 
     setono_sylius_mailchimp.controller.action.export_to_mailchimp:
         class: Setono\SyliusMailchimpPlugin\Controller\Action\ExportToMailchimpAction
@@ -62,4 +81,27 @@ services:
     setono_sylius_mailchimp.form.extension.type.checkout.complete:
         class: Setono\SyliusMailchimpPlugin\Form\Extension\CompleteTypeExtension
         tags:
-            - { name: form.type_extension, extended_type: Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType }
+            - { name: form.type_extension }
+
+    setono_sylius_mailchimp.validator.cosntraints.unique_email_validator:
+        class: Setono\SyliusMailchimpPlugin\Validator\Constraints\UniqueEmailConstraintValidator
+        arguments:
+            - "@sylius.repository.customer"
+        tags:
+            - { name: "validator.constraint_validator" }
+
+    setono_sylius_mailchimp.validator.newsletter_email:
+        class: Setono\SyliusMailchimpPlugin\Validator\NewsletterEmailValidator
+        arguments:
+            - "@validator"
+
+    setono_sylius_mailchimp.handler.newsletter_subscription:
+        class: Setono\SyliusMailchimpPlugin\Handler\NewsletterSubscriptionHandler
+        arguments:
+            - "@sylius.repository.customer"
+            - "@sylius.factory.customer"
+            - "@sylius.manager.customer"
+            - "@setono_sylius_mailchimp.api_client.mailchimp"
+            - "@setono_sylius_mailchimp.context.config"
+            - "@setono_sylius_mailchimp.context.locale"
+            - "@sylius.context.channel"

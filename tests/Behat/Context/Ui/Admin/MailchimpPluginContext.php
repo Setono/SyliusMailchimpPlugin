@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
+use FriendsOfBehat\PageObjectExtension\Page\SymfonyPageInterface;
 use Setono\SyliusMailchimpPlugin\Repository\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\Admin\DashboardPageInterface;
-use Sylius\Behat\Page\SymfonyPageInterface;
 use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
@@ -140,11 +140,11 @@ final class MailchimpPluginContext implements Context
     }
 
     /**
-     * @Then the Mailchimp config should have one list with :code code and :listId list ID
+     * @Then the Mailchimp config should have one list with :listId list ID
      */
-    public function theMailchimpConfigShouldHaveOneListWithCodeAndListId(string $code, string $listId): void
+    public function theMailchimpConfigShouldHaveOneListWithListId(string $listId): void
     {
-        Assert::true($this->resolveCurrentPage()->containsList($code, $listId));
+        Assert::true($this->resolveCurrentPage()->containsList($listId));
     }
 
     /**

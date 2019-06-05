@@ -103,7 +103,7 @@ final class MailchimpExportCliContext implements Context
      */
     public function iShouldSeeAnErrorSayingThatINeedToSetUpTheMailchimpConfigFirst(): void
     {
-        Assert::contains($this->tester->getDisplay(), 'Command executed.');
+        Assert::contains($this->tester->getDisplay(), 'Please set up the Mailchimp config properly first.');
     }
 
     /**
