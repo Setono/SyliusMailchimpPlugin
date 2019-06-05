@@ -11,9 +11,6 @@
         "drewm/mailchimp-api": "^2.5",
         "ext-json": "*"
     },
-    "conflict": {
-        "symfony/doctrine-bridge": "4.3.0"
-    },
     "require-dev": {
         "behat/behat": "^3.4",
         "behat/mink": "^1.7@dev",
@@ -30,6 +27,7 @@
         "phpstan/phpstan-shim": "^0.10",
         "phpstan/phpstan-symfony": "^0.10",
         "phpstan/phpstan-webmozart-assert": "^0.10",
+        "roave/security-advisories": "dev-master",
         "sensiolabs/security-checker": "^5.0",
         "sylius-labs/coding-standard": "^2.0",
         "symfony/browser-kit": "^3.4|^4.1",
@@ -44,6 +42,7 @@
         "symfony/symfony": "4.1.8",
         "symfony/browser-kit": "4.1.8",
         "symfony/dependency-injection": "4.1.8",
+        "symfony/doctrine-bridge": "4.3.0",
         "symfony/dom-crawler": "4.1.8",
         "symfony/routing": "4.1.8"
     },
