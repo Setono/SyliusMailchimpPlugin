@@ -5,13 +5,3 @@ imports:
 services:
     setono_sylius_mailchimp.api_client.mailchimp:
         class: Tests\Setono\SyliusMailchimpPlugin\Behat\Mocker\MailchimpApiClientMocker
-        
-# todo remove this when this PR is merged https://github.com/Sylius/Sylius/pull/10426
-    test.client:
-        class: Symfony\Component\HttpKernel\Client
-        public: true
-        arguments:
-            - "@kernel"
-            - "%test.client.parameters%"
-            - "@test.client.history"
-            - "@test.client.cookiejar"
