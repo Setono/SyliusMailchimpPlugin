@@ -5,8 +5,8 @@ dist: trusty
 sudo: false
 
 php:
-    - 7.2
-    - 7.3
+    - '7.2'
+    - '7.3'
 
 cache:
     yarn: true
@@ -24,7 +24,6 @@ before_install:
     - phpenv config-rm xdebug.ini
     - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     - mkdir -p "${SYLIUS_CACHE_DIR}"
-    - mkdir -p tests/Application/web/media/image
 
 install:
     - composer install --no-interaction --prefer-dist
@@ -67,9 +66,10 @@ before_script:
     - (cd tests/Application && bin/console server:run 127.0.0.1:8080 --quiet > /dev/null 2>&1 &)
 
 script:
-    - composer validate --strict
+    - composer validate
     - vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 
+    - vendor/bin/phpunit
     - vendor/bin/phpspec run
     - vendor/bin/behat --strict -vvv --no-interaction || vendor/bin/behat --strict -vvv --no-interaction --rerun
 
