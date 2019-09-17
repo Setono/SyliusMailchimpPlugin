@@ -19,6 +19,15 @@ developed with the contribution of the BitBag team.
 $ composer require setono/sylius-mailchimp-plugin
 ```
 
+#### (optional) Add transport for enqueue bundle
+
+(see https://github.com/php-enqueue/enqueue-dev/blob/master/docs/bundle/quick_tour.md
+for more details)
+
+```bash
+composer require enqueue/fs
+```
+
 ### 2. Import configuration:
 
 ```yaml
@@ -41,6 +50,9 @@ setono_sylius_mailchimp:
 $bundles = [
     Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin::class => ['all' => true],
     Sylius\Bundle\GridBundle\SyliusGridBundle::class => ['all' => true],
+    
+    // Uncomment if you want to use queues
+    // Enqueue\Bundle\EnqueueBundle::class => ['all' => true],
 ];
 ```
 
@@ -177,7 +189,28 @@ $ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
 ```
 
-### 6. Configure subscription form:
+### 6. Make plugin configurations:
+
+#### 1. (optional) Enable and add proper enqueue bundle configuration
+
+```yaml
+# config/packages/setono_sylius_mailchimp.yaml
+
+setono_sylius_mailchimp:
+    queue: true
+
+enqueue:
+    transport:
+        # Here we use enqueue/fs for testing as most simple transport implementation
+        # @see https://enqueue.readthedocs.io/en/latest/transport/filesystem/
+        default: fs
+        fs:
+            dsn: "file://%kernel.project_dir%/var/queue"
+    client:
+        traceable_producer: true
+```
+
+#### 2. Subscriptions form at shop's footer
 
 - By default, subscription form will be added to footer via block events.
 
@@ -209,6 +242,45 @@ $ php bin/console doctrine:migrations:migrate
     
     See example at `tests/Application/templates/bundles/SyliusShopBundle/_footer.html.twig`.
 
+#### 3. (optional) Create and/or configure Mailchimp Merge Fields
+
+  - If you don't want to collect channel and locale of subscribers,
+    (your shop works with just one channel and locale, for example)
+    you can skip this step, as far as by default, plugin configured 
+    to work with existing (Mailchimp's default) Merge Fields only:
+
+    ```yaml
+    # config/packages/setono_sylius_mailchimp.yaml
+    setono_sylius_mailchimp:
+        merge_fields:
+            first_name: FNAME # Mailchimp's default
+            last_name: LNAME  # Mailchimp's default
+            address: ADDRESS  # Mailchimp's default
+            phone: PHONE      # Mailchimp's default
+            channel: false    # Which means don't store subscriber's channel at mailchimp side
+            locale: false     # Which means don't store subscriber's locale at mailchimp side
+    ```
+    
+  - If you want to use channel and locale Merge Fields:
+  
+    - Add desired Merge Fields at Mailchimp side like this:
+      
+      ![Screenshot showing how to configure mailchimp mergefields](docs/images/mailchimp-list-mergefields.png)
+      
+      You can configure both channel and locale mergefield's type as `text` or as `dropdown`.
+    
+    - Configure plugin to use that Merge Fields names:
+  
+        ```yaml
+        # config/packages/setono_sylius_mailchimp.yaml
+        setono_sylius_mailchimp:
+            merge_fields:
+                channel: CHANNEL
+                locale: LOCALE
+        ```
+        
+      (You can use any other names for sure - `CHANNEL_CODE`, `LOCALE_CODE`, for example)
+
 ### 7. Install assets:
 
 ```bash
@@ -226,16 +298,39 @@ $ php bin/console cache:clear
 - To create exports - every day:
 
     ```bash
-    * 03 * * * path/to/php path/to/app/bin/console setono:mailchimp:export:create -n
+    * 03 * * * path/to/php path/to/bin/console setono:mailchimp:export:create -n
     ````
 
 - To handle exports - every minute:
 
     ```bash
-    01 * * * * path/to/php path/to/app/bin/console setono:mailchimp:export:handle --limit=30
+    01 * * * * path/to/php path/to/bin/console setono:mailchimp:export:handle --limit=30
     ````
     
     Providing such `limit` allow to export 30 customers per minute. 
+
+### 10. (production) Configure `supervisord` if you use queues 
+
+Make sure next command always in run state:
+
+```bash
+path/to/bin/console enqueue:consume -vvv
+```
+
+This can be done with `supervisord`
+(see [docs](https://enqueue.readthedocs.io/en/latest/bundle/production_settings/) for details):
+
+```
+[program:enqueue_message_consumer]
+command=/path/to/bin/console --env=prod --no-debug --time-limit="now + 5 minutes" enqueue:consume --message-limit=1
+process_name=%(program_name)s_%(process_num)02d
+numprocs=4
+autostart=true
+autorestart=true
+startsecs=0
+user=apache
+redirect_stderr=true
+```
 
 ## Usage
 

@@ -19,7 +19,7 @@
                  class="Setono\SyliusMailchimpPlugin\Controller\Action\SubscribeToNewsletterAction">
             <argument type="service" id="setono_sylius_mailchimp.validator.newsletter_email"/>
             <argument type="service" id="security.csrf.token_manager"/>
-            <argument type="service" id="setono_sylius_mailchimp.handler.newsletter_subscription"/>
+            <argument type="service" id="setono_sylius_mailchimp.handler.email_subscription"/>
             <argument type="service" id="translator"/>
         </service>
     </services>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="true" />
+
+        <service id="setono_sylius_mailchimp.handler_async.abstract"
+                 abstract="true"
+                 public="false">
+            <argument type="service" id="enqueue.client.spool_producer" />
+        </service>
+
+        <!-- Not all handlers should be onverted to async versions -->
+
+        <service id="setono_sylius_mailchimp.handler_async.customer_subscription"
+                 class="Setono\SyliusMailchimpPlugin\Handler\CustomerSubscriptionAsyncHandler"
+                 parent="setono_sylius_mailchimp.handler_async.abstract"
+                 decorates="setono_sylius_mailchimp.handler.customer_subscription"
+                 decoration-priority="256">
+            <argument type="service" id="setono_sylius_mailchimp.handler.customer_subscription.inner" />
+            <argument type="service" id="sylius.repository.customer" />
+            <argument type="service" id="sylius.manager.customer" />
+
+            <tag name="enqueue.client.processor" />
+        </service>
+
+        <service id="setono_sylius_mailchimp.handler_async.customer_mergefields_update"
+                 class="Setono\SyliusMailchimpPlugin\Handler\CustomerMergefieldsUpdateAsyncHandler"
+                 parent="setono_sylius_mailchimp.handler_async.abstract"
+                 decorates="setono_sylius_mailchimp.handler.customer_mergefields_update"
+                 decoration-priority="256">
+            <argument type="service" id="setono_sylius_mailchimp.handler.customer_mergefields_update.inner" />
+            <argument type="service" id="sylius.repository.customer" />
+            <argument type="service" id="sylius.manager.customer" />
+
+            <tag name="enqueue.client.processor" />
+        </service>
+
+        <service id="setono_sylius_mailchimp.handler_async.order_export"
+                 class="Setono\SyliusMailchimpPlugin\Handler\AsyncHandler"
+                 parent="setono_sylius_mailchimp.handler_async.abstract"
+                 decorates="setono_sylius_mailchimp.handler.order_export"
+                 decoration-priority="256">
+            <argument type="service" id="setono_sylius_mailchimp.handler.order_export.inner" />
+            <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="sylius.manager.order" />
+
+            <tag name="enqueue.client.processor" />
+        </service>
+    </services>
+</container>

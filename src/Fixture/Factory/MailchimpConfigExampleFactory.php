@@ -101,7 +101,7 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
     {
         $resolver
             ->setRequired('name')
-            ->setDefault('name', function (Options $options): string {
+            ->setDefault('name', function (Options $options) {
                 return $this->faker->words(3, true);
             })
 

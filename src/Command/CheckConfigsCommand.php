@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Command;
 
-use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientFactoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientFactoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Symfony\Component\Console\Command\Command;
@@ -52,8 +52,8 @@ final class CheckConfigsCommand extends Command
             'Config',
             'ApiKey Valid?',
 
-            'Audience ID',
-            'Audience ID Valid?',
+            'List ID',
+            'List ID Valid?',
             'MergeFields configured?',
 
             'Store ID',
@@ -69,8 +69,8 @@ final class CheckConfigsCommand extends Command
                 $mailchimpConfig->getCode(),
                 $this->renderStatus($this->getApiKeyErrors($mailchimpConfig)),
 
-                $mailchimpList->getAudienceId(),
-                $this->renderStatus($this->getAudienceIdErrors($mailchimpList)),
+                $mailchimpList->getListId(),
+                $this->renderStatus($this->getListIdErrors($mailchimpList)),
                 $this->renderErrors($this->getMergeFieldsConfigurationErrors($mailchimpList)),
 
                 $mailchimpList->getStoreId(),
@@ -122,7 +122,7 @@ final class CheckConfigsCommand extends Command
     }
 
     /**
-     * @param MailchimpListInterface $mailchimpList
+     * @param MailchimpConfigInterface $mailchimpConfig
      *
      * @return string|null
      */
@@ -146,7 +146,7 @@ final class CheckConfigsCommand extends Command
      *
      * @return string
      */
-    private function getAudienceIdErrors(MailchimpListInterface $mailchimpList): ?string
+    private function getListIdErrors(MailchimpListInterface $mailchimpList): ?string
     {
         try {
             $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
@@ -154,8 +154,8 @@ final class CheckConfigsCommand extends Command
             return $e->getMessage();
         }
 
-        if (!$apiClient->isAudienceIdExists($mailchimpList->getAudienceId())) {
-            return 'Audience not exists';
+        if (!$apiClient->isListIdExists($mailchimpList->getListId())) {
+            return 'List not exists';
         }
 
         return null;
@@ -196,12 +196,12 @@ final class CheckConfigsCommand extends Command
             $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
 
             $existingMergeFields = $apiClient->getMergeFields(
-                $mailchimpList->getAudienceId(),
+                $mailchimpList->getListId(),
                 $this->mergeFields
             );
 
             if (!isset($existingMergeFields['merge_fields'])) {
-                return ['Audience not found?'];
+                return ['List not found?'];
             }
 
             $errors = [];

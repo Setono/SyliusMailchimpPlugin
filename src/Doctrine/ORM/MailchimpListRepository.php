@@ -61,6 +61,20 @@ class MailchimpListRepository extends EntityRepository implements MailchimpListR
     /**
      * {@inheritdoc}
      */
+    public function findByChannelCode(string $channelCode): array
+    {
+        return $this->createQueryBuilder('o')
+            ->join('o.channels', 'channel')
+            ->andWhere('channel.code = :channelCode')
+            ->setParameter('channelCode', $channelCode)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findByChannelWithStoreConfigured(ChannelInterface $channel): array
     {
         return $this->createQueryBuilder('o')

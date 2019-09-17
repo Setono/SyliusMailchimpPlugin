@@ -9,11 +9,9 @@ use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Factory\MailchimpExportFactoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Webmozart\Assert\Assert;
 
 final class MailchimpExportCreateCommand extends Command
 {
@@ -36,7 +34,6 @@ final class MailchimpExportCreateCommand extends Command
         $this->mailchimpListRepository = $mailchimpListRepository;
         $this->mailchimpExportFactory = $mailchimpExportFactory;
         $this->mailchimpExportRepository = $mailchimpExportRepository;
-
     }
 
     protected function configure(): void
@@ -56,8 +53,9 @@ final class MailchimpExportCreateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
+        /** @var array|null $listIds */
         $listIds = $input->getOption('list');
-        if (!$listIds) {
+        if (!is_array($listIds) || empty($listIds)) {
             $mailchimpLists = $this->mailchimpListRepository->findAll();
         } else {
             $mailchimpLists = [];
@@ -65,6 +63,7 @@ final class MailchimpExportCreateCommand extends Command
                 $mailchimpList = $this->mailchimpListRepository->find($listId);
                 if (!$mailchimpList instanceof MailchimpListInterface) {
                     $output->writeln(sprintf('<error>List with ID %s was not found... Abort</error>', $listId));
+
                     return;
                 }
                 $mailchimpList[] = $mailchimpList;

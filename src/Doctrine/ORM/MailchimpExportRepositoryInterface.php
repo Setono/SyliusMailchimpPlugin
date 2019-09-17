@@ -11,8 +11,6 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 interface MailchimpExportRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param string|null $mailchimpListId
-     *
      * @return QueryBuilder
      */
     public function createListQueryBuilder(): QueryBuilder;

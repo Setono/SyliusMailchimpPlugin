@@ -21,7 +21,7 @@ class MailchimpList implements MailchimpListInterface
     /** @var MailchimpConfigInterface|null */
     protected $config;
 
-    /** @var string */
+    /** @var string|null */
     protected $listId;
 
     /** @var bool */
@@ -33,13 +33,13 @@ class MailchimpList implements MailchimpListInterface
     /** @var CurrencyInterface|null */
     protected $storeCurrency;
 
-    /** @var Collection|ChannelInterface[] */
+    /** @var ArrayCollection|ChannelInterface[] */
     protected $channels;
 
-    /** @var Collection|MailchimpExportInterface[] */
+    /** @var ArrayCollection|MailchimpExportInterface[] */
     protected $exports;
 
-    /** @var Collection|CustomerInterface */
+    /** @var ArrayCollection|CustomerInterface[] */
     protected $exportedCustomers;
 
     public function __construct()
@@ -136,14 +136,6 @@ class MailchimpList implements MailchimpListInterface
     /**
      * {@inheritdoc}
      */
-    public function getAudienceId(): ?string
-    {
-        return $this->getListId();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getListId(): ?string
     {
         return $this->listId;
@@ -212,7 +204,7 @@ class MailchimpList implements MailchimpListInterface
     /**
      * {@inheritdoc}
      */
-    public function shouldCustomerBeExported(CustomerInterface $customer): bool
+    public function isCustomerExportable(CustomerInterface $customer): bool
     {
         return !$this->isExportSubscribedOnly() || $customer->isSubscribedToNewsletter();
     }

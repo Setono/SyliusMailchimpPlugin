@@ -13,8 +13,9 @@
         <import resource="services/factory.xml"/>
         <import resource="services/fixture.xml"/>
         <import resource="services/form.xml"/>
+        <import resource="services/handler.xml"/>
+        <import resource="services/mailchimp.xml"/>
         <import resource="services/menu.xml"/>
-        <import resource="services/misc.xml"/>
         <import resource="services/validator.xml"/>
     </imports>
 

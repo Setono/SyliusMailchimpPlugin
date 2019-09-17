@@ -1,2 +1,6 @@
 setono_sylius_mailchimp:
     subscribe: false
+    queue: false
+    merge_fields:
+        channel: CHANNEL
+        locale: LOCALE

@@ -38,6 +38,13 @@ interface MailchimpListRepositoryInterface extends RepositoryInterface
     public function findByChannel(ChannelInterface $channel): array;
 
     /**
+     * @param string $channelCode
+     *
+     * @return array
+     */
+    public function findByChannelCode(string $channelCode): array;
+
+    /**
      * @param ChannelInterface $channel
      *
      * @return MailchimpListInterface[]

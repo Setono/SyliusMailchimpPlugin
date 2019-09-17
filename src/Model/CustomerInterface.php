@@ -10,24 +10,17 @@ use Sylius\Component\Core\Model\CustomerInterface as BaseCustomerInterface;
 interface CustomerInterface extends BaseCustomerInterface, MailchimpExportsAwareInterface
 {
     /**
-     * @return Collection
+     * @return Collection|MailchimpListInterface[]
      */
     public function getExportedToMailchimpLists(): Collection;
 
-    /**
-     * @param MailchimpListInterface $mailchimpList
-     *
-     * @return bool
-     */
     public function hasExportedToMailchimpList(MailchimpListInterface $mailchimpList): bool;
 
-    /**
-     * @param Collection $exportedToMailchimpLists
-     */
     public function addExportedToMailchimpList(MailchimpListInterface $mailchimpList): void;
 
-    /**
-     * @param Collection $exportedToMailchimpLists
-     */
     public function removeExportedToMailchimpList(MailchimpListInterface $mailchimpList): void;
+
+    public function getLastOrderChannelCode(?string $defaultChannelCode = null): ?string;
+
+    public function getLastOrderLocaleCode(?string $defaultLocaleCode = null): ?string;
 }

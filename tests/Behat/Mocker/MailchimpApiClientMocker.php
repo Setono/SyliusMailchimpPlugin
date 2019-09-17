@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Mocker;
 
-use Setono\SyliusMailchimpPlugin\ApiClient\MailchimpApiClientInterface;
-use Sylius\Component\Core\Model\OrderInterface;
+use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientInterface;
 
 final class MailchimpApiClientMocker implements MailchimpApiClientInterface
 {
@@ -14,12 +13,12 @@ final class MailchimpApiClientMocker implements MailchimpApiClientInterface
         return true;
     }
 
-    public function isAudienceIdValid(string $audienceId): bool
+    public function isListIdValid(string $listId): bool
     {
         return true;
     }
 
-    public function isMergeFieldsConfigured(string $audienceId, array $requiredMergeTags): bool
+    public function isMergeFieldsConfigured(string $listId, array $requiredMergeTags): bool
     {
         return true;
     }
@@ -32,11 +31,11 @@ final class MailchimpApiClientMocker implements MailchimpApiClientInterface
     {
     }
 
-    public function exportOrder(OrderInterface $order): void
+    public function exportOrder(string $storeId, array $orderData): void
     {
     }
 
-    public function removeOrder(OrderInterface $order): void
+    public function removeOrder(string $storeId, string $orderId): void
     {
     }
 }

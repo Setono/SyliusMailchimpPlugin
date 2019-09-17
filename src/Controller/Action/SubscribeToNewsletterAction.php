@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
-use Setono\SyliusMailchimpPlugin\Handler\NewsletterSubscriptionHandlerInterface;
+use Setono\SyliusMailchimpPlugin\Handler\EmailSubscriptionHandlerInterface;
 use Setono\SyliusMailchimpPlugin\Validator\NewsletterEmailValidatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ final class SubscribeToNewsletterAction
     /** @var NewsletterEmailValidatorInterface */
     private $newsletterEmailValidator;
 
-    /** @var NewsletterSubscriptionHandlerInterface */
+    /** @var EmailSubscriptionHandlerInterface */
     private $newsletterSubscriptionHandler;
 
     /** @var CsrfTokenManagerInterface */
@@ -30,7 +30,7 @@ final class SubscribeToNewsletterAction
     public function __construct(
         NewsletterEmailValidatorInterface $newsletterEmailValidator,
         CsrfTokenManagerInterface $csrfTokenManager,
-        NewsletterSubscriptionHandlerInterface $newsletterSubscriptionHandler,
+        EmailSubscriptionHandlerInterface $newsletterSubscriptionHandler,
         TranslatorInterface $translator
     ) {
         $this->newsletterEmailValidator = $newsletterEmailValidator;
@@ -50,7 +50,7 @@ final class SubscribeToNewsletterAction
         }
 
         if (0 === count($errors)) {
-            $this->newsletterSubscriptionHandler->subscribe($email);
+            $this->newsletterSubscriptionHandler->handle($email);
 
             return new JsonResponse(
                 [

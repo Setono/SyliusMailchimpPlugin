@@ -21,7 +21,7 @@
             <argument type="service" id="setono_sylius_mailchimp.repository.list"/>
             <argument type="service" id="setono_sylius_mailchimp.factory.export"/>
             <argument type="service" id="setono_sylius_mailchimp.repository.export"/>
-            <argument type="service" id="setono_sylius_mailchimp.exporter.customer_newsletter"/>
+            <argument type="service" id="setono_sylius_mailchimp.handler.mailchimp_export"/>
 
             <tag name="console.command"/>
         </service>

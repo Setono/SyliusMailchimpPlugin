@@ -1,5 +1,11 @@
 sylius_fixtures:
     suites:
+        extra_customers:
+            fixtures:
+                shop_user:
+                    name: "shop_user"
+                    options:
+                        random: 100
         default:
             fixtures:
                 setono_sylius_mailchimp_config:
@@ -10,7 +16,7 @@ sylius_fixtures:
                                 api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
                                 lists:
                                     -   name: Default list
-                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID)%"
+                                        list_id: "%env(resolve:MAILCHIMP_LIST_ID)%"
                                         export_subscribed_only: false
                                         store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
                                         store_currency: USD
@@ -21,7 +27,7 @@ sylius_fixtures:
 #                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
 #                                lists:
 #                                    -   name: No store configured list
-#                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID)%"
+#                                        list_id: "%env(resolve:MAILCHIMP_LIST_ID)%"
 #                                        export_subscribed_only: true
 #                                        channels:
 #                                            - "US_WEB"
@@ -33,7 +39,7 @@ sylius_fixtures:
 #                                api_key: invalid
 #                                lists:
 #                                    -   name: Invalid API key list
-#                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID)%"
+#                                        list_id: "%env(resolve:MAILCHIMP_LIST_ID)%"
 #                                        export_subscribed_only: true
 #                                        store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
 #                                        store_currency: USD
@@ -44,14 +50,14 @@ sylius_fixtures:
 #                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
 #                                lists:
 #                                    -   name: Invalid store ID list
-#                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID)%"
+#                                        list_id: "%env(resolve:MAILCHIMP_LIST_ID)%"
 #                                        export_subscribed_only: true
 #                                        store_id: invalid
 #                                        store_currency: USD
 #                                        channels:
 #                                            - "US_WEB"
-#                            mailchimp_config_invalid_audience_id:
-#                                code: invalid_audience_id
+#                            mailchimp_config_invalid_list_id:
+#                                code: invalid_list_id
 #                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
 #                                lists:
 #                                    -   name: Invalid list
@@ -62,7 +68,7 @@ sylius_fixtures:
 #                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
 #                                lists:
 #                                    -   name: Invalid mergetags configured
-#                                        list_id: "%env(resolve:MAILCHIMP_AUDIENCE_ID_WITH_INVALID_MERGEFIELDS)%"
+#                                        list_id: "%env(resolve:MAILCHIMP_LIST_ID_WITH_INVALID_MERGEFIELDS)%"
 #                                        export_subscribed_only: true
 #                                        store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
 #                                        store_currency: USD

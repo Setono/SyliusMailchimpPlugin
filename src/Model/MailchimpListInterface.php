@@ -54,11 +54,6 @@ interface MailchimpListInterface extends ResourceInterface, ChannelsAwareInterfa
     /**
      * @return string|null
      */
-    public function getAudienceId(): ?string;
-
-    /**
-     * @return string|null
-     */
     public function getListId(): ?string;
 
     /**
@@ -79,7 +74,7 @@ interface MailchimpListInterface extends ResourceInterface, ChannelsAwareInterfa
     /**
      * @return bool
      */
-    public function shouldCustomerBeExported(CustomerInterface $customer): bool;
+    public function isCustomerExportable(CustomerInterface $customer): bool;
 
     /**
      * @return bool

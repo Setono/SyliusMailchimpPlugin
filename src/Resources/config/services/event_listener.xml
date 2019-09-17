@@ -6,34 +6,25 @@
 
     <services>
 
-        <service id="setono_sylius_mailchimp.event_listener.customer_listener"
-                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerNewsletterListener">
-            <argument type="service" id="sylius.repository.customer"/>
-            <argument type="service" id="setono_sylius_mailchimp.repository.list"/>
-            <argument type="service" id="setono_sylius_mailchimp.api_client.factory"/>
-            <argument type="service" id="setono_sylius_mailchimp.exporter.customer_newsletter"/>
+        <service id="setono_sylius_mailchimp.event_listener.customer_subscription"
+                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerSubscriptionListener">
+            <argument type="service" id="setono_sylius_mailchimp.handler.customer_subscription" />
             <argument type="service" id="sylius.context.channel"/>
-            <argument type="service" id="setono_sylius_mailchimp.context.locale"/>
-            <argument type="service" id="logger"/>
-            <argument type="collection">
-                <argument>sylius_shop_register</argument>
-                <argument>sylius_shop_account_profile_update</argument>
-            </argument>
+            <argument type="service" id="sylius.context.locale"/>
 
-            <tag name="kernel.event_listener" event="kernel.terminate" method="manageSubscription"/>
+            <tag name="kernel.event_listener" event="sylius.customer.post_create" method="postCreate" />
         </service>
 
-        <service id="setono_sylius_mailchimp.event_listener.order_listener"
-                 class="Setono\SyliusMailchimpPlugin\EventListener\OrderListener">
-            <argument type="service" id="sylius.repository.order"/>
-            <argument type="service" id="setono_sylius_mailchimp.exporter.customer_order"/>
-            <argument type="service" id="logger"/>
-            <argument type="collection">
-                <argument>sylius_shop_order_thank_you</argument>
-            </argument>
+        <service id="setono_sylius_mailchimp.doctrine_event_listener.customer_email_update"
+                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerEmailUpdateDoctrineEventListener">
+            <argument type="service" id="setono_sylius_mailchimp.handler.customer_mergefields_update" />
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="sylius.context.locale"/>
 
-            <tag name="kernel.event_listener" event="kernel.terminate" method="manageOrderSubscription"/>
+            <tag name="doctrine.event_listener" event="preUpdate" lazy="true" />
+            <tag name="doctrine.event_listener" event="postFlush" lazy="true" />
         </service>
+
     </services>
 
 </container>

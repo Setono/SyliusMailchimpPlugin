@@ -6,8 +6,8 @@ namespace Setono\SyliusMailchimpPlugin\Command;
 
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpExportRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Exporter\CustomerNewsletterExporterInterface;
 use Setono\SyliusMailchimpPlugin\Factory\MailchimpExportFactoryInterface;
+use Setono\SyliusMailchimpPlugin\Handler\MailchimpExportHandlerInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Symfony\Component\Console\Command\Command;
@@ -29,22 +29,21 @@ final class MailchimpExportHandleCommand extends Command
     /** @var MailchimpExportRepositoryInterface */
     private $mailchimpExportRepository;
 
-    /** @var CustomerNewsletterExporterInterface */
-    private $customerNewsletterExporter;
+    /** @var MailchimpExportHandlerInterface */
+    private $mailchimpExportHandler;
 
     public function __construct(
         MailchimpListRepositoryInterface $mailchimpListRepository,
         MailchimpExportFactoryInterface $mailchimpExportFactory,
         MailchimpExportRepositoryInterface $mailchimpExportRepository,
-        CustomerNewsletterExporterInterface $customerNewsletterExporter
+        MailchimpExportHandlerInterface $mailchimpExportHandler
     ) {
         parent::__construct();
 
         $this->mailchimpListRepository = $mailchimpListRepository;
         $this->mailchimpExportFactory = $mailchimpExportFactory;
         $this->mailchimpExportRepository = $mailchimpExportRepository;
-        $this->customerNewsletterExporter = $customerNewsletterExporter;
-
+        $this->mailchimpExportHandler = $mailchimpExportHandler;
     }
 
     protected function configure(): void
@@ -57,6 +56,7 @@ final class MailchimpExportHandleCommand extends Command
                 'limit',
                 'l',
                 InputOption::VALUE_OPTIONAL,
+                'How much records to handle?',
                 100
             )
         ;
@@ -67,7 +67,6 @@ final class MailchimpExportHandleCommand extends Command
         $mailchimpExport = $this->mailchimpExportRepository->findOnePending();
 
         if ($mailchimpExport instanceof MailchimpExportInterface) {
-
             /** @var MailchimpListInterface $mailchimpList */
             $mailchimpList = $mailchimpExport->getList();
             $output->writeln(sprintf(
@@ -77,18 +76,16 @@ final class MailchimpExportHandleCommand extends Command
                 $mailchimpList->getName()
             ));
 
-            $customersExported = $this->customerNewsletterExporter->handleExport(
+            /** @var int $limit */
+            $limit = (int)$input->getOption('limit');
+
+            $this->mailchimpExportHandler->handle(
                 $mailchimpExport,
-                (int)$input->getOption('limit')
+                $limit
             );
 
-            $output->writeln(sprintf(
-                ' - Exported: %s customers',
-                $customersExported
-            ));
-
-            if ($mailchimpExport->isCompleted()) {
-                $output->writeln(' - Export marked as completed');
+            foreach ($mailchimpExport->getErrors() as $error) {
+                $output->writeln($error);
             }
         } else {
             $output->writeln(sprintf(

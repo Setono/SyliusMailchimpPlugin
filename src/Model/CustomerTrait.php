@@ -31,26 +31,18 @@ trait CustomerTrait
     }
 
     /**
-     * @return Collection
+     * @return Collection|MailchimpExportInterface[]
      */
     public function getMailchimpExports(): Collection
     {
         return $this->mailchimpExports;
     }
 
-    /**
-     * @param MailchimpExportInterface $mailchimpExport
-     *
-     * @return bool
-     */
     public function hasMailchimpExport(MailchimpExportInterface $mailchimpExport): bool
     {
         return $this->mailchimpExports->contains($mailchimpExport);
     }
 
-    /**
-     * @param MailchimpExportInterface $mailchimpExport
-     */
     public function addMailchimpExport(MailchimpExportInterface $mailchimpExport): void
     {
         if (!$this->hasMailchimpExport($mailchimpExport)) {
@@ -62,9 +54,6 @@ trait CustomerTrait
         }
     }
 
-    /**
-     * @param MailchimpExportInterface $mailchimpExport
-     */
     public function removeMailchimpExport(MailchimpExportInterface $mailchimpExport): void
     {
         if ($this->hasMailchimpExport($mailchimpExport)) {
@@ -77,26 +66,18 @@ trait CustomerTrait
     }
 
     /**
-     * @return Collection
+     * @return Collection|MailchimpListInterface[]
      */
     public function getExportedToMailchimpLists(): Collection
     {
         return $this->exportedToMailchimpLists;
     }
 
-    /**
-     * @param MailchimpListInterface $mailchimpList
-     *
-     * @return bool
-     */
     public function hasExportedToMailchimpList(MailchimpListInterface $mailchimpList): bool
     {
         return $this->exportedToMailchimpLists->contains($mailchimpList);
     }
 
-    /**
-     * @param Collection $exportedToMailchimpLists
-     */
     public function addExportedToMailchimpList(MailchimpListInterface $mailchimpList): void
     {
         if (!$this->hasExportedToMailchimpList($mailchimpList)) {
@@ -108,9 +89,6 @@ trait CustomerTrait
         }
     }
 
-    /**
-     * @param Collection $exportedToMailchimpLists
-     */
     public function removeExportedToMailchimpList(MailchimpListInterface $mailchimpList): void
     {
         if ($this->hasExportedToMailchimpList($mailchimpList)) {
@@ -120,5 +98,23 @@ trait CustomerTrait
         if ($mailchimpList->hasExportedCustomer($this)) {
             $mailchimpList->removeExportedCustomer($this);
         }
+    }
+
+    public function getLastOrderChannelCode(?string $defaultChannelCode = null): ?string
+    {
+        if (0 === $this->getOrders()->count()) {
+            return $defaultChannelCode;
+        }
+
+        return $this->getOrders()->last()->getChannel()->getCode();
+    }
+
+    public function getLastOrderLocaleCode(?string $defaultLocaleCode = null): ?string
+    {
+        if (0 === $this->getOrders()->count()) {
+            return $defaultLocaleCode;
+        }
+
+        return $this->getOrders()->last()->getLocaleCode();
     }
 }

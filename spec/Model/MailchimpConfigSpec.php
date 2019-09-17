@@ -23,14 +23,19 @@ final class MailchimpConfigSpec extends ObjectBehavior
         $this->shouldHaveType(ResourceInterface::class);
     }
 
-    function it_implements_mail_chimp_config_interface(): void
+    function it_implements_mailchimp_config_interface(): void
     {
         $this->shouldImplement(MailchimpConfigInterface::class);
     }
 
-    function it_initializes_list_collection_by_default(): void
+    function it_has_no_id_by_default(): void
     {
-        $this->getLists()->shouldHaveType(Collection::class);
+        $this->getId()->shouldReturn(null);
+    }
+
+    function it_has_no_code_by_default(): void
+    {
+        $this->getCode()->shouldReturn(null);
     }
 
     function its_code_is_mutable(): void
@@ -45,10 +50,9 @@ final class MailchimpConfigSpec extends ObjectBehavior
         $this->getApiKey()->shouldReturn('123');
     }
 
-    function its_export_subscribed_only_is_mutable(): void
+    function it_initializes_list_collection_by_default(): void
     {
-        $this->setExportSubscribedOnly(true);
-        $this->isExportSubscribedOnly()->shouldReturn(true);
+        $this->getLists()->shouldHaveType(Collection::class);
     }
 
     function it_adds_list(MailchimpListInterface $mailchimpList): void

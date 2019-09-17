@@ -6,6 +6,7 @@ namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpExportRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,8 +62,11 @@ final class ExportRestartAction
 
         $this->flashBag->add('info', $this->translator->trans('setono_sylius_mailchimp.ui.export_restarted'));
 
+        /** @var MailchimpListInterface $mailchimpList */
+        $mailchimpList = $mailchimpExport->getList();
+
         $defaultRedirect = $this->urlGenerator->generate('setono_sylius_mailchimp_admin_list_export_index', [
-            'mailchimpListId' => $mailchimpExport->getList()->getId()
+            'mailchimpListId' => $mailchimpList->getId(),
         ]);
 
         return new RedirectResponse(

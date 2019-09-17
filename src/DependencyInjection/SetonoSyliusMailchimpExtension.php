@@ -27,6 +27,16 @@ final class SetonoSyliusMailchimpExtension extends AbstractResourceExtension
             $loader->load('services/conditional/subscribe.xml');
         }
 
+        if ($config['queue']) {
+            if (!class_exists('Enqueue\Bundle\EnqueueBundle')) {
+                throw new \RuntimeException('Unable to use queues as the enqueue/enqueue-bundle is not installed.');
+            }
+
+            // Load handler decorators to work asynchronously via enqueue
+            $loader->load('services/handler_async.xml');
+        }
+        $container->setParameter('setono_sylius_mailchimp.queue', $config['queue']);
+
         $container->setParameter('setono_sylius_mailchimp.merge_fields', $config['merge_fields']);
 
         $loader->load('services.xml');
