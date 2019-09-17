@@ -38,19 +38,19 @@ final class CustomerSubscriptionManager implements CustomerSubscriptionManagerIn
         }
 
 //        try {
-            $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+        $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
 
-            $mergeFields = $this->mergeFieldsGenerator->generateInitialMergeFields($customer, $channelCode, $localeCode);
-            $options = [
-                'merge_fields' => $mergeFields
+        $mergeFields = $this->mergeFieldsGenerator->generateInitialMergeFields($customer, $channelCode, $localeCode);
+        $options = [
+                'merge_fields' => $mergeFields,
 
                 // @see https://mailchimp.com/help/view-and-edit-contact-languages/
                 // 'language' => substr($localeCode, 0, 2)
             ];
 
-            dump($options);
+        dump($options);
 
-            $apiClient->exportEmail(
+        $apiClient->exportEmail(
                 $mailchimpList->getListId(),
                 $customer->getEmail(),
                 $options

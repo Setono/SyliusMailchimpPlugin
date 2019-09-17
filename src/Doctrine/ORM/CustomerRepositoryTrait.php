@@ -17,11 +17,6 @@ trait CustomerRepositoryTrait
      */
     abstract public function createQueryBuilder($alias, $indexBy = null);
 
-    /**
-     * @param string $mailchimpExportId
-     *
-     * @return QueryBuilder
-     */
     public function createByMailchimpExportIdQueryBuilder(string $mailchimpExportId): QueryBuilder
     {
         return $this->createQueryBuilder('o')
@@ -31,11 +26,6 @@ trait CustomerRepositoryTrait
             ;
     }
 
-    /**
-     * @param MailchimpListInterface $mailchimpList
-     *
-     * @return array
-     */
     public function findNotExportedSubscribers(MailchimpListInterface $mailchimpList, int $limit = 100): array
     {
         return $this->createQueryBuilder('customer')
@@ -48,11 +38,6 @@ trait CustomerRepositoryTrait
             ;
     }
 
-    /**
-     * @param MailchimpListInterface $mailchimpList
-     *
-     * @return array
-     */
     public function findAllNotExported(MailchimpListInterface $mailchimpList, int $limit = 100): array
     {
         return $this->createQueryBuilder('customer')

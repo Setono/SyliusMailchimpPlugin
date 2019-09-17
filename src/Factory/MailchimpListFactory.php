@@ -10,9 +10,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class MailchimpListFactory implements MailchimpListFactoryInterface
 {
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $factory;
 
     public function __construct(FactoryInterface $factory)

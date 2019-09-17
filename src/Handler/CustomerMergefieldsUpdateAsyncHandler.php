@@ -21,16 +21,16 @@ final class CustomerMergefieldsUpdateAsyncHandler implements CustomerMergefields
     private const OLD_CUSTOMER_EMAIL = 'old-customer-email';
 
     /** @var ProducerInterface */
-    protected $producer;
+    private $producer;
 
     /** @var CustomerMergefieldsUpdateHandlerInterface */
-    protected $handler;
+    private $handler;
 
     /** @var EntityRepository */
-    protected $repository;
+    private $repository;
 
     /** @var EntityManager */
-    protected $entityManager;
+    private $entityManager;
 
     public function __construct(
         ProducerInterface $producer,
@@ -110,8 +110,6 @@ final class CustomerMergefieldsUpdateAsyncHandler implements CustomerMergefields
 
     /**
      * @param array|mixed $body
-     *
-     * @return bool
      */
     private function validateBody($body): bool
     {
@@ -122,9 +120,6 @@ final class CustomerMergefieldsUpdateAsyncHandler implements CustomerMergefields
             ;
     }
 
-    /**
-     * @return string
-     */
     public static function getEventName(): string
     {
         return 'setono_sylius_mailchimp_customer_mergefields_update';

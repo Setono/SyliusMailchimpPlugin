@@ -22,7 +22,7 @@ class MailchimpApiErrorResponseException extends MailchimpApiException
 
     private function inlineErrors(array $errors): string
     {
-        return implode(', ', array_map(function($error){
+        return implode(', ', array_map(function ($error) {
             return sprintf(
                 '%s: %s',
                 $error['field'],

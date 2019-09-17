@@ -32,12 +32,6 @@ abstract class ChannelAndLocaleAwareAsyncHandler implements ChannelAndLocaleAwar
     /** @var EntityManager */
     protected $entityManager;
 
-    /**
-     * @param ProducerInterface $producer
-     * @param ChannelAndLocaleAwareHandlerInterface $handler
-     * @param EntityRepository $repository
-     * @param EntityManager $entityManager
-     */
     public function __construct(
         ProducerInterface $producer,
         ChannelAndLocaleAwareHandlerInterface $handler,
@@ -116,8 +110,6 @@ abstract class ChannelAndLocaleAwareAsyncHandler implements ChannelAndLocaleAwar
 
     /**
      * @param array|mixed $body
-     *
-     * @return bool
      */
     private function validateBody($body): bool
     {
@@ -128,8 +120,5 @@ abstract class ChannelAndLocaleAwareAsyncHandler implements ChannelAndLocaleAwar
             ;
     }
 
-    /**
-     * @return string
-     */
     abstract public static function getEventName(): string;
 }

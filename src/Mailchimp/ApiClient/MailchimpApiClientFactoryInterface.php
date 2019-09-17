@@ -8,10 +8,5 @@ use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 
 interface MailchimpApiClientFactoryInterface
 {
-    /**
-     * @param MailchimpConfigInterface $mailchimpConfig
-     *
-     * @return MailchimpApiClientInterface
-     */
     public function buildClient(MailchimpConfigInterface $mailchimpConfig): MailchimpApiClientInterface;
 }

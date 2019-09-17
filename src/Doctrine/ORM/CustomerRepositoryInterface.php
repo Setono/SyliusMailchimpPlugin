@@ -11,18 +11,11 @@ use Sylius\Component\Core\Repository\CustomerRepositoryInterface as BaseCustomer
 
 interface CustomerRepositoryInterface extends BaseCustomerRepositoryInterface
 {
-    /**
-     * @param string $mailchimpExportId
-     *
-     * @return QueryBuilder
-     */
     public function createByMailchimpExportIdQueryBuilder(string $mailchimpExportId): QueryBuilder;
 
     /**
      * Find only subscribed customers who wasn't exported
      *
-     * @param MailchimpListInterface $mailchimpList
-     * @param int $limit
      *
      * @return CustomerInterface[]
      */
@@ -31,8 +24,6 @@ interface CustomerRepositoryInterface extends BaseCustomerRepositoryInterface
     /**
      * Find all customers who wasn't exported
      *
-     * @param MailchimpListInterface $mailchimpList
-     * @param int $limit
      *
      * @return CustomerInterface[]
      */

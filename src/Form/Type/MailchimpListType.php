@@ -71,9 +71,6 @@ final class MailchimpListType extends AbstractType implements EventSubscriberInt
         ];
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSetData(FormEvent $event): void
     {
         $resource = $event->getData();

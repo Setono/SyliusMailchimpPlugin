@@ -30,9 +30,6 @@ class CustomerEmailUpdateDoctrineEventListener
         $this->channelContext = $channelContext;
     }
 
-    /**
-     * @param PreUpdateEventArgs $args
-     */
     public function preUpdate(PreUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
@@ -43,14 +40,11 @@ class CustomerEmailUpdateDoctrineEventListener
         if ($args->hasChangedField('emailCanonical')) {
             $oldCustomerEmail = $args->getOldValue('emailCanonical');
             $this->customersToUpdate[$oldCustomerEmail] = $entity;
-        } elseif ($args->hasChangedField('firstName') || $args->hasChangedField('lastName') ) {
+        } elseif ($args->hasChangedField('firstName') || $args->hasChangedField('lastName')) {
             $this->customersToUpdate[$entity->getEmailCanonical()] = $entity;
         }
     }
 
-    /**
-     * @param PostFlushEventArgs $args
-     */
     public function postFlush(PostFlushEventArgs $args): void
     {
         /** @var CustomerInterface $customer */

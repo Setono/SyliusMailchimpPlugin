@@ -94,9 +94,6 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
         ;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     protected function configureListOptions(OptionsResolver $resolver): void
     {
         $resolver
@@ -148,10 +145,6 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
         return $mailchimpConfig;
     }
 
-    /**
-     * @param MailchimpConfigInterface $mailchimpConfig
-     * @param array $options
-     */
     private function createLists(MailchimpConfigInterface $mailchimpConfig, array $options): void
     {
         foreach ($options['lists'] as $listOptions) {

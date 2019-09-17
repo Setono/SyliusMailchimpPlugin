@@ -85,8 +85,6 @@ final class CheckConfigsCommand extends Command
      * @param string|array|null $errors
      * @param string $validLabel
      * @param string $invalidLabel
-     *
-     * @return string
      */
     private function renderStatus($errors, $validLabel = 'Valid', $invalidLabel = 'Invalid'): string
     {
@@ -101,8 +99,6 @@ final class CheckConfigsCommand extends Command
      * @param string|array|null $errors
      * @param string $validLabel
      * @param string $invalidLabel
-     *
-     * @return string
      */
     private function renderErrors($errors, $validLabel = 'Valid', $invalidLabel = 'Invalid'): string
     {
@@ -121,11 +117,6 @@ final class CheckConfigsCommand extends Command
         );
     }
 
-    /**
-     * @param MailchimpConfigInterface $mailchimpConfig
-     *
-     * @return string|null
-     */
     private function getApiKeyErrors(MailchimpConfigInterface $mailchimpConfig): ?string
     {
         try {
@@ -142,8 +133,6 @@ final class CheckConfigsCommand extends Command
     }
 
     /**
-     * @param MailchimpListInterface $mailchimpList
-     *
      * @return string
      */
     private function getListIdErrors(MailchimpListInterface $mailchimpList): ?string
@@ -162,8 +151,6 @@ final class CheckConfigsCommand extends Command
     }
 
     /**
-     * @param MailchimpListInterface $mailchimpList
-     *
      * @return string
      */
     private function getStoreIdErrors(MailchimpListInterface $mailchimpList): ?string
@@ -185,11 +172,6 @@ final class CheckConfigsCommand extends Command
         return null;
     }
 
-    /**
-     * @param MailchimpListInterface $mailchimpList
-     *
-     * @return array|null
-     */
     private function getMergeFieldsConfigurationErrors(MailchimpListInterface $mailchimpList): ?array
     {
         try {

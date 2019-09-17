@@ -149,13 +149,6 @@ final class OrderExportDataGenerator implements OrderExportDataGeneratorInterfac
         return $productsData;
     }
 
-    /**
-     * @param int $amount
-     * @param string $sourceCurrencyCode
-     * @param string $targetCurrencyCode
-     *
-     * @return string
-     */
     private function convertPrice(int $amount, string $sourceCurrencyCode, string $targetCurrencyCode): string
     {
         return (string) ($this->currencyConverter->convert($amount, $sourceCurrencyCode, $targetCurrencyCode) / 100);

@@ -8,8 +8,5 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface HandlerInterface
 {
-    /**
-     * @param ResourceInterface $resource
-     */
     public function handle(ResourceInterface $resource): void;
 }

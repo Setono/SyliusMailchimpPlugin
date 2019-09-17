@@ -28,12 +28,6 @@ abstract class AsyncHandler implements HandlerInterface, PsrProcessor, TopicSubs
     /** @var EntityManager */
     protected $entityManager;
 
-    /**
-     * @param ProducerInterface $producer
-     * @param HandlerInterface $handler
-     * @param EntityRepository $repository
-     * @param EntityManager $entityManager
-     */
     public function __construct(
         ProducerInterface $producer,
         HandlerInterface $handler,
@@ -95,8 +89,5 @@ abstract class AsyncHandler implements HandlerInterface, PsrProcessor, TopicSubs
         ];
     }
 
-    /**
-     * @return string
-     */
     abstract public static function getEventName(): string;
 }

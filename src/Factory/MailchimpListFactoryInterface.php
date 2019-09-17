@@ -10,10 +10,5 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 interface MailchimpListFactoryInterface extends FactoryInterface
 {
-    /**
-     * @param MailchimpConfigInterface $mailchimpConfig
-     *
-     * @return MailchimpListInterface
-     */
     public function createForMailchimpConfig(MailchimpConfigInterface $mailchimpConfig): MailchimpListInterface;
 }

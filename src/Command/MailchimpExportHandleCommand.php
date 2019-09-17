@@ -77,7 +77,7 @@ final class MailchimpExportHandleCommand extends Command
             ));
 
             /** @var int $limit */
-            $limit = (int)$input->getOption('limit');
+            $limit = (int) $input->getOption('limit');
 
             $this->mailchimpExportHandler->handle(
                 $mailchimpExport,

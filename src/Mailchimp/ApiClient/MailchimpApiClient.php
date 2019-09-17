@@ -76,7 +76,6 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
 
             // @todo ?
             return [];
-
         } catch (\Exception $exception) {
             throw new MailchimpApiException($exception->getMessage());
         }
@@ -207,8 +206,6 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
 
     /**
      * @param array|false $response
-     *
-     * @return bool
      */
     private function isErrorResponse($response): bool
     {

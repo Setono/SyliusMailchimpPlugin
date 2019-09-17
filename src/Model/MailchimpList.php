@@ -49,9 +49,6 @@ class MailchimpList implements MailchimpListInterface
         $this->exportedCustomers = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getFullname(): string
     {
         $config = $this->getConfig();
@@ -105,17 +102,11 @@ class MailchimpList implements MailchimpListInterface
         $this->storeId = $storeId;
     }
 
-    /**
-     * @return CurrencyInterface|null
-     */
     public function getStoreCurrency(): ?CurrencyInterface
     {
         return $this->storeCurrency;
     }
 
-    /**
-     * @param CurrencyInterface|null $storeCurrency
-     */
     public function setStoreCurrency(?CurrencyInterface $storeCurrency): void
     {
         $this->storeCurrency = $storeCurrency;

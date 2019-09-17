@@ -32,9 +32,6 @@ final class CustomerSubscriptionListener
         $this->localeContext = $localeContext;
     }
 
-    /**
-     * @param ResourceControllerEvent $event
-     */
     public function postCreate(ResourceControllerEvent $event): void
     {
         /** @var CustomerInterface $customer */

@@ -172,9 +172,6 @@ class MailchimpExport implements MailchimpExportInterface
         return $this->errors;
     }
 
-    /**
-     * @return int
-     */
     public function getErrorsCount(): int
     {
         return count($this->errors);
@@ -201,17 +198,11 @@ class MailchimpExport implements MailchimpExportInterface
         $this->errors = [];
     }
 
-    /**
-     * @return \DateTimeInterface|null
-     */
     public function getFinishedAt(): ?\DateTimeInterface
     {
         return $this->finishedAt;
     }
 
-    /**
-     * @param \DateTimeInterface|null $finishedAt
-     */
     public function setFinishedAt(?\DateTimeInterface $finishedAt): void
     {
         $this->finishedAt = $finishedAt;

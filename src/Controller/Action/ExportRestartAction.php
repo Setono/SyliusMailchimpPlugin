@@ -43,10 +43,6 @@ final class ExportRestartAction
 
     /**
      * @todo Better use state machines for state?
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
     public function __invoke(Request $request): Response
     {
