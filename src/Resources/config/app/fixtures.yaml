@@ -21,7 +21,7 @@ sylius_fixtures:
                                         store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
                                         store_currency: USD
                                         channels:
-                                            - "US_WEB"
+                                            - "FASHION_WEB"
 #                            mailchimp_config_no_store_configured:
 #                                code: no_store
 #                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
@@ -30,7 +30,7 @@ sylius_fixtures:
 #                                        list_id: "%env(resolve:MAILCHIMP_LIST_ID)%"
 #                                        export_subscribed_only: true
 #                                        channels:
-#                                            - "US_WEB"
+#                                            - "FASHION_WEB"
 #                            mailchimp_config_no_lists:
 #                                code: no_lists
 #                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
@@ -44,7 +44,7 @@ sylius_fixtures:
 #                                        store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
 #                                        store_currency: USD
 #                                        channels:
-#                                            - "US_WEB"
+#                                            - "FASHION_WEB"
 #                            mailchimp_config_invalid_store_id:
 #                                code: invalid_store_id
 #                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
@@ -55,7 +55,7 @@ sylius_fixtures:
 #                                        store_id: invalid
 #                                        store_currency: USD
 #                                        channels:
-#                                            - "US_WEB"
+#                                            - "FASHION_WEB"
 #                            mailchimp_config_invalid_list_id:
 #                                code: invalid_list_id
 #                                api_key: "%env(resolve:MAILCHIMP_API_KEY)%"
@@ -73,4 +73,4 @@ sylius_fixtures:
 #                                        store_id: "%env(resolve:MAILCHIMP_STORE_ID)%"
 #                                        store_currency: USD
 #                                        channels:
-#                                            - "US_WEB"
+#                                            - "FASHION_WEB"
