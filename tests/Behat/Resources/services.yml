@@ -1,6 +1,6 @@
-imports:
-    - { resource: "services/contexts.yml" }
-    - { resource: "services/pages.yml" }
+#imports:
+#    - { resource: "services/contexts.yml" }
+#    - { resource: "services/pages.yml" }
 
 services:
     setono_sylius_mailchimp.behat.random_string_generator:

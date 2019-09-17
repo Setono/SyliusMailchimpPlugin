@@ -1,31 +1,67 @@
 setono_sylius_mailchimp:
     ui:
-        config_menu: Mailchimp
-        export_menu: Newsletter export
+        menu:
+            config_menu: Mailchimp
+            export_menu: Newsletter export
+            list_menu: Mailchimp lists
+        breadcrumb:
+            config_breadcrumb: Mailchimp
+            export_breadcrumb: Export
+            list_breadcrumb: Lists
+
+        ecommerce: Mailchimp e-Commerce export
+
         configs: Mailchimp configuration
-        store_id: Mailchimp store ID
+        store_id: Store ID
         api_key: Mailchimp API Key
+        export_subscribed_only: Export subscribers only
+        store_currency: Store currency
         code: Code
-        config: Configure list(s)
+        config: Configuration
         config_header: Mailchimp configuration
         config_subheader: Manage Mailchimp configuration
-        list: Lists
+
+        config_lists: Lists
+        config_list_header: Config lists
+        config_list_subheader: Manage mailchimp lists of current config
+
+        list: List
+        lists: Lists
         list_id: List ID
         list_header: Mailchimp List Configuration
         list_subheader: Manage Mailchimp lists
-        exported_at: Exported at
+        list_create: Create list
+        new_list: New list
+
+        channels: Channels
+
+        updated_at: Updated at
+        finished_at: Finished at
         export_header: Export to Mailchimp
-        export_subheader: Export customers to the Mailchimp newsletter manually
-        exports: Manual Mailchimp newsletter export history
-        configure_first: Please set up the Mailchimp config properly first.
+        export_subheader: Export customers to the Mailchimp manually
+        list_export_header: Export list to Mailchimp
+        list_export_subheader: Export customers to the Mailchimp list manually
+
+        exports: Mailchimp newsletter exports
         export: Export
+        new_export: New export
+        exported_customers: Exported customers
+        export_customers_header: Exported customers
+        export_customers_subheader: Customers being exported during this export
+        export_restart: Restart export
+        export_restarted: Export restarted
+        list_export: Export
+        list_exports: List exports
         state: State
         emails_exported: Emails exported
+        errors_header: Errors during export
+        errors_count: Errors
+        no_errors: No errors
         new: New
-        in_progress: In progress
+        restarting: Restarting...
+        in_progress: In progress...
         completed: Completed
         failed: Failed
-        export_all_emails: Export all emails
         export_succeeded: Export succeded
         export_failed: Export failed
         nothing_to_export: Nothing to export
@@ -33,4 +69,5 @@ setono_sylius_mailchimp:
         subscribe: Subscribe
         your_email_address: Your email address
         email_not_blank: Email cannot be blank.
+        invalid_csrf_token: Invalid CSRF token
         subscribed_successfully: You are now subscribed to the newsletter.

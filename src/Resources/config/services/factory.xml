@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="setono_sylius_mailchimp.custom_factory.list"
+                 class="Setono\SyliusMailchimpPlugin\Factory\MailchimpListFactory"
+                 decorates="setono_sylius_mailchimp.factory.list"
+                 decoration-priority="256">
+            <argument type="service" id="setono_sylius_mailchimp.custom_factory.list.inner" />
+        </service>
+
+        <service id="setono_sylius_mailchimp.custom_factory.export"
+                 class="Setono\SyliusMailchimpPlugin\Factory\MailchimpExportFactory"
+                 decorates="setono_sylius_mailchimp.factory.export"
+                 decoration-priority="256">
+            <argument type="service" id="setono_sylius_mailchimp.custom_factory.export.inner" />
+        </service>
+    </services>
+
+</container>

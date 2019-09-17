@@ -1,0 +1,5 @@
+{% import '@SyliusUi/Macro/labels.html.twig' as label %}
+
+<a href="{{ path('setono_sylius_mailchimp_admin_list_update', {'id': data.id}) }}">
+    {{ label.default(data.name) }}
+</a>

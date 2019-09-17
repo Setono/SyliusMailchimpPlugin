@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- config/doctrine/model/Customer.orm.xml -->
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="App\Model\Customer" table="sylius_customer">
+<!--        <many-to-one field="brand" target-entity="Loevgaard\SyliusBrandPlugin\Model\BrandInterface" inversed-by="products">-->
+<!--            <join-column name="brand_id" on-delete="SET NULL" />-->
+<!--        </many-to-one>-->
+    </mapped-superclass>
+
+</doctrine-mapping>

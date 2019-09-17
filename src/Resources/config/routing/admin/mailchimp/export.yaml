@@ -1,0 +1,91 @@
+setono_sylius_mailchimp_admin_export_index:
+    path: /exports/
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.export:indexAction
+        _sylius:
+            template: SyliusAdminBundle:Crud:index.html.twig
+            grid: setono_sylius_mailchimp_admin_export
+            section: admin
+            permission: true
+            vars:
+                icon: arrow up
+                header: setono_sylius_mailchimp.ui.export_header
+                subheader: setono_sylius_mailchimp.ui.export_subheader
+                templates:
+                    breadcrumb: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Index/_breadcrumb.html.twig"
+
+setono_sylius_mailchimp_admin_export_create:
+    path: /exports/new
+    methods: [GET, POST]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.export:createAction
+        _sylius:
+            template: SyliusAdminBundle:Crud:create.html.twig
+            grid: setono_sylius_mailchimp_admin_export
+            section: admin
+            permission: true
+            vars:
+                icon: arrow up
+                templates:
+                    form: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/_form.html.twig"
+                    breadcrumb: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Create/_breadcrumb.html.twig"
+                flash: setono_sylius_mailchimp.export.create
+
+setono_sylius_mailchimp_admin_export_show:
+    path: /exports/{id}
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.export:showAction
+        _sylius:
+            template: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/show.html.twig"
+            grid: setono_sylius_mailchimp_admin_export
+            section: admin
+            permission: true
+            vars:
+                icon: arrow up
+                templates:
+                    breadcrumb: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Show/_breadcrumb.html.twig"
+
+setono_sylius_mailchimp_admin_export_restart:
+    path: /exports/{id}/restart
+    methods: [POST]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.action.export_restart
+
+setono_sylius_mailchimp_admin_list_export_index:
+    path: /list/{mailchimpListId}/exports/
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.export:indexAction
+        _sylius:
+            template: SyliusAdminBundle:Crud:index.html.twig
+            grid: setono_sylius_mailchimp_admin_list_export
+            section: admin
+            permission: true
+            vars:
+                icon: arrow up
+                header: setono_sylius_mailchimp.ui.list_export_header
+                subheader: setono_sylius_mailchimp.ui.list_export_subheader
+                templates:
+                    breadcrumb: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/List/Export/Index/_breadcrumb.html.twig"
+
+setono_sylius_mailchimp_admin_list_export_create:
+    path: /lists/{mailchimpListId}/exports/new
+    methods: [POST]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.export:createAction
+        _sylius:
+            factory:
+                method: createForMailchimpList
+                arguments:
+                  - expr:notFoundOnNull(service('setono_sylius_mailchimp.repository.list').find($mailchimpListId))
+            template: SyliusAdminBundle:Crud:create.html.twig
+            grid: setono_sylius_mailchimp_admin_export
+            section: admin
+            permission: true
+            vars:
+                route:
+                    parameters:
+                        mailchimpListId: $mailchimpListId
+                flash: setono_sylius_mailchimp.export.create

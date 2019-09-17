@@ -1,7 +1,0 @@
-imports:
-    - { resource: grids/mailchimp_export.yml }
-
-sylius_grid:
-    templates:
-        action:
-            mailchimp_export: "@SetonoSyliusMailchimpPlugin/MailchimpExport/Grid/Action/export.html.twig"

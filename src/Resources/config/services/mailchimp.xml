@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="setono_sylius_mailchimp.api_client.factory"
+                 class="Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientFactory">
+        </service>
+
+        <service id="setono_sylius_mailchimp.generator.merge_fields"
+                 class="Setono\SyliusMailchimpPlugin\Mailchimp\MergeFieldsGenerator">
+            <argument>%setono_sylius_mailchimp.merge_fields%</argument>
+        </service>
+
+        <service id="setono_sylius_mailchimp.customer_subscription_manager"
+                 class="Setono\SyliusMailchimpPlugin\Mailchimp\CustomerSubscriptionManager">
+            <argument type="service" id="setono_sylius_mailchimp.api_client.factory" />
+            <argument type="service" id="setono_sylius_mailchimp.generator.merge_fields" />
+        </service>
+
+        <service id="setono_sylius_mailchimp.generator.order_export_data"
+                 class="Setono\SyliusMailchimpPlugin\Mailchimp\OrderExportDataGenerator">
+            <argument type="service" id="router"/>
+            <argument type="service" id="sylius.currency_converter"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.order_export_manager"
+                 class="Setono\SyliusMailchimpPlugin\Mailchimp\OrderExportManager">
+            <argument type="service" id="setono_sylius_mailchimp.repository.list" />
+            <argument type="service" id="setono_sylius_mailchimp.generator.order_export_data" />
+            <argument type="service" id="setono_sylius_mailchimp.api_client.factory" />
+        </service>
+
+    </services>
+
+</container>

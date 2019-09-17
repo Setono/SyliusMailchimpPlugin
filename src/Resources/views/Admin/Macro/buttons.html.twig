@@ -1,0 +1,16 @@
+{% macro post(url, message, id, icon, class, requiresConfirmation = false) %}
+    <form action="{{ url }}" method="post">
+        <input type="hidden" name="_method" value="POST">
+        <button class="ui labeled icon button{% if class is not empty %} {{ class }} {% endif %}"
+                {% if id is not null %} id="{{ id }}"{% endif %}
+                {% if requiresConfirmation %}data-requires-confirmation{% endif %}
+                type="submit">
+            {% if icon is not empty %}
+                <i class="icon {{ icon }}"></i>
+            {% endif %}
+            {% if message is not empty %}
+                {{ message|trans }}
+            {% endif %}
+        </button>
+    </form>
+{% endmacro %}

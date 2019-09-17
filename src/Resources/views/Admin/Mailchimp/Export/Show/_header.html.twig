@@ -1,0 +1,11 @@
+<div class="ui stackable two column grid">
+    <div class="column">
+        {% include configuration.vars.templates.header_title|default('@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Show/_headerTitle.html.twig') %}
+        {% include configuration.vars.templates.breadcrumb|default('@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Show/_breadcrumb.html.twig') %}
+
+        {{ sonata_block_render_event(event_prefix ~ '.header', {'resource': resource}) }}
+    </div>
+    <div class="middle aligned column">
+        {% include configuration.vars.templates.toolbar|default('@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Show/_toolbar.html.twig') ignore missing %}
+    </div>
+</div>

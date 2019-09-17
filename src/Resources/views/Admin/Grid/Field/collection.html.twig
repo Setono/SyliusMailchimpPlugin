@@ -1,0 +1,7 @@
+{% if options.vars.field_template is defined %}
+    {% for item in data %}
+        {% include options.vars.field_template with {'data': item} %}
+    {% endfor %}
+{% else %}
+    {{ data }}
+{% endif %}

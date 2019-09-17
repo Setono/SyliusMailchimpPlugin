@@ -21,13 +21,13 @@
                     <a href="#" class="item">{{ 'sylius.ui.returns_policy'|trans  }}</a>
                 </div>
             </div>
-            <div class="two wide column">
+            <div class="three wide column">
                 <h4 class="ui inverted header">&copy; {{ 'sylius.ui.your_store'|trans }}</h4>
                 <p>{{ 'sylius.ui.powered_by'|trans }} <a href="http://sylius.com" target="_blank" style="color: #1abb9c;">Sylius</a>.</p>
             </div>
-            <div class="eight wide column">
+            <div class="seven wide column">
                 <h4 class="ui inverted header">{{ 'setono_sylius_mailchimp.ui.newsletter'|trans }}</h4>
-                {% include '@SetonoSyliusMailchimpPlugin/Shop/_subscribe.html.twig' %}
+                {% include '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/_form.html.twig' %}
             </div>
 
             {{ sonata_block_render_event('sylius.shop.layout.after_footer') }}

@@ -1,9 +1,0 @@
-setono_sylius_mailchimp_admin:
-    resource: routing/admin.yml
-    prefix: /admin/mailchimp
-
-setono_sylius_mailchimp_shop_subscribe:
-    path: /mailchimp-subscribe
-    methods: [POST]
-    defaults:
-        _controller: setono_sylius_mailchimp.controller.action.subscribe_to_newsletter

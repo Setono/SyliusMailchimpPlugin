@@ -1,0 +1,11 @@
+{% import '@SyliusAdmin/Macro/breadcrumb.html.twig' as breadcrumb %}
+
+{% set breadcrumbs = [
+        { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
+        { label: 'setono_sylius_mailchimp.ui.breadcrumb.config_breadcrumb'|trans, url: path('setono_sylius_mailchimp_admin_config_index') },
+        { label: app.request.attributes.get('mailchimpConfigId'), url: path('setono_sylius_mailchimp_admin_config_update', {'id': app.request.attributes.get('mailchimpConfigId')}) },
+        { label: 'setono_sylius_mailchimp.ui.breadcrumb.list_breadcrumb'|trans },
+    ]
+%}
+
+{{ breadcrumb.crumble(breadcrumbs) }}

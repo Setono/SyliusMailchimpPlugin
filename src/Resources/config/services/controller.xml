@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true" />
+
+        <service id="setono_sylius_mailchimp.controller.action.export_restart"
+                 class="Setono\SyliusMailchimpPlugin\Controller\Action\ExportRestartAction">
+            <argument type="service" id="setono_sylius_mailchimp.repository.export"/>
+            <argument type="service" id="session.flash_bag"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="router"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.controller.action.subscribe_to_newsletter"
+                 class="Setono\SyliusMailchimpPlugin\Controller\Action\SubscribeToNewsletterAction">
+            <argument type="service" id="setono_sylius_mailchimp.validator.newsletter_email"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="setono_sylius_mailchimp.handler.email_subscription"/>
+            <argument type="service" id="translator"/>
+        </service>
+    </services>
+</container>

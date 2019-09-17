@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="setono_sylius_mailchimp.event_listener.customer_subscription"
+                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerSubscriptionListener">
+            <argument type="service" id="setono_sylius_mailchimp.handler.customer_subscription" />
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="sylius.context.locale"/>
+
+            <tag name="kernel.event_listener" event="sylius.customer.post_create" method="postCreate" />
+        </service>
+
+        <service id="setono_sylius_mailchimp.doctrine_event_listener.customer_email_update"
+                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerEmailUpdateDoctrineEventListener">
+            <argument type="service" id="setono_sylius_mailchimp.handler.customer_mergefields_update" />
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="sylius.context.locale"/>
+
+            <tag name="doctrine.event_listener" event="preUpdate" lazy="true" />
+            <tag name="doctrine.event_listener" event="postFlush" lazy="true" />
+        </service>
+
+    </services>
+
+</container>

@@ -1,0 +1,3 @@
+setono_sylius_mailchimp:
+    export:
+        create: Export has been successfully created. It will be handled soon in background process.

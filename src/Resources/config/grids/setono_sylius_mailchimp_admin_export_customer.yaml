@@ -1,0 +1,11 @@
+sylius_grid:
+    grids:
+        setono_sylius_mailchimp_admin_export_customer:
+            extends: sylius_admin_customer
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%sylius.model.customer.class%"
+                    repository:
+                        method: createByMailchimpExportIdQueryBuilder
+                        arguments: [$mailchimpExportId]
