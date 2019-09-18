@@ -1,0 +1,75 @@
+setono_sylius_mailchimp_admin_audience:
+    resource: |
+        section: admin
+        alias: setono_sylius_mailchimp.audience
+        templates: SyliusAdminBundle:Crud
+        only: ['index', 'update']
+        permission: true
+        redirect: update
+        grid: setono_sylius_mailchimp_admin_audience
+        vars:
+            all:
+                header: setono_sylius_mailchimp.ui.audience_header
+                subheader: setono_sylius_mailchimp.ui.audience_subheader
+            update:
+                templates:
+                    form: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/List/_form.html.twig"
+    type: sylius.resource
+    
+setono_sylius_mailchimp_admin_load_audiences:
+    path: /load-audiences
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.action.load_audiences
+        
+setono_sylius_mailchimp_admin_resynchronize_customers:
+    path: /resynchronize-customers
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.action.resynchronize_customers
+
+setono_sylius_mailchimp_admin_config_list_index:
+    path: /configs/{mailchimpConfigId}/lists/
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.audience:indexAction
+        _sylius:
+            template: "@SyliusAdmin/Crud/index.html.twig"
+            grid: setono_sylius_mailchimp_admin_config_list
+            section: admin
+            permission: true
+            vars:
+                header: setono_sylius_mailchimp.ui.list_header
+                subheader: setono_sylius_mailchimp.ui.list_subheader
+                route:
+                    parameters:
+                        mailchimpConfigId: $mailchimpConfigId
+                templates:
+                    form: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/List/_form.html.twig"
+
+setono_sylius_mailchimp_admin_config_list_create:
+    path: /configs/{mailchimpConfigId}/lists/new
+    methods: [GET, POST]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.audience:createAction
+        _sylius:
+            factory:
+                method: createForMailchimpConfig
+                arguments:
+                    - expr:notFoundOnNull(service('setono_sylius_mailchimp.repository.config').find($mailchimpConfigId))
+            template: "@SyliusAdmin/Crud/create.html.twig"
+            grid: setono_sylius_mailchimp_admin_config_list
+            section: admin
+            redirect:
+                route: setono_sylius_mailchimp_admin_config_list_index
+                parameters:
+                    mailchimpConfigId: $mailchimpConfigId
+            permission: true
+            vars:
+                header: setono_sylius_mailchimp.ui.config_list_header
+                subheader: setono_sylius_mailchimp.ui.config_list_subheader
+                route:
+                    parameters:
+                        mailchimpConfigId: $mailchimpConfigId
+                templates:
+                    form: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/List/_form.html.twig"

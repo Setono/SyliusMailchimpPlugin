@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Fixture\Factory;
 
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpConfigRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Factory\MailchimpListFactoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\AbstractExampleFactory;
@@ -45,7 +45,7 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
     /** @var MailchimpListFactoryInterface */
     protected $mailchimpListFactory;
 
-    /** @var MailchimpListRepositoryInterface */
+    /** @var AudienceRepositoryInterface */
     protected $mailchimpListRepository;
 
     public function __construct(
@@ -55,7 +55,7 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
         FactoryInterface $mailchimpConfigFactory,
         MailchimpConfigRepositoryInterface $mailchimpConfigRepository,
         MailchimpListFactoryInterface $mailchimpListFactory,
-        MailchimpListRepositoryInterface $mailchimpListRepository
+        AudienceRepositoryInterface $mailchimpListRepository
     ) {
         $this->channelRepository = $channelRepository;
         $this->currencyRepository = $currencyRepository;
@@ -152,7 +152,7 @@ final class MailchimpConfigExampleFactory extends AbstractExampleFactory
 
             $mailchimpList = $this->mailchimpListFactory->createForMailchimpConfig($mailchimpConfig);
             $mailchimpList->setName($listOptions['name']);
-            $mailchimpList->setListId($listOptions['list_id']);
+            $mailchimpList->setAudienceId($listOptions['list_id']);
             $mailchimpList->setExportSubscribedOnly($listOptions['export_subscribed_only']);
 
             $mailchimpList->setStoreId($listOptions['store_id']);

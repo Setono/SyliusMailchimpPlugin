@@ -8,9 +8,9 @@ use Doctrine\ORM\EntityManager;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpExportRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Mailchimp\CustomerSubscriptionManagerInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Webmozart\Assert\Assert;
 
@@ -50,7 +50,7 @@ final class MailchimpExportHandler implements MailchimpExportHandlerInterface
         /** @var MailchimpExportInterface $mailchimpExport */
         $mailchimpExport = $resource;
 
-        /** @var MailchimpListInterface $mailchimpList */
+        /** @var AudienceInterface $mailchimpList */
         $mailchimpList = $mailchimpExport->getList();
 
         $customers = $mailchimpList->isExportSubscribedOnly() ?

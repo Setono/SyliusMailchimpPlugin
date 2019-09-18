@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Command;
 
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpExportRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Factory\MailchimpExportFactoryInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class MailchimpExportCreateCommand extends Command
 {
-    /** @var MailchimpListRepositoryInterface */
+    /** @var AudienceRepositoryInterface */
     private $mailchimpListRepository;
 
     /** @var MailchimpExportFactoryInterface */
@@ -25,7 +25,7 @@ final class MailchimpExportCreateCommand extends Command
     private $mailchimpExportRepository;
 
     public function __construct(
-        MailchimpListRepositoryInterface $mailchimpListRepository,
+        AudienceRepositoryInterface $mailchimpListRepository,
         MailchimpExportFactoryInterface $mailchimpExportFactory,
         MailchimpExportRepositoryInterface $mailchimpExportRepository
     ) {
@@ -61,7 +61,7 @@ final class MailchimpExportCreateCommand extends Command
             $mailchimpLists = [];
             foreach ($listIds as $listId) {
                 $mailchimpList = $this->mailchimpListRepository->find($listId);
-                if (!$mailchimpList instanceof MailchimpListInterface) {
+                if (!$mailchimpList instanceof AudienceInterface) {
                     $output->writeln(sprintf('<error>List with ID %s was not found... Abort</error>', $listId));
 
                     return;
@@ -70,7 +70,7 @@ final class MailchimpExportCreateCommand extends Command
             }
         }
 
-        /** @var MailchimpListInterface $mailchimpList */
+        /** @var AudienceInterface $mailchimpList */
         foreach ($mailchimpLists as $mailchimpList) {
             $mailchimpExport = $this->mailchimpExportFactory->createForMailchimpList($mailchimpList);
             $this->mailchimpExportRepository->add($mailchimpExport);

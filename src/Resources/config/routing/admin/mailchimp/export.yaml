@@ -12,8 +12,6 @@ setono_sylius_mailchimp_admin_export_index:
                 icon: arrow up
                 header: setono_sylius_mailchimp.ui.export_header
                 subheader: setono_sylius_mailchimp.ui.export_subheader
-                templates:
-                    breadcrumb: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Index/_breadcrumb.html.twig"
 
 setono_sylius_mailchimp_admin_export_create:
     path: /exports/new
@@ -44,8 +42,6 @@ setono_sylius_mailchimp_admin_export_show:
             permission: true
             vars:
                 icon: arrow up
-                templates:
-                    breadcrumb: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/Export/Show/_breadcrumb.html.twig"
 
 setono_sylius_mailchimp_admin_export_restart:
     path: /exports/{id}/restart
@@ -67,8 +63,6 @@ setono_sylius_mailchimp_admin_list_export_index:
                 icon: arrow up
                 header: setono_sylius_mailchimp.ui.list_export_header
                 subheader: setono_sylius_mailchimp.ui.list_export_subheader
-                templates:
-                    breadcrumb: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/List/Export/Index/_breadcrumb.html.twig"
 
 setono_sylius_mailchimp_admin_list_export_create:
     path: /lists/{mailchimpListId}/exports/new

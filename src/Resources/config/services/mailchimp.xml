@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="setono_sylius_mailchimp.api_client.factory"
-                 class="Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientFactory">
+        <service id="setono_sylius_mailchimp.client" class="DrewM\MailChimp\MailChimp">
+            <argument>%setono_sylius_mailchimp.api_key%</argument>
+        </service>
+
+        <service id="setono_sylius_mailchimp.api_client" class="Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClient">
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
         </service>
 
         <service id="setono_sylius_mailchimp.generator.merge_fields"
@@ -16,8 +20,8 @@
 
         <service id="setono_sylius_mailchimp.customer_subscription_manager"
                  class="Setono\SyliusMailchimpPlugin\Mailchimp\CustomerSubscriptionManager">
-            <argument type="service" id="setono_sylius_mailchimp.api_client.factory" />
-            <argument type="service" id="setono_sylius_mailchimp.generator.merge_fields" />
+            <argument type="service" id="setono_sylius_mailchimp.api_client"/>
+            <argument type="service" id="setono_sylius_mailchimp.generator.merge_fields"/>
         </service>
 
         <service id="setono_sylius_mailchimp.generator.order_export_data"
@@ -28,9 +32,9 @@
 
         <service id="setono_sylius_mailchimp.order_export_manager"
                  class="Setono\SyliusMailchimpPlugin\Mailchimp\OrderExportManager">
-            <argument type="service" id="setono_sylius_mailchimp.repository.list" />
-            <argument type="service" id="setono_sylius_mailchimp.generator.order_export_data" />
-            <argument type="service" id="setono_sylius_mailchimp.api_client.factory" />
+            <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
+            <argument type="service" id="setono_sylius_mailchimp.generator.order_export_data"/>
+            <argument type="service" id="setono_sylius_mailchimp.api_client"/>
         </service>
 
     </services>

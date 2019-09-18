@@ -19,19 +19,10 @@ developed with the contribution of the BitBag team.
 $ composer require setono/sylius-mailchimp-plugin
 ```
 
-#### (optional) Add transport for enqueue bundle
-
-(see https://github.com/php-enqueue/enqueue-dev/blob/master/docs/bundle/quick_tour.md
-for more details)
-
-```bash
-composer require enqueue/fs
-```
-
 ### 2. Import configuration:
 
 ```yaml
-# config/packages/_sylius.yaml
+# config/packages/setono_sylius_mailchimp.yaml
 imports:
     - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/app/config.yaml" }
 ```
@@ -48,11 +39,12 @@ setono_sylius_mailchimp:
 
 ```php
 $bundles = [
+    // ...
+    
     Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin::class => ['all' => true],
     Sylius\Bundle\GridBundle\SyliusGridBundle::class => ['all' => true],
     
-    // Uncomment if you want to use queues
-    // Enqueue\Bundle\EnqueueBundle::class => ['all' => true],
+    // ...
 ];
 ```
 
@@ -166,22 +158,6 @@ Make sure you've added it **before** `SyliusGridBundle`. Otherwise you'll get ex
                     repository: App\Doctrine\ORM\CustomerRepository
     ```
 
-- Check:
-
-    ```bash
-    bin/console doctrine:mapping:info | grep Customer
-    
-    # You should see:
-    # [OK]   App\Entity\Customer 
-    # or: 
-    # [OK]   App\Model\Customer
-    
-    bin/console debug:container | grep CustomerRepository
-    
-    # You should see:
-    # sylius.repository.customer    App\Doctrine\ORM\CustomerRepository
-    ```
-
 ### 5. Update your database:
 
 ```bash
@@ -191,26 +167,7 @@ $ php bin/console doctrine:migrations:migrate
 
 ### 6. Make plugin configurations:
 
-#### 1. (optional) Enable and add proper enqueue bundle configuration
-
-```yaml
-# config/packages/setono_sylius_mailchimp.yaml
-
-setono_sylius_mailchimp:
-    queue: true
-
-enqueue:
-    transport:
-        # Here we use enqueue/fs for testing as most simple transport implementation
-        # @see https://enqueue.readthedocs.io/en/latest/transport/filesystem/
-        default: fs
-        fs:
-            dsn: "file://%kernel.project_dir%/var/queue"
-    client:
-        traceable_producer: true
-```
-
-#### 2. Subscriptions form at shop's footer
+#### 1. Subscriptions form at shop's footer
 
 - By default, subscription form will be added to footer via block events.
 
@@ -242,7 +199,7 @@ enqueue:
     
     See example at `tests/Application/templates/bundles/SyliusShopBundle/_footer.html.twig`.
 
-#### 3. (optional) Create and/or configure Mailchimp Merge Fields
+#### 2. (optional) Create and/or configure Mailchimp Merge Fields
 
   - If you don't want to collect channel and locale of subscribers,
     (your shop works with just one channel and locale, for example)
@@ -308,29 +265,6 @@ $ php bin/console cache:clear
     ````
     
     Providing such `limit` allow to export 30 customers per minute. 
-
-### 10. (production) Configure `supervisord` if you use queues 
-
-Make sure next command always in run state:
-
-```bash
-path/to/bin/console enqueue:consume -vvv
-```
-
-This can be done with `supervisord`
-(see [docs](https://enqueue.readthedocs.io/en/latest/bundle/production_settings/) for details):
-
-```
-[program:enqueue_message_consumer]
-command=/path/to/bin/console --env=prod --no-debug --time-limit="now + 5 minutes" enqueue:consume --message-limit=1
-process_name=%(program_name)s_%(process_num)02d
-numprocs=4
-autostart=true
-autorestart=true
-startsecs=0
-user=apache
-redirect_stderr=true
-```
 
 ## Usage
 

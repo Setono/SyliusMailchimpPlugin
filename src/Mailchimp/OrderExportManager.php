@@ -4,30 +4,29 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Mailchimp;
 
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientFactoryInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
 final class OrderExportManager implements OrderExportManagerInterface
 {
-    /** @var MailchimpListRepositoryInterface */
+    /** @var AudienceRepositoryInterface */
     private $mailchimpListRepository;
 
     /** @var OrderExportDataGeneratorInterface */
     private $orderExportDataGenerator;
 
-    /** @var MailchimpApiClientFactoryInterface */
-    private $mailchimpApiClientFactory;
+    /** @var MailchimpApiClientInterface */
+    private $mailchimpApiClient;
 
     public function __construct(
-        MailchimpListRepositoryInterface $mailchimpListRepository,
+        AudienceRepositoryInterface $mailchimpListRepository,
         OrderExportDataGeneratorInterface $orderExportDataGenerator,
-        MailchimpApiClientFactoryInterface $mailchimpApiClientFactory
+        MailchimpApiClientInterface $mailchimpApiClient
     ) {
         $this->mailchimpListRepository = $mailchimpListRepository;
         $this->orderExportDataGenerator = $orderExportDataGenerator;
-        $this->mailchimpApiClientFactory = $mailchimpApiClientFactory;
+        $this->mailchimpApiClient = $mailchimpApiClient;
     }
 
     /**
@@ -37,11 +36,8 @@ final class OrderExportManager implements OrderExportManagerInterface
     {
         $mailchimpLists = $this->mailchimpListRepository->findByChannelWithStoreConfigured($order->getChannel());
         foreach ($mailchimpLists as $mailchimpList) {
-            /** @var MailchimpConfigInterface $mailchimpConfig */
-            $mailchimpConfig = $mailchimpList->getConfig();
-
             try {
-                $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpConfig);
+                $apiClient = $this->mailchimpApiClient;
             } catch (\Exception $e) {
                 return;
             }
@@ -74,11 +70,8 @@ final class OrderExportManager implements OrderExportManagerInterface
     {
         $mailchimpLists = $this->mailchimpListRepository->findByChannelWithStoreConfigured($order->getChannel());
         foreach ($mailchimpLists as $mailchimpList) {
-            /** @var MailchimpConfigInterface $mailchimpConfig */
-            $mailchimpConfig = $mailchimpList->getConfig();
-
             try {
-                $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpConfig);
+                $apiClient = $this->mailchimpApiClient;
             } catch (\Exception $e) {
                 return;
             }

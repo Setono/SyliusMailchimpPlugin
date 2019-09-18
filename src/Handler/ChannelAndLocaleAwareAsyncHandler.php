@@ -17,7 +17,9 @@ use Webmozart\Assert\Assert;
 abstract class ChannelAndLocaleAwareAsyncHandler implements ChannelAndLocaleAwareHandlerInterface, PsrProcessor, TopicSubscriberInterface
 {
     private const ID = 'id';
+
     private const CHANNEL = 'channel';
+
     private const LOCALE = 'locale';
 
     /** @var ProducerInterface */

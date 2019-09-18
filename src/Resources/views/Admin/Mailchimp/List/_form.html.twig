@@ -1,23 +1,12 @@
-{#{% form_theme form.listId '@SetonoSyliusMailchimpPlugin/Admin/Form/mailchimpApiTheme.html.twig' %}#}
-
 <div class="three wide column">
+    {{ form_row(form.audienceId) }}
 
-    {% if form.config is defined %}
-        {{ form_row(form.config, {
-            'remote_url': path('setono_sylius_mailchimp_admin_ajax_configs_by_phrase'),
-            'load_edit_url': path('setono_sylius_mailchimp_admin_ajax_config_by_code')})
-        }}
-    {% endif %}
+    {{ form_row(form.channel) }}
 
-    {{ form_row(form.listId) }}
-    {{ form_row(form.exportSubscribedOnly) }}
-
-    <h3 class="ui dividing header">{{ 'setono_sylius_mailchimp.ui.ecommerce'|trans }}</h3>
-    <p>
-        You may export orders/products to Mailchimp e-Commerce area to see when and how much every customer buy.
-    </p>
-
-    {{ form_row(form.storeId) }}
-    {{ form_row(form.storeCurrency) }}
-    {{ form_row(form.channels) }}
+    <div class="ui info message">
+        <div class="header">
+            {{ 'setono_sylius_mailchimp.form.audience.notice.header'|trans }}
+        </div>
+        <p>{{ 'setono_sylius_mailchimp.form.audience.notice.content'|trans|raw }}</p>
+    </div>
 </div>

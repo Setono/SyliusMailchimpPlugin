@@ -6,23 +6,23 @@
 
     <services>
 
-        <service id="setono_sylius_mailchimp.fixture.config"
-                 class="Setono\SyliusMailchimpPlugin\Fixture\MailchimpConfigFixture">
-            <argument type="service" id="setono_sylius_mailchimp.manager.config"/>
-            <argument type="service" id="setono_sylius_mailchimp.fixture.example_factory.config"/>
-            <tag name="sylius_fixtures.fixture"/>
-        </service>
+<!--        <service id="setono_sylius_mailchimp.fixture.config"-->
+<!--                 class="Setono\SyliusMailchimpPlugin\Fixture\MailchimpConfigFixture">-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.manager.config"/>-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.fixture.example_factory.config"/>-->
+<!--            <tag name="sylius_fixtures.fixture"/>-->
+<!--        </service>-->
 
-        <service id="setono_sylius_mailchimp.fixture.example_factory.config"
-                 class="Setono\SyliusMailchimpPlugin\Fixture\Factory\MailchimpConfigExampleFactory">
-            <argument type="service" id="sylius.repository.channel"/>
-            <argument type="service" id="sylius.repository.currency"/>
-            <argument type="service" id="sylius.repository.locale"/>
-            <argument type="service" id="setono_sylius_mailchimp.factory.config"/>
-            <argument type="service" id="setono_sylius_mailchimp.repository.config"/>
-            <argument type="service" id="setono_sylius_mailchimp.factory.list"/>
-            <argument type="service" id="setono_sylius_mailchimp.repository.list"/>
-        </service>
+<!--        <service id="setono_sylius_mailchimp.fixture.example_factory.config"-->
+<!--                 class="Setono\SyliusMailchimpPlugin\Fixture\Factory\MailchimpConfigExampleFactory">-->
+<!--            <argument type="service" id="sylius.repository.channel"/>-->
+<!--            <argument type="service" id="sylius.repository.currency"/>-->
+<!--            <argument type="service" id="sylius.repository.locale"/>-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.factory.config"/>-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.repository.config"/>-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.factory.audience"/>-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>-->
+<!--        </service>-->
 
     </services>
 

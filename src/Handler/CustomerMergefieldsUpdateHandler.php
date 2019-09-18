@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Handler;
 
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Mailchimp\CustomerSubscriptionManagerInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Webmozart\Assert\Assert;
 
@@ -18,14 +18,14 @@ use Webmozart\Assert\Assert;
  */
 class CustomerMergefieldsUpdateHandler implements CustomerMergefieldsUpdateHandlerInterface
 {
-    /** @var MailchimpListRepositoryInterface */
+    /** @var AudienceRepositoryInterface */
     protected $mailchimpListRepository;
 
     /** @var CustomerSubscriptionManagerInterface */
     private $customerSubscriptionManager;
 
     public function __construct(
-        MailchimpListRepositoryInterface $mailchimpListRepository,
+        AudienceRepositoryInterface $mailchimpListRepository,
         CustomerSubscriptionManagerInterface $customerSubscriptionManager
     ) {
         $this->mailchimpListRepository = $mailchimpListRepository;
@@ -42,7 +42,7 @@ class CustomerMergefieldsUpdateHandler implements CustomerMergefieldsUpdateHandl
         /** @var CustomerInterface $customer */
         $customer = $resource;
 
-        /** @var MailchimpListInterface $mailchimpList */
+        /** @var AudienceInterface $mailchimpList */
         $mailchimpLists = $this->mailchimpListRepository->findByChannelCode($channelCode);
         foreach ($mailchimpLists as $mailchimpList) {
             $this->customerSubscriptionManager->updateCustomersMergeFieldsForList(

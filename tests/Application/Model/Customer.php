@@ -15,13 +15,5 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Customer extends BaseCustomer implements SetonoSyliusMailchimpPluginCustomerInterface
 {
-    use SetonoSyliusMailchimpPluginCustomerTrait {
-        SetonoSyliusMailchimpPluginCustomerTrait::__construct as private __setonoSyliusMailchimpPluginCustomerTraitConstruct;
-    }
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->__setonoSyliusMailchimpPluginCustomerTraitConstruct();
-    }
+    use SetonoSyliusMailchimpPluginCustomerTrait;
 }

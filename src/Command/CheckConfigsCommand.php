@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Command;
 
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientFactoryInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,24 +14,24 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class CheckConfigsCommand extends Command
 {
-    protected static $defaultName = 'setono:mailchimp:check-configs';
+    protected static $defaultName = 'setono:sylius-mailchimp:check-configs';
 
-    /** @var MailchimpApiClientFactoryInterface */
-    private $mailchimpApiClientFactory;
+    /** @var MailchimpApiClientInterface */
+    private $mailchimpApiClient;
 
-    /** @var MailchimpListRepositoryInterface */
+    /** @var AudienceRepositoryInterface */
     private $mailchimpListRepository;
 
     /** @var array */
     private $mergeFields;
 
     public function __construct(
-        MailchimpListRepositoryInterface $mailchimpListRepository,
-        MailchimpApiClientFactoryInterface $mailchimpApiClientFactory,
+        AudienceRepositoryInterface $mailchimpListRepository,
+        MailchimpApiClientInterface $mailchimpApiClient,
         array $mergeFields
     ) {
         $this->mailchimpListRepository = $mailchimpListRepository;
-        $this->mailchimpApiClientFactory = $mailchimpApiClientFactory;
+        $this->mailchimpApiClient = $mailchimpApiClient;
         $this->mergeFields = $mergeFields;
 
         parent::__construct();
@@ -60,7 +59,7 @@ final class CheckConfigsCommand extends Command
             'Store ID Valid?',
         ]);
 
-        /** @var MailchimpListInterface[] $mailchimpLists */
+        /** @var AudienceInterface[] $mailchimpLists */
         $mailchimpLists = $this->mailchimpListRepository->findAll();
         foreach ($mailchimpLists as $mailchimpList) {
             /** @var MailchimpConfigInterface $mailchimpConfig */
@@ -69,7 +68,7 @@ final class CheckConfigsCommand extends Command
                 $mailchimpConfig->getCode(),
                 $this->renderStatus($this->getApiKeyErrors($mailchimpConfig)),
 
-                $mailchimpList->getListId(),
+                $mailchimpList->getAudienceId(),
                 $this->renderStatus($this->getListIdErrors($mailchimpList)),
                 $this->renderErrors($this->getMergeFieldsConfigurationErrors($mailchimpList)),
 
@@ -120,7 +119,7 @@ final class CheckConfigsCommand extends Command
     private function getApiKeyErrors(MailchimpConfigInterface $mailchimpConfig): ?string
     {
         try {
-            $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpConfig);
+            $apiClient = $this->mailchimpApiClient->buildClient($mailchimpConfig);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -135,15 +134,15 @@ final class CheckConfigsCommand extends Command
     /**
      * @return string
      */
-    private function getListIdErrors(MailchimpListInterface $mailchimpList): ?string
+    private function getListIdErrors(AudienceInterface $mailchimpList): ?string
     {
         try {
-            $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+            $apiClient = $this->mailchimpApiClient->buildClient($mailchimpList->getConfig());
         } catch (\Exception $e) {
             return $e->getMessage();
         }
 
-        if (!$apiClient->isListIdExists($mailchimpList->getListId())) {
+        if (!$apiClient->isListIdExists($mailchimpList->getAudienceId())) {
             return 'List not exists';
         }
 
@@ -153,10 +152,10 @@ final class CheckConfigsCommand extends Command
     /**
      * @return string
      */
-    private function getStoreIdErrors(MailchimpListInterface $mailchimpList): ?string
+    private function getStoreIdErrors(AudienceInterface $mailchimpList): ?string
     {
         try {
-            $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+            $apiClient = $this->mailchimpApiClient->buildClient($mailchimpList->getConfig());
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -172,13 +171,13 @@ final class CheckConfigsCommand extends Command
         return null;
     }
 
-    private function getMergeFieldsConfigurationErrors(MailchimpListInterface $mailchimpList): ?array
+    private function getMergeFieldsConfigurationErrors(AudienceInterface $mailchimpList): ?array
     {
         try {
-            $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+            $apiClient = $this->mailchimpApiClient->buildClient($mailchimpList->getConfig());
 
             $existingMergeFields = $apiClient->getMergeFields(
-                $mailchimpList->getListId(),
+                $mailchimpList->getAudienceId(),
                 $this->mergeFields
             );
 

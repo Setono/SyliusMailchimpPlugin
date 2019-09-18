@@ -17,7 +17,9 @@ use Webmozart\Assert\Assert;
 final class CustomerMergefieldsUpdateAsyncHandler implements CustomerMergefieldsUpdateHandlerInterface, PsrProcessor, TopicSubscriberInterface
 {
     private const ID = 'id';
+
     private const CHANNEL = 'channel';
+
     private const OLD_CUSTOMER_EMAIL = 'old-customer-email';
 
     /** @var ProducerInterface */

@@ -5,9 +5,6 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="setono_sylius_mailchimp.form.type.config.validation_groups" type="collection">
-            <parameter>setono_sylius_mailchimp</parameter>
-        </parameter>
         <parameter key="setono_sylius_mailchimp.form.type.list.validation_groups" type="collection">
             <parameter>setono_sylius_mailchimp</parameter>
         </parameter>
@@ -17,25 +14,9 @@
     </parameters>
 
     <services>
-        <service id="setono_sylius_mailchimp.form.type.config"
-                 class="Setono\SyliusMailchimpPlugin\Form\Type\MailchimpConfigType">
-            <argument>%setono_sylius_mailchimp.model.config.class%</argument>
-            <argument>%setono_sylius_mailchimp.form.type.config.validation_groups%</argument>
-
-            <tag name="form.type"/>
-        </service>
-
-        <service id="setono_sylius_mailchimp.form.type.config_autocomplete"
-                 class="Setono\SyliusMailchimpPlugin\Form\Type\MailchimpConfigAutocompleteChoiceType">
-            <argument>%setono_sylius_mailchimp.model.config.class%</argument>
-            <argument>%setono_sylius_mailchimp.form.type.config.validation_groups%</argument>
-
-            <tag name="form.type"/>
-        </service>
-
         <service id="setono_sylius_mailchimp.form.type.list"
-                 class="Setono\SyliusMailchimpPlugin\Form\Type\MailchimpListType">
-            <argument>%setono_sylius_mailchimp.model.list.class%</argument>
+                 class="Setono\SyliusMailchimpPlugin\Form\Type\AudienceType">
+            <argument>%setono_sylius_mailchimp.model.audience.class%</argument>
             <argument>%setono_sylius_mailchimp.form.type.list.validation_groups%</argument>
 
             <tag name="form.type"/>

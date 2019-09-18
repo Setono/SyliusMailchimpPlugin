@@ -1,4 +1,18 @@
 setono_sylius_mailchimp:
+    form:
+        audience:
+            notice:
+                header: NOTICE
+                content: 
+                    When you associate a channel with an audience it is irreversible.<br>
+                    The store id in Mailchimp will be your channel code and the currency will be your default channel currency.<br>
+                    You can read the documentation about Mailchimps ecommerce features <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
+    menu:
+        admin:
+            main:
+                mailchimp:
+                    header: Mailchimp
+                    audiences: Audiences
     ui:
         menu:
             config_menu: Mailchimp
@@ -17,23 +31,16 @@ setono_sylius_mailchimp:
         export_subscribed_only: Export subscribers only
         store_currency: Store currency
         code: Code
-        config: Configuration
-        config_header: Mailchimp configuration
-        config_subheader: Manage Mailchimp configuration
 
         config_lists: Lists
         config_list_header: Config lists
         config_list_subheader: Manage mailchimp lists of current config
 
-        list: List
-        lists: Lists
-        list_id: List ID
-        list_header: Mailchimp List Configuration
-        list_subheader: Manage Mailchimp lists
-        list_create: Create list
-        new_list: New list
-
-        channels: Channels
+        audience: Audience
+        audiences: Audiences
+        audience_id: Audience Id
+        audience_header: Mailchimp audiences
+        audience_subheader: Manage Mailchimp audiences
 
         updated_at: Updated at
         finished_at: Finished at
@@ -71,3 +78,4 @@ setono_sylius_mailchimp:
         email_not_blank: Email cannot be blank.
         invalid_csrf_token: Invalid CSRF token
         subscribed_successfully: You are now subscribed to the newsletter.
+        load_audiences: Load audiences

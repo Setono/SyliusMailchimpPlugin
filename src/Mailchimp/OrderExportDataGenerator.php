@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Mailchimp;
 
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -29,11 +29,11 @@ final class OrderExportDataGenerator implements OrderExportDataGeneratorInterfac
     /**
      * {@inheritdoc}
      */
-    public function generateStoreExportData(MailchimpListInterface $mailchimpList): array
+    public function generateStoreExportData(AudienceInterface $mailchimpList): array
     {
         return [
             'id' => $mailchimpList->getStoreId(),
-            'list_id' => $mailchimpList->getListId(),
+            'list_id' => $mailchimpList->getAudienceId(),
             'name' => $mailchimpList->getStoreId(),
             'domain' => $mailchimpList->getStoreId(),
             'currency_code' => $mailchimpList->getStoreCurrencyCode(),
@@ -43,7 +43,7 @@ final class OrderExportDataGenerator implements OrderExportDataGeneratorInterfac
     /**
      * {@inheritdoc}
      */
-    public function generateOrderExportData(OrderInterface $order, MailchimpListInterface $mailchimpList): array
+    public function generateOrderExportData(OrderInterface $order, AudienceInterface $mailchimpList): array
     {
         $customer = $order->getCustomer();
         Assert::notNull($customer);
@@ -105,7 +105,7 @@ final class OrderExportDataGenerator implements OrderExportDataGeneratorInterfac
     /**
      * {@inheritdoc}
      */
-    public function generateOrderProductsExportData(OrderInterface $order, MailchimpListInterface $mailchimpList): array
+    public function generateOrderProductsExportData(OrderInterface $order, AudienceInterface $mailchimpList): array
     {
         $productsData = [];
 

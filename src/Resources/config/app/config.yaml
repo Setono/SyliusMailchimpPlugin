@@ -3,3 +3,8 @@ imports:
     - { resource: grids.yaml }
     - { resource: jms_serializer.yaml }
     - { resource: state_machine.yaml }
+
+framework:
+    messenger:
+        buses:
+            setono_sylius_mailchimp.command_bus: ~

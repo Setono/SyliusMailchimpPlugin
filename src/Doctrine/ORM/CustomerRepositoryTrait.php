@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
+use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 
 trait CustomerRepositoryTrait
 {
@@ -17,6 +18,19 @@ trait CustomerRepositoryTrait
      */
     abstract public function createQueryBuilder($alias, $indexBy = null);
 
+    public function createPendingSyncQueryBuilder(): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('o');
+
+        return $qb
+            ->andWhere('o.subscribedToNewsletter = true')
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->isNull('o.lastMailchimpSync'),
+                $qb->expr()->gt('o.updatedAt', 'o.lastMailchimpSync')
+            ))
+        ;
+    }
+
     public function createByMailchimpExportIdQueryBuilder(string $mailchimpExportId): QueryBuilder
     {
         return $this->createQueryBuilder('o')
@@ -26,10 +40,15 @@ trait CustomerRepositoryTrait
             ;
     }
 
-    public function findNotExportedSubscribers(MailchimpListInterface $mailchimpList, int $limit = 100): array
+    public function resetLastMailchimpSync(): void
+    {
+        $this->createQueryBuilder('o')->update()->set('o.lastMailchimpSync', null)->getQuery()->execute();
+    }
+
+    public function findNotExportedSubscribers(AudienceInterface $mailchimpList, int $limit = 100): array
     {
         return $this->createQueryBuilder('customer')
-            ->andWhere('customer.subscribedToNewsletter = 1')
+            ->andWhere('customer.subscribedToNewsletter = true')
             ->andWhere(':mailchimpList NOT MEMBER OF customer.exportedToMailchimpLists')
             ->setParameter('mailchimpList', $mailchimpList)
             ->setMaxResults($limit)
@@ -38,7 +57,7 @@ trait CustomerRepositoryTrait
             ;
     }
 
-    public function findAllNotExported(MailchimpListInterface $mailchimpList, int $limit = 100): array
+    public function findAllNotExported(AudienceInterface $mailchimpList, int $limit = 100): array
     {
         return $this->createQueryBuilder('customer')
             ->andWhere(':mailchimpList NOT MEMBER OF customer.exportedToMailchimpLists')

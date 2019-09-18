@@ -4,23 +4,20 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Model;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\CustomerInterface as BaseCustomerInterface;
 
-interface CustomerInterface extends BaseCustomerInterface, MailchimpExportsAwareInterface
+interface CustomerInterface extends BaseCustomerInterface
 {
     /**
-     * @return Collection|MailchimpListInterface[]
+     * Returns the last time this customer was synced to Mailchimp
+     * Returns null if the customer has never been synced
      */
-    public function getExportedToMailchimpLists(): Collection;
+    public function getLastMailchimpSync(): ?DateTimeInterface;
 
-    public function hasExportedToMailchimpList(MailchimpListInterface $mailchimpList): bool;
-
-    public function addExportedToMailchimpList(MailchimpListInterface $mailchimpList): void;
-
-    public function removeExportedToMailchimpList(MailchimpListInterface $mailchimpList): void;
-
-    public function getLastOrderChannelCode(?string $defaultChannelCode = null): ?string;
-
-    public function getLastOrderLocaleCode(?string $defaultLocaleCode = null): ?string;
+    /**
+     * If null is given the method will set the last mailchimp sync to 'now'
+     */
+    public function setLastMailchimpSync(DateTimeInterface $dateTime = null): void;
 }

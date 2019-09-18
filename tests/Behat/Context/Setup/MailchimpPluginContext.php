@@ -8,7 +8,7 @@ use Behat\Behat\Context\Context;
 use Doctrine\ORM\EntityManagerInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpConfigRepositoryInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
@@ -71,10 +71,10 @@ final class MailchimpPluginContext implements Context
             $i = $quantity - $listCount;
 
             for (; $i > 0; --$i) {
-                /** @var MailchimpListInterface $list */
+                /** @var AudienceInterface $list */
                 $list = $this->listFactory->createNew();
 
-                $list->setListId('12345' . $i);
+                $list->setAudienceId('12345' . $i);
 
                 $config->addList($list);
             }

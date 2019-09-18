@@ -9,8 +9,8 @@ use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpList;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\Audience;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Component\Channel\Model\ChannelsAwareInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
@@ -20,7 +20,7 @@ final class MailchimpListSpec extends ObjectBehavior
 {
     function it_is_initializable(): void
     {
-        $this->shouldHaveType(MailchimpList::class);
+        $this->shouldHaveType(Audience::class);
     }
 
     function it_is_a_resource(): void
@@ -30,7 +30,7 @@ final class MailchimpListSpec extends ObjectBehavior
 
     function it_implements_mailchimp_list_interface(): void
     {
-        $this->shouldImplement(MailchimpListInterface::class);
+        $this->shouldImplement(AudienceInterface::class);
     }
 
     function it_implements_channels_aware_interface(): void

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Factory;
 
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class MailchimpListFactory implements MailchimpListFactoryInterface
@@ -21,9 +21,9 @@ class MailchimpListFactory implements MailchimpListFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createNew(): MailchimpListInterface
+    public function createNew(): AudienceInterface
     {
-        /** @var MailchimpListInterface $mailchimpList */
+        /** @var AudienceInterface $mailchimpList */
         $mailchimpList = $this->factory->createNew();
 
         return $mailchimpList;
@@ -32,7 +32,7 @@ class MailchimpListFactory implements MailchimpListFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createForMailchimpConfig(MailchimpConfigInterface $mailchimpConfig): MailchimpListInterface
+    public function createForMailchimpConfig(MailchimpConfigInterface $mailchimpConfig): AudienceInterface
     {
         $mailchimpList = $this->createNew();
         $mailchimpList->setConfig($mailchimpConfig);

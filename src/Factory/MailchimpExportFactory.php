@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Factory;
 
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class MailchimpExportFactory implements MailchimpExportFactoryInterface
@@ -32,7 +32,7 @@ class MailchimpExportFactory implements MailchimpExportFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createForMailchimpList(MailchimpListInterface $mailchimpList): MailchimpExportInterface
+    public function createForMailchimpList(AudienceInterface $mailchimpList): MailchimpExportInterface
     {
         $mailchimpExport = $this->createNew();
         $mailchimpExport->setList($mailchimpList);

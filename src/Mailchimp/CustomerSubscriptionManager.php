@@ -5,30 +5,30 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Mailchimp;
 
 use Setono\SyliusMailchimpPlugin\Exception\CustomerNotExportableException;
-use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientFactoryInterface;
+use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 
 final class CustomerSubscriptionManager implements CustomerSubscriptionManagerInterface
 {
-    /** @var MailchimpApiClientFactoryInterface */
-    private $mailchimpApiClientFactory;
+    /** @var MailchimpApiClientInterface */
+    private $mailchimpApiClient;
 
     /** @var MergeFieldsGeneratorInterface */
     private $mergeFieldsGenerator;
 
     public function __construct(
-        MailchimpApiClientFactoryInterface $mailchimpApiClientFactory,
+        MailchimpApiClientInterface $mailchimpApiClient,
         MergeFieldsGeneratorInterface $mergeFieldsGenerator
     ) {
-        $this->mailchimpApiClientFactory = $mailchimpApiClientFactory;
+        $this->mailchimpApiClient = $mailchimpApiClient;
         $this->mergeFieldsGenerator = $mergeFieldsGenerator;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function subscribeCustomerToList(MailchimpListInterface $mailchimpList, CustomerInterface $customer, ?string $channelCode = null, ?string $localeCode = null): void
+    public function subscribeCustomerToList(AudienceInterface $mailchimpList, CustomerInterface $customer, ?string $channelCode = null, ?string $localeCode = null): void
     {
         if (!$mailchimpList->isCustomerExportable($customer)) {
             throw new CustomerNotExportableException(sprintf(
@@ -38,7 +38,7 @@ final class CustomerSubscriptionManager implements CustomerSubscriptionManagerIn
         }
 
 //        try {
-        $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+        $apiClient = $this->mailchimpApiClient;
 
         $mergeFields = $this->mergeFieldsGenerator->generateInitialMergeFields($customer, $channelCode, $localeCode);
         $options = [
@@ -51,7 +51,7 @@ final class CustomerSubscriptionManager implements CustomerSubscriptionManagerIn
         dump($options);
 
         $apiClient->exportEmail(
-                $mailchimpList->getListId(),
+                $mailchimpList->getAudienceId(),
                 $customer->getEmail(),
                 $options
             );
@@ -66,12 +66,12 @@ final class CustomerSubscriptionManager implements CustomerSubscriptionManagerIn
     /**
      * {@inheritdoc}
      */
-    public function unsubscribeCustomerFromList(MailchimpListInterface $mailchimpList, CustomerInterface $customer): void
+    public function unsubscribeCustomerFromList(AudienceInterface $mailchimpList, CustomerInterface $customer): void
     {
         try {
-            $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+            $apiClient = $this->mailchimpApiClient->buildClient($mailchimpList->getConfig());
             $apiClient->removeEmail(
-                $mailchimpList->getListId(),
+                $mailchimpList->getAudienceId(),
                 $customer->getEmailCanonical()
             );
 
@@ -83,14 +83,14 @@ final class CustomerSubscriptionManager implements CustomerSubscriptionManagerIn
     /**
      * {@inheritdoc}
      */
-    public function updateCustomersMergeFieldsForList(MailchimpListInterface $mailchimpList, CustomerInterface $customer, ?string $oldCustomerEmail = null): void
+    public function updateCustomersMergeFieldsForList(AudienceInterface $mailchimpList, CustomerInterface $customer, ?string $oldCustomerEmail = null): void
     {
         if (!$mailchimpList->isCustomerExportable($customer)) {
             return;
         }
 
         try {
-            $apiClient = $this->mailchimpApiClientFactory->buildClient($mailchimpList->getConfig());
+            $apiClient = $this->mailchimpApiClient->buildClient($mailchimpList->getConfig());
 
             $options = [
                 'merge_fields' => $this->mergeFieldsGenerator->generateUpdateMergeFields($customer),
@@ -98,14 +98,14 @@ final class CustomerSubscriptionManager implements CustomerSubscriptionManagerIn
 
             if (null !== $oldCustomerEmail) {
                 $apiClient->updateEmail(
-                    $mailchimpList->getListId(),
+                    $mailchimpList->getAudienceId(),
                     $customer->getEmail(),
                     $options,
                     $oldCustomerEmail
                 );
             } else {
                 $apiClient->exportEmail(
-                    $mailchimpList->getListId(),
+                    $mailchimpList->getAudienceId(),
                     $customer->getEmail(),
                     $options
                 );

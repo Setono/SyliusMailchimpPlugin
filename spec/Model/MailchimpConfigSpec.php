@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfig;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 final class MailchimpConfigSpec extends ObjectBehavior
@@ -55,7 +55,7 @@ final class MailchimpConfigSpec extends ObjectBehavior
         $this->getLists()->shouldHaveType(Collection::class);
     }
 
-    function it_adds_list(MailchimpListInterface $mailchimpList): void
+    function it_adds_list(AudienceInterface $mailchimpList): void
     {
         $mailchimpList->setConfig($this)->shouldBeCalled();
 
@@ -63,7 +63,7 @@ final class MailchimpConfigSpec extends ObjectBehavior
         $this->hasList($mailchimpList)->shouldReturn(true);
     }
 
-    function it_removes_list(MailchimpListInterface $mailchimpList): void
+    function it_removes_list(AudienceInterface $mailchimpList): void
     {
         $this->addList($mailchimpList);
         $this->hasList($mailchimpList)->shouldReturn(true);

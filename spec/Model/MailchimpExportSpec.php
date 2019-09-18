@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExport;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 final class MailchimpExportSpec extends ObjectBehavior
@@ -50,7 +50,7 @@ final class MailchimpExportSpec extends ObjectBehavior
         $this->getList()->shouldReturn(null);
     }
 
-    function it_sets_list(MailchimpListInterface $mailchimpList): void
+    function it_sets_list(AudienceInterface $mailchimpList): void
     {
         $this->setList($mailchimpList);
         $this->getList()->shouldReturn($mailchimpList);

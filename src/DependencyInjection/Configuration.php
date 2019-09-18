@@ -1,23 +1,14 @@
 <?php
 
-/** @noinspection PhpUnusedLocalVariableInspection */
-
 declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\DependencyInjection;
 
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpConfigRepository;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpExportRepository;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepository;
-use Setono\SyliusMailchimpPlugin\Form\Type\MailchimpConfigType;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepository;
+use Setono\SyliusMailchimpPlugin\Form\Type\AudienceType;
 use Setono\SyliusMailchimpPlugin\Form\Type\MailchimpExportType;
-use Setono\SyliusMailchimpPlugin\Form\Type\MailchimpListType;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpConfig;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpExport;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpList;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\Audience;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Sylius\Component\Resource\Factory\Factory;
@@ -27,9 +18,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         if (method_exists(TreeBuilder::class, 'getRootNode')) {
@@ -45,8 +33,12 @@ final class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('driver')->defaultValue(SyliusResourceBundle::DRIVER_DOCTRINE_ORM)->end()
+                ->scalarNode('api_key')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                    ->info('Your Mailchimp API key')
+                ->end()
                 ->booleanNode('subscribe')->defaultTrue()->end()
-                ->booleanNode('queue')->defaultFalse()->end()
                 ->arrayNode('merge_fields')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -73,52 +65,18 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('resources')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('config')
+                        ->arrayNode('audience')
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->variableNode('options')->end()
                                 ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()
                                     ->children()
-                                        ->scalarNode('model')->defaultValue(MailchimpConfig::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(MailchimpConfigInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('model')->defaultValue(Audience::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(AudienceInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('repository')->defaultValue(MailchimpConfigRepository::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('form')->defaultValue(MailchimpConfigType::class)->end()
-                                        ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                    ->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                        ->arrayNode('export')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->variableNode('options')->end()
-                                ->arrayNode('classes')
-                                    ->addDefaultsIfNotSet()
-                                    ->children()
-                                        ->scalarNode('model')->defaultValue(MailchimpExport::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(MailchimpExportInterface::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('repository')->defaultValue(MailchimpExportRepository::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('form')->defaultValue(MailchimpExportType::class)->end()
-                                        ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                    ->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                        ->arrayNode('list')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->variableNode('options')->end()
-                                ->arrayNode('classes')
-                                    ->addDefaultsIfNotSet()
-                                    ->children()
-                                        ->scalarNode('model')->defaultValue(MailchimpList::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(MailchimpListInterface::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('repository')->defaultValue(MailchimpListRepository::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('form')->defaultValue(MailchimpListType::class)->end()
+                                        ->scalarNode('repository')->defaultValue(AudienceRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('form')->defaultValue(AudienceType::class)->end()
                                         ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                     ->end()
                                 ->end()

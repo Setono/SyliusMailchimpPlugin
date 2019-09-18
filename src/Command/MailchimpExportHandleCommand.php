@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Command;
 
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpExportRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpListRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Factory\MailchimpExportFactoryInterface;
 use Setono\SyliusMailchimpPlugin\Handler\MailchimpExportHandlerInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\MailchimpExportInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class MailchimpExportHandleCommand extends Command
 {
-    /** @var MailchimpListRepositoryInterface */
+    /** @var AudienceRepositoryInterface */
     private $mailchimpListRepository;
 
     /** @var MailchimpExportFactoryInterface */
@@ -33,7 +33,7 @@ final class MailchimpExportHandleCommand extends Command
     private $mailchimpExportHandler;
 
     public function __construct(
-        MailchimpListRepositoryInterface $mailchimpListRepository,
+        AudienceRepositoryInterface $mailchimpListRepository,
         MailchimpExportFactoryInterface $mailchimpExportFactory,
         MailchimpExportRepositoryInterface $mailchimpExportRepository,
         MailchimpExportHandlerInterface $mailchimpExportHandler
@@ -67,7 +67,7 @@ final class MailchimpExportHandleCommand extends Command
         $mailchimpExport = $this->mailchimpExportRepository->findOnePending();
 
         if ($mailchimpExport instanceof MailchimpExportInterface) {
-            /** @var MailchimpListInterface $mailchimpList */
+            /** @var AudienceInterface $mailchimpList */
             $mailchimpList = $mailchimpExport->getList();
             $output->writeln(sprintf(
                 '<info>Handling export #%s to list #%s "%s"...</info>',

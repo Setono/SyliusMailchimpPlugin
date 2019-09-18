@@ -1,6 +1,3 @@
-setono_sylius_mailchimp_admin_config:
-    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp/config.yaml"
-
 setono_sylius_mailchimp_admin_customer:
     resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp/customer.yaml"
 
@@ -8,4 +5,4 @@ setono_sylius_mailchimp_admin_export:
     resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp/export.yaml"
 
 setono_sylius_mailchimp_admin_list:
-    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp/list.yaml"
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp/audience.yaml"

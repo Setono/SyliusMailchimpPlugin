@@ -1,69 +1,34 @@
 sylius_grid:
     grids:
-        setono_sylius_mailchimp_admin_list:
+        setono_sylius_mailchimp_admin_audience:
             driver:
                 options:
-                    class: "%setono_sylius_mailchimp.model.list.class%"
-                    repository:
-                        method: createListQueryBuilder
-            sorting:
-                config: asc
+                    class: "%setono_sylius_mailchimp.model.audience.class%"
             fields:
-                config:
-                    type: twig
-                    label: setono_sylius_mailchimp.ui.config
-                    options:
-                        template: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Field/config.html.twig"
-                listId:
+                audienceId:
                     type: string
-                    label: setono_sylius_mailchimp.ui.list_id
-                exportSubscribedOnly:
-                    type: twig
-                    label: setono_sylius_mailchimp.ui.export_subscribed_only
-                    options:
-                        template: "@SyliusUi/Grid/Field/yesNo.html.twig"
-                storeId:
+                    label: setono_sylius_mailchimp.ui.audience_id
+                name:
                     type: string
-                    label: setono_sylius_mailchimp.ui.store_id
-                storeCurrency:
-                    type: twig
-                    label: setono_sylius_mailchimp.ui.store_currency
-                    options:
-                        template: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Field/currency.html.twig"
-                channels:
-                    type: twig
-                    label: setono_sylius_mailchimp.ui.channels
-                    options:
-                        template: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Field/collection.html.twig"
-                        vars:
-                            field_template: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Field/channel.html.twig"
+                    label: sylius.ui.name
+                channel:
+                    type: string
+                    label: sylius.ui.channel
             actions:
                 main:
-                    create:
-                        type: create
+                    load:
+                        type: setono_sylius_mailchimp_load_audiences
+                        label: setono_sylius_mailchimp.ui.load_audiences
+                        options:
+                            link:
+                                route: setono_sylius_mailchimp_admin_load_audiences
+                    resynchronize:
+                        type: setono_sylius_mailchimp_resynchronize_customers
+                        label: setono_sylius_mailchimp.ui.resynchronize_customers
+                        options:
+                            link:
+                                route: setono_sylius_mailchimp_admin_resynchronize_customers
                 item:
                     update:
                         type: update
-#                        options:
-#                            link:
-#                                route: setono_sylius_mailchimp_admin_list_update
-                    delete:
-                        type: delete
-                    list_export_index:
-                        type: setono_mailchimp_index
-                        label: setono_sylius_mailchimp.ui.list_exports
-                        options:
-                            link:
-                                route: setono_sylius_mailchimp_admin_list_export_index
-                                parameters:
-                                    mailchimpListId: resource.id
-                    list_export_create:
-                        type: setono_mailchimp_export
-                        label: setono_sylius_mailchimp.ui.list_export
-                        options:
-                            link:
-                                method: post
-                                route: setono_sylius_mailchimp_admin_list_export_create
-                                parameters:
-                                    mailchimpListId: resource.id
 
