@@ -6,7 +6,6 @@ namespace Setono\SyliusMailchimpPlugin\DependencyInjection;
 
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepository;
 use Setono\SyliusMailchimpPlugin\Form\Type\AudienceType;
-use Setono\SyliusMailchimpPlugin\Form\Type\MailchimpExportType;
 use Setono\SyliusMailchimpPlugin\Model\Audience;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
@@ -39,17 +38,6 @@ final class Configuration implements ConfigurationInterface
                     ->info('Your Mailchimp API key')
                 ->end()
                 ->booleanNode('subscribe')->defaultTrue()->end()
-                ->arrayNode('merge_fields')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('first_name')->defaultValue('FNAME')->end()
-                        ->scalarNode('last_name')->defaultValue('LNAME')->end()
-                        ->scalarNode('address')->defaultValue('ADDRESS')->end()
-                        ->scalarNode('phone')->defaultValue('PHONE')->end()
-                        ->scalarNode('channel')->defaultValue(false)->end()
-                        ->scalarNode('locale')->defaultValue(false)->end()
-                    ->end()
-                ->end()
             ->end()
         ;
 

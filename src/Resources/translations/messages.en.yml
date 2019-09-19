@@ -2,80 +2,40 @@ setono_sylius_mailchimp:
     form:
         audience:
             notice:
-                header: NOTICE
-                content: 
+                content:
                     When you associate a channel with an audience it is irreversible.<br>
                     The store id in Mailchimp will be your channel code and the currency will be your default channel currency.<br>
                     You can read the documentation about Mailchimps ecommerce features <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
+                header: NOTICE
     menu:
         admin:
             main:
                 mailchimp:
-                    header: Mailchimp
                     audiences: Audiences
+                    header: Mailchimp
     ui:
-        menu:
-            config_menu: Mailchimp
-            export_menu: Newsletter export
-            list_menu: Mailchimp lists
-        breadcrumb:
-            config_breadcrumb: Mailchimp
-            export_breadcrumb: Export
-            list_breadcrumb: Lists
-
-        ecommerce: Mailchimp e-Commerce export
-
-        configs: Mailchimp configuration
-        store_id: Store ID
         api_key: Mailchimp API Key
-        export_subscribed_only: Export subscribers only
-        store_currency: Store currency
-        code: Code
-
-        config_lists: Lists
-        config_list_header: Config lists
-        config_list_subheader: Manage mailchimp lists of current config
-
         audience: Audience
-        audiences: Audiences
-        audience_id: Audience Id
         audience_header: Mailchimp audiences
+        audience_id: Audience Id
         audience_subheader: Manage Mailchimp audiences
-
-        updated_at: Updated at
-        finished_at: Finished at
-        export_header: Export to Mailchimp
-        export_subheader: Export customers to the Mailchimp manually
-        list_export_header: Export list to Mailchimp
-        list_export_subheader: Export customers to the Mailchimp list manually
-
-        exports: Mailchimp newsletter exports
-        export: Export
-        new_export: New export
-        exported_customers: Exported customers
-        export_customers_header: Exported customers
-        export_customers_subheader: Customers being exported during this export
-        export_restart: Restart export
-        export_restarted: Export restarted
-        list_export: Export
-        list_exports: List exports
-        state: State
-        emails_exported: Emails exported
-        errors_header: Errors during export
-        errors_count: Errors
-        no_errors: No errors
-        new: New
-        restarting: Restarting...
-        in_progress: In progress...
+        audiences: Audiences
+        code: Code
         completed: Completed
-        failed: Failed
-        export_succeeded: Export succeded
-        export_failed: Export failed
-        nothing_to_export: Nothing to export
-        newsletter: Newsletter
-        subscribe: Subscribe
-        your_email_address: Your email address
+        ecommerce: Mailchimp e-Commerce export
         email_not_blank: Email cannot be blank.
+        failed: Failed
+        finished_at: Finished at
+        in_progress: In progress...
         invalid_csrf_token: Invalid CSRF token
-        subscribed_successfully: You are now subscribed to the newsletter.
         load_audiences: Load audiences
+        new: New
+        newsletter: Newsletter
+        no_errors: No errors
+        restarting: Restarting...
+        repush_customers: Repush customers
+        state: State
+        subscribe: Subscribe
+        subscribed_successfully: You are now subscribed to the newsletter.
+        updated_at: Updated at
+        your_email_address: Your email address

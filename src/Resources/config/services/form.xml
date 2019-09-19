@@ -5,7 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="setono_sylius_mailchimp.form.type.list.validation_groups" type="collection">
+        <parameter key="setono_sylius_mailchimp.form.type.audience.validation_groups" type="collection">
             <parameter>setono_sylius_mailchimp</parameter>
         </parameter>
         <parameter key="setono_sylius_mailchimp.form.type.customer_newsletter_subscription.validation_groups" type="collection">
@@ -14,10 +14,10 @@
     </parameters>
 
     <services>
-        <service id="setono_sylius_mailchimp.form.type.list"
+        <service id="setono_sylius_mailchimp.form.type.audience"
                  class="Setono\SyliusMailchimpPlugin\Form\Type\AudienceType">
             <argument>%setono_sylius_mailchimp.model.audience.class%</argument>
-            <argument>%setono_sylius_mailchimp.form.type.list.validation_groups%</argument>
+            <argument>%setono_sylius_mailchimp.form.type.audience.validation_groups%</argument>
 
             <tag name="form.type"/>
         </service>

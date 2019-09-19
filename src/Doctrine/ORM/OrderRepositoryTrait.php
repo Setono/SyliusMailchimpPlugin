@@ -6,9 +6,8 @@ namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use Safe\Exceptions\StringsException;
-use function Safe\sprintf;
 
-trait CustomerRepositoryTrait
+trait OrderRepositoryTrait
 {
     use PushedToMailchimpAwareRepositoryTrait;
 
@@ -17,12 +16,6 @@ trait CustomerRepositoryTrait
      */
     public function createPendingPushQueryBuilder(): QueryBuilder
     {
-        $alias = 'o';
-
-        $qb = $this->_createPendingPushQueryBuilder($alias);
-
-        return $qb
-            ->andWhere(sprintf('%s.subscribedToNewsletter = true', $alias))
-        ;
+        return $this->_createPendingPushQueryBuilder();
     }
 }

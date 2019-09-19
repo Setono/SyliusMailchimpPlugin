@@ -7,7 +7,6 @@ namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
-use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 

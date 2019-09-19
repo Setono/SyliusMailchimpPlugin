@@ -1,7 +1,29 @@
-setono_sylius_mailchimp_admin_ajax:
-    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/ajax.yaml"
-    prefix: /ajax/mailchimp
+setono_sylius_mailchimp_admin_audience:
+    resource: |
+        section: admin
+        alias: setono_sylius_mailchimp.audience
+        templates: SyliusAdminBundle:Crud
+        only: ['index', 'update']
+        permission: true
+        redirect: update
+        grid: setono_sylius_mailchimp_admin_audience
+        vars:
+            all:
+                header: setono_sylius_mailchimp.ui.audience_header
+                subheader: setono_sylius_mailchimp.ui.audience_subheader
+            update:
+                templates:
+                    form: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/List/_form.html.twig"
+    type: sylius.resource
 
-setono_sylius_mailchimp_admin:
-    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin/mailchimp.yaml"
-    prefix: /mailchimp
+setono_sylius_mailchimp_admin_load_audiences:
+    path: /load-audiences
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.action.load_audiences
+
+setono_sylius_mailchimp_admin_repush_customers:
+    path: /repush-customers
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.action.repush_customers

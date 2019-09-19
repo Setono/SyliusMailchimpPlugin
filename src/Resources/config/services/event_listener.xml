@@ -5,16 +5,6 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-
-        <service id="setono_sylius_mailchimp.event_listener.customer_subscription"
-                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerSubscriptionListener">
-            <argument type="service" id="setono_sylius_mailchimp.handler.customer_subscription"/>
-            <argument type="service" id="sylius.context.channel"/>
-            <argument type="service" id="sylius.context.locale"/>
-
-            <tag name="kernel.event_listener" event="sylius.customer.post_create" method="postCreate"/>
-        </service>
-
         <service id="setono_sylius_mailchimp.event_listener.update_store"
                  class="Setono\SyliusMailchimpPlugin\EventListener\UpdateStoreSubscriber">
             <argument type="service" id="setono_sylius_mailchimp.api_client"/>
@@ -22,15 +12,26 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
-        <service id="setono_sylius_mailchimp.doctrine_event_listener.customer_email_update"
-                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerEmailUpdateDoctrineEventListener">
-            <argument type="service" id="setono_sylius_mailchimp.handler.customer_mergefields_update"/>
-            <argument type="service" id="sylius.context.channel"/>
-            <argument type="service" id="sylius.context.locale"/>
+<!--        <service id="setono_sylius_mailchimp.event_listener.customer_subscription"-->
+<!--                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerSubscriptionListener">-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.handler.customer_subscription"/>-->
+<!--            <argument type="service" id="sylius.context.channel"/>-->
+<!--            <argument type="service" id="sylius.context.locale"/>-->
 
-            <tag name="doctrine.event_listener" event="preUpdate" lazy="true"/>
-            <tag name="doctrine.event_listener" event="postFlush" lazy="true"/>
-        </service>
+<!--            <tag name="kernel.event_listener" event="sylius.customer.post_create" method="postCreate"/>-->
+<!--        </service>-->
+
+
+
+<!--        <service id="setono_sylius_mailchimp.doctrine_event_listener.customer_email_update"-->
+<!--                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerEmailUpdateDoctrineEventListener">-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.handler.customer_mergefields_update"/>-->
+<!--            <argument type="service" id="sylius.context.channel"/>-->
+<!--            <argument type="service" id="sylius.context.locale"/>-->
+
+<!--            <tag name="doctrine.event_listener" event="preUpdate" lazy="true"/>-->
+<!--            <tag name="doctrine.event_listener" event="postFlush" lazy="true"/>-->
+<!--        </service>-->
 
     </services>
 

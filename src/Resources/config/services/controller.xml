@@ -13,18 +13,18 @@
             <argument type="service" id="router"/>
         </service>
 
-        <service id="setono_sylius_mailchimp.controller.action.resynchronize_customers"
-                 class="Setono\SyliusMailchimpPlugin\Controller\Action\ResynchronizeCustomersAction" public="true">
+        <service id="setono_sylius_mailchimp.controller.action.repush_customers"
+                 class="Setono\SyliusMailchimpPlugin\Controller\Action\RepushCustomersAction" public="true">
             <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
             <argument type="service" id="router"/>
         </service>
 
-        <service id="setono_sylius_mailchimp.controller.action.subscribe_to_newsletter"
-                 class="Setono\SyliusMailchimpPlugin\Controller\Action\SubscribeToNewsletterAction" public="true">
-            <argument type="service" id="setono_sylius_mailchimp.validator.newsletter_email"/>
-            <argument type="service" id="security.csrf.token_manager"/>
-            <argument type="service" id="setono_sylius_mailchimp.handler.email_subscription"/>
-            <argument type="service" id="translator"/>
-        </service>
+<!--        <service id="setono_sylius_mailchimp.controller.action.subscribe_to_newsletter"-->
+<!--                 class="Setono\SyliusMailchimpPlugin\Controller\Action\SubscribeToNewsletterAction" public="true">-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.validator.newsletter_email"/>-->
+<!--            <argument type="service" id="security.csrf.token_manager"/>-->
+<!--            <argument type="service" id="setono_sylius_mailchimp.handler.email_subscription"/>-->
+<!--            <argument type="service" id="translator"/>-->
+<!--        </service>-->
     </services>
 </container>

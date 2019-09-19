@@ -27,7 +27,6 @@ final class SetonoSyliusMailchimpExtension extends AbstractResourceExtension
         }
 
         $container->setParameter('setono_sylius_mailchimp.api_key', $config['api_key']);
-        $container->setParameter('setono_sylius_mailchimp.merge_fields', $config['merge_fields']);
 
         $loader->load('services.xml');
     }

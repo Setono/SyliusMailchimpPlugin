@@ -1,0 +1,34 @@
+sylius_grid:
+    grids:
+        setono_sylius_mailchimp_admin_audience:
+            driver:
+                options:
+                    class: "%setono_sylius_mailchimp.model.audience.class%"
+            fields:
+                audienceId:
+                    type: string
+                    label: setono_sylius_mailchimp.ui.audience_id
+                name:
+                    type: string
+                    label: sylius.ui.name
+                channel:
+                    type: string
+                    label: sylius.ui.channel
+            actions:
+                main:
+                    load:
+                        type: setono_sylius_mailchimp_load_audiences
+                        label: setono_sylius_mailchimp.ui.load_audiences
+                        options:
+                            link:
+                                route: setono_sylius_mailchimp_admin_load_audiences
+                    repush:
+                        type: setono_sylius_mailchimp_repush_customers
+                        label: setono_sylius_mailchimp.ui.repush_customers
+                        options:
+                            link:
+                                route: setono_sylius_mailchimp_admin_repush_customers
+                item:
+                    update:
+                        type: update
+

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Model;
 
-use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Channel\Model\ChannelAwareInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 

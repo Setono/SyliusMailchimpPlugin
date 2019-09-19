@@ -7,19 +7,25 @@
 
 ## Overview
 
-The plugin allows configuring various MailChimp lists, exporting emails via admin panel & CLI and signing to the newsletter 
-from the shop. It extends [BitBag/SyliusMailChimpPlugin](https://github.com/BitBagCommerce/SyliusMailChimpPlugin) and is
-developed with the contribution of the BitBag team.  
+This plugin has three main purposes:
+1. Push your customers (as members/subscribers) to Mailchimp
+2. Push your orders to Mailchimp utilizing their [ecommerce features](https://mailchimp.com/developer/guides/getting-started-with-ecommerce/)
+3. Allow your customers to sign up for newsletters both in the checkout, but also using a form on your page
+
+It does all this in a memory saving and performance optimized way.
 
 ## Installation
 
-### 1. Require plugin with composer:
+### 1. Install dependencies
+This plugin uses the [Doctrine ORM Batcher bundle](https://github.com/Setono/DoctrineORMBatcherBundle). Install that first by following the instructions on that page.
+
+### 2. Require plugin with composer:
 
 ```bash
 $ composer require setono/sylius-mailchimp-plugin
 ```
 
-### 2. Import configuration:
+### 3. Import configuration:
 
 ```yaml
 # config/packages/setono_sylius_mailchimp.yaml
@@ -27,15 +33,15 @@ imports:
     - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/app/config.yaml" }
 ```
 
-### 3. Import routing:
+### 4. Import routing:
    
 ```yaml
 # config/routes/setono_sylius_mailchimp.yaml
 setono_sylius_mailchimp:
-    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routes.yaml"
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yaml"
 ```
 
-### 4. Add plugin class to your `bundles.php`:
+### 5. Add plugin class to your `bundles.php`:
 
 ```php
 $bundles = [
@@ -51,7 +57,7 @@ $bundles = [
 Make sure you've added it **before** `SyliusGridBundle`. Otherwise you'll get exception like
 `You have requested a non-existent parameter "setono_sylius_mailchimp.model.export.class"`.
 
-### 5. Override core classes
+### 6. Override core classes
 
 - Override `Customer` entity:
      
@@ -81,52 +87,6 @@ Make sure you've added it **before** `SyliusGridBundle`. Otherwise you'll get ex
         }
         ```
     
-    - If you use `xml` mapping:
-    
-        ```php
-        <?php
-        
-        # src/Model/Customer.php 
-  
-        declare(strict_types=1);
-        
-        namespace App\Entity;
-        
-        use Sylius\Component\Core\Model\Customer as BaseCustomer;
-        use Setono\SyliusMailchimpPlugin\Model\CustomerInterface as SetonoSyliusMailchimpPluginCustomerInterface;
-        use Setono\SyliusMailchimpPlugin\Model\CustomerTrait as SetonoSyliusMailchimpPluginCustomerTrait;
-        
-        class Customer extends BaseCustomer implements SetonoSyliusMailchimpPluginCustomerInterface
-        {
-            use SetonoSyliusMailchimpPluginCustomerTrait {
-                SetonoSyliusMailchimpPluginCustomerTrait::__construct as private __setonoSyliusMailchimpPluginCustomerTraitConstruct;
-            }
-        
-            public function __construct()
-            {
-                parent::__construct();
-                $this->__setonoSyliusMailchimpPluginCustomerTraitConstruct();
-            }
-        }
-        ```
-        
-        ```xml
-        <?xml version="1.0" encoding="UTF-8"?>
-        
-        <!-- config/doctrine/model/Product.orm.xml -->
-        
-        <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                          xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
-                                              http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-        
-            <mapped-superclass name="App\Model\Customer" table="sylius_customer">
-                ...
-            </mapped-superclass>
-        
-        </doctrine-mapping>
-        ```
-
 - Create `Doctrine/ORM/CustomerRepository.php`:
 
     ```php
@@ -154,18 +114,18 @@ Make sure you've added it **before** `SyliusGridBundle`. Otherwise you'll get ex
         resources:
             customer:
                 classes:
-                    model: App\Entity\Customer # or App\Model\Customer
+                    model: App\Entity\Customer
                     repository: App\Doctrine\ORM\CustomerRepository
     ```
 
-### 5. Update your database:
+### 7. Update your database:
 
 ```bash
 $ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
 ```
 
-### 6. Make plugin configurations:
+### 8. Make plugin configurations:
 
 #### 1. Subscriptions form at shop's footer
 
@@ -238,19 +198,19 @@ $ php bin/console doctrine:migrations:migrate
         
       (You can use any other names for sure - `CHANNEL_CODE`, `LOCALE_CODE`, for example)
 
-### 7. Install assets:
+### 9. Install assets:
 
 ```bash
 $ php bin/console assets:install --symlink
 ```
 
-### 8. Clear cache:
+### 10. Clear cache:
 
 ```bash
 $ php bin/console cache:clear
 ```
 
-### 9. (production) Configure CRON jobs 
+### 11. (production) Configure CRON jobs 
 
 - To create exports - every day:
 

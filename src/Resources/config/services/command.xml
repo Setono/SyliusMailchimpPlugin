@@ -5,10 +5,15 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="setono_sylius_mailchimp.command.synchronize_customers"
-                 class="Setono\SyliusMailchimpPlugin\Command\SynchronizeCustomersCommand">
-            <argument type="service" id="sylius.repository.customer"/>
-            <argument type="service" id="setono_doctrine_orm_batcher.factory.batcher"/>
+        <service id="setono_sylius_mailchimp.command.push_customers"
+                 class="Setono\SyliusMailchimpPlugin\Command\PushCustomersCommand">
+            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
+
+            <tag name="console.command"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.command.push_orders"
+                 class="Setono\SyliusMailchimpPlugin\Command\PushOrdersCommand">
             <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
 
             <tag name="console.command"/>

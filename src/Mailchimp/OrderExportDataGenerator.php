@@ -10,7 +10,7 @@ use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderExportDataGenerator implements OrderExportDataGeneratorInterface
+final class OrderExportDataGenerator
 {
     /** @var RouterInterface */
     private $router;
@@ -26,23 +26,6 @@ final class OrderExportDataGenerator implements OrderExportDataGeneratorInterfac
         $this->currencyConverter = $currencyConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function generateStoreExportData(AudienceInterface $mailchimpList): array
-    {
-        return [
-            'id' => $mailchimpList->getStoreId(),
-            'list_id' => $mailchimpList->getAudienceId(),
-            'name' => $mailchimpList->getStoreId(),
-            'domain' => $mailchimpList->getStoreId(),
-            'currency_code' => $mailchimpList->getStoreCurrencyCode(),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function generateOrderExportData(OrderInterface $order, AudienceInterface $mailchimpList): array
     {
         $customer = $order->getCustomer();

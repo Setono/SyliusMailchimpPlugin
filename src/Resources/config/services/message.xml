@@ -3,12 +3,46 @@
 <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="setono_sylius_mailchimp.handler.customer_subscription"
-                 class="Setono\SyliusMailchimpPlugin\Message\Handler\SynchronizeCustomerBatchHandler">
+        <service id="setono_sylius_mailchimp.message.handler.push_customers"
+                 class="Setono\SyliusMailchimpPlugin\Message\Handler\PushCustomersHandler">
+            <argument type="service" id="setono_doctrine_orm_batcher.factory.batcher"/>
+            <argument type="service" id="sylius.repository.customer"/>
+            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
+
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.message.handler.push_customer_batch"
+                 class="Setono\SyliusMailchimpPlugin\Message\Handler\PushCustomerBatchHandler">
             <argument type="service" id="setono_doctrine_orm_batcher.query.rebuilder"/>
             <argument type="service" id="setono_sylius_mailchimp.api_client"/>
             <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
             <argument type="service" id="sylius.manager.customer"/>
+
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.message.handler.push_orders"
+                 class="Setono\SyliusMailchimpPlugin\Message\Handler\PushOrdersHandler">
+            <argument type="service" id="setono_doctrine_orm_batcher.factory.batcher"/>
+            <argument type="service" id="sylius.repository.order"/>
+            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
+
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.message.handler.push_order_batch"
+                 class="Setono\SyliusMailchimpPlugin\Message\Handler\PushOrderBatchHandler">
+            <argument type="service" id="setono_doctrine_orm_batcher.query.rebuilder"/>
+            <argument type="service" id="setono_sylius_mailchimp.api_client"/>
+
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.message.handler.repush_customers"
+                 class="Setono\SyliusMailchimpPlugin\Message\Handler\RepushCustomersHandler">
+            <argument type="service" id="sylius.repository.customer"/>
+            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
 
             <tag name="messenger.message_handler"/>
         </service>

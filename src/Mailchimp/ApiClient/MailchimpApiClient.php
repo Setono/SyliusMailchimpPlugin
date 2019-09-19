@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient;
 
 use DateTimeZone;
-use DrewM\MailChimp\MailChimp as Client;
 use DrewM\MailChimp\MailChimp;
+use DrewM\MailChimp\MailChimp as Client;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
@@ -49,7 +49,7 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
 
         $res = $this->apiClient->get('/lists', $options);
 
-        if(!$this->apiClient->success()) {
+        if (!$this->apiClient->success()) {
             throw new RuntimeException('Could not get audiences');
         }
 
@@ -189,16 +189,15 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
             'merge_fields' => [
                 'FNAME' => $customer->getFirstName(),
                 'LNAME' => $customer->getLastName(),
-            ]
+            ],
         ];
 
         $res = $this->apiClient->put(sprintf('/lists/%s/members/%s', $audience->getAudienceId(), MailChimp::subscriberHash($customer->getEmail())), $data);
 
-        if(!$this->apiClient->success()) {
+        if (!$this->apiClient->success()) {
             throw new RuntimeException(self::extractErrorFromResult($res));
         }
     }
-
 
     public function updateEmail(string $listId, string $email, array $options, ?string $oldEmail = null): bool
     {
@@ -331,10 +330,10 @@ final class MailchimpApiClient implements MailchimpApiClientInterface
     private static function extractErrorFromResult(array $result): string
     {
         $error = '';
-        if(isset($result['title'])) {
-            $error .= $result['title'].' ';
+        if (isset($result['title'])) {
+            $error .= $result['title'] . ' ';
         }
-        if(isset($result['detail'])) {
+        if (isset($result['detail'])) {
             $error .= $result['detail'];
         }
 

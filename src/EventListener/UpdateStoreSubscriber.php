@@ -11,6 +11,11 @@ use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Webmozart\Assert\Assert;
 
+/**
+ * When an audience is updated - this could be when you want to associate a channel with an audience - this
+ * event subscriber will listen to that event and call the Mailchimp API with an 'update store'.
+ * If this errors it will effectively stop the updating of the audience and output the error to the user
+ */
 final class UpdateStoreSubscriber implements EventSubscriberInterface
 {
     /** @var MailchimpApiClientInterface */

@@ -21,3 +21,10 @@ sylius_customer:
             classes:
                 model: Tests\Setono\SyliusMailchimpPlugin\Application\Model\Customer
                 repository: Tests\Setono\SyliusMailchimpPlugin\Application\Doctrine\ORM\CustomerRepository
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Tests\Setono\SyliusMailchimpPlugin\Application\Model\Order
+                repository: Tests\Setono\SyliusMailchimpPlugin\Application\Doctrine\ORM\OrderRepository

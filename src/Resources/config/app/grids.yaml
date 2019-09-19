@@ -1,8 +1,0 @@
-imports:
-    - { resource: ../grids/setono_sylius_mailchimp_admin_list.yaml }
-
-sylius_grid:
-    templates:
-        action:
-            setono_sylius_mailchimp_load_audiences: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Action/load_audiences.html.twig"
-            setono_sylius_mailchimp_resynchronize_customers: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Action/resynchronize_customers.html.twig"

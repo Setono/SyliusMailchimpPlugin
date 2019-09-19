@@ -1,7 +1,0 @@
-{% set path = options.link.url|default(path(options.link.route|default('setono_sylius_mailchimp_admin_export_restart'), options.link.parameters|default({'id': data.id}))) %}
-{% set visible = options.visible is defined ? options.visible : true %}
-
-{% if visible %}
-    {% import '@SetonoSyliusMailchimpPlugin/Admin/Macro/buttons.html.twig' as buttons %}
-    {{ buttons.post(path, action.label, null, 'history') }}
-{% endif %}

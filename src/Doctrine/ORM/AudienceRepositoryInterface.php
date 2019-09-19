@@ -6,7 +6,6 @@ namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
-use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
