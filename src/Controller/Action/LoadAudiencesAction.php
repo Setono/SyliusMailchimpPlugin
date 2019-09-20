@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
+use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientInterface;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 final class LoadAudiencesAction
 {
-    /** @var MailchimpApiClientInterface */
+    /** @var ClientInterface */
     private $client;
 
     /** @var AudienceRepositoryInterface */
@@ -31,7 +31,7 @@ final class LoadAudiencesAction
     private $urlGenerator;
 
     public function __construct(
-        MailchimpApiClientInterface $client,
+        ClientInterface $client,
         AudienceRepositoryInterface $audienceRepository,
         FactoryInterface $audienceFactory,
         UrlGeneratorInterface $urlGenerator

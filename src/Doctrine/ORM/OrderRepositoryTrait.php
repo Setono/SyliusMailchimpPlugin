@@ -6,6 +6,8 @@ namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use Safe\Exceptions\StringsException;
+use function Safe\sprintf;
+use Sylius\Component\Core\OrderCheckoutStates;
 
 trait OrderRepositoryTrait
 {
@@ -16,6 +18,13 @@ trait OrderRepositoryTrait
      */
     public function createPendingPushQueryBuilder(): QueryBuilder
     {
-        return $this->_createPendingPushQueryBuilder();
+        $alias = 'o';
+
+        $qb = $this->_createPendingPushQueryBuilder($alias);
+
+        return $qb
+            ->andWhere(sprintf('%s.checkoutState = :checkoutState', $alias))
+            ->setParameter('checkoutState', OrderCheckoutStates::STATE_COMPLETED)
+        ;
     }
 }

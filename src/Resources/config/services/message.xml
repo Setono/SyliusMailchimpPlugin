@@ -15,7 +15,7 @@
         <service id="setono_sylius_mailchimp.message.handler.push_customer_batch"
                  class="Setono\SyliusMailchimpPlugin\Message\Handler\PushCustomerBatchHandler">
             <argument type="service" id="setono_doctrine_orm_batcher.query.rebuilder"/>
-            <argument type="service" id="setono_sylius_mailchimp.api_client"/>
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
             <argument type="service" id="sylius.manager.customer"/>
 
@@ -34,7 +34,8 @@
         <service id="setono_sylius_mailchimp.message.handler.push_order_batch"
                  class="Setono\SyliusMailchimpPlugin\Message\Handler\PushOrderBatchHandler">
             <argument type="service" id="setono_doctrine_orm_batcher.query.rebuilder"/>
-            <argument type="service" id="setono_sylius_mailchimp.api_client"/>
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
+            <argument type="service" id="sylius.manager.order"/>
 
             <tag name="messenger.message_handler"/>
         </service>

@@ -13,7 +13,7 @@ setono_sylius_mailchimp_admin_audience:
                 subheader: setono_sylius_mailchimp.ui.audience_subheader
             update:
                 templates:
-                    form: "@SetonoSyliusMailchimpPlugin/Admin/Mailchimp/List/_form.html.twig"
+                    form: "@SetonoSyliusMailchimpPlugin/Admin/Audience/_form.html.twig"
     type: sylius.resource
 
 setono_sylius_mailchimp_admin_load_audiences:

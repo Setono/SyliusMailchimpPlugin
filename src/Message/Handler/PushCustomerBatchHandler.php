@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Message\Handler;
 
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Setono\DoctrineORMBatcher\Query\QueryRebuilderInterface;
+use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientInterface;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushCustomerBatch;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -17,7 +18,7 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
     /** @var QueryRebuilderInterface */
     private $queryRebuilder;
 
-    /** @var MailchimpApiClientInterface */
+    /** @var ClientInterface */
     private $client;
 
     /** @var AudienceRepositoryInterface */
@@ -28,7 +29,7 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
 
     public function __construct(
         QueryRebuilderInterface $queryRebuilder,
-        MailchimpApiClientInterface $client,
+        ClientInterface $client,
         AudienceRepositoryInterface $audienceRepository,
         ObjectManager $customerManager
     ) {
@@ -38,7 +39,7 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
         $this->customerManager = $customerManager;
     }
 
-    public function __invoke(PushCustomerBatch $message)
+    public function __invoke(PushCustomerBatch $message): void
     {
         $q = $this->queryRebuilder->rebuild($message->getBatch());
 
@@ -67,7 +68,13 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
             }
 
             $this->client->updateMember($audience, $customer);
-            $customer->setPushedToMailchimp();
+
+            $now = new DateTime();
+            $customer->setPushedToMailchimp($now);
+
+            // update the updated at manually so that we are sure
+            // it will be the same value as the pushed to mailchimp value
+            $customer->setUpdatedAt($now);
 
             $this->customerManager->flush();
         }

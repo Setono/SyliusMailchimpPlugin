@@ -15,6 +15,8 @@ final class PushOrdersCommand extends Command
 {
     use LockableTrait;
 
+    protected static $defaultName = 'setono:sylius-mailchimp:push-orders';
+
     /** @var MessageBusInterface */
     private $commandBus;
 

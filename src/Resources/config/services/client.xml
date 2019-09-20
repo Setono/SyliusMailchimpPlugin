@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Setono\SyliusMailchimpPlugin\Client\ClientInterface" alias="setono_sylius_mailchimp.client"/>
+
+        <service id="setono_sylius_mailchimp.client" class="Setono\SyliusMailchimpPlugin\Client\Client">
+            <argument type="service" id="setono_sylius_mailchimp.http_client"/>
+            <argument type="service" id="setono_sylius_mailchimp.data_generator.store"/>
+            <argument type="service" id="setono_sylius_mailchimp.data_generator.order"/>
+            <argument type="service" id="setono_sylius_mailchimp.data_generator.product"/>
+            <argument type="service" id="setono_sylius_mailchimp.data_generator.product_variant"/>
+        </service>
+    </services>
+
+</container>

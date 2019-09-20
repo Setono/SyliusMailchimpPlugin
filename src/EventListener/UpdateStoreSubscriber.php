@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\EventListener;
 
 use Exception;
-use Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClientInterface;
+use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -18,10 +18,10 @@ use Webmozart\Assert\Assert;
  */
 final class UpdateStoreSubscriber implements EventSubscriberInterface
 {
-    /** @var MailchimpApiClientInterface */
+    /** @var ClientInterface */
     private $client;
 
-    public function __construct(MailchimpApiClientInterface $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
@@ -35,7 +35,7 @@ final class UpdateStoreSubscriber implements EventSubscriberInterface
 
     public function update(ResourceControllerEvent $event): void
     {
-        /** @var AudienceInterface $audience */
+        /** @var AudienceInterface|null $audience */
         $audience = $event->getSubject();
 
         Assert::isInstanceOf($audience, AudienceInterface::class);

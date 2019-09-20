@@ -17,7 +17,7 @@ class Audience implements AudienceInterface
     /** @var string|null */
     protected $audienceId;
 
-    /** @var ChannelInterface */
+    /** @var ChannelInterface|null */
     protected $channel;
 
     public function getId(): ?int

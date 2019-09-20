@@ -32,7 +32,7 @@ final class PushOrdersHandler implements MessageHandlerInterface
         $this->commandBus = $commandBus;
     }
 
-    public function __invoke(PushOrders $message)
+    public function __invoke(PushOrders $message): void
     {
         $batcher = $this->batcherFactory->createIdCollectionBatcher($this->orderRepository->createPendingPushQueryBuilder());
         foreach ($batcher->getBatches() as $batch) {

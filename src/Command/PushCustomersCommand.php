@@ -15,6 +15,8 @@ final class PushCustomersCommand extends Command
 {
     use LockableTrait;
 
+    protected static $defaultName = 'setono:sylius-mailchimp:push-customers';
+
     /** @var MessageBusInterface */
     private $commandBus;
 
@@ -28,7 +30,6 @@ final class PushCustomersCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('setono:sylius-mailchimp:push-customers')
             ->setDescription('Pushes/synchronizes pending customers to Mailchimp')
         ;
     }

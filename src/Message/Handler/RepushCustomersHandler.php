@@ -26,7 +26,7 @@ final class RepushCustomersHandler implements MessageHandlerInterface
         $this->commandBus = $commandBus;
     }
 
-    public function __invoke(RepushCustomers $message)
+    public function __invoke(RepushCustomers $message): void
     {
         $this->customerRepository->resetPushedToMailchimp();
 

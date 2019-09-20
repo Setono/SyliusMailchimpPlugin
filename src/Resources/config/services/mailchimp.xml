@@ -5,12 +5,8 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="setono_sylius_mailchimp.client" class="DrewM\MailChimp\MailChimp">
-            <argument>%setono_sylius_mailchimp.api_key%</argument>
-        </service>
-
         <service id="setono_sylius_mailchimp.api_client" class="Setono\SyliusMailchimpPlugin\Mailchimp\ApiClient\MailchimpApiClient">
-            <argument type="service" id="setono_sylius_mailchimp.client"/>
+            <argument type="service" id="setono_sylius_mailchimp.http_client"/>
         </service>
 
 <!--        <service id="setono_sylius_mailchimp.generator.merge_fields"-->

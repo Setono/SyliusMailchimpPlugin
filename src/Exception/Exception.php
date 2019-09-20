@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Exception;
 
-abstract class Exception extends \Exception
+use Throwable;
+
+interface Exception extends Throwable
 {
 }
