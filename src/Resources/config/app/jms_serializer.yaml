@@ -1,6 +1,0 @@
-jms_serializer:
-    metadata:
-        directories:
-            setono-sylius-mailchimp:
-                namespace_prefix: "Setono\\SyliusMailchimpPlugin"
-                path: "@SetonoSyliusMailchimpPlugin/Resources/config/serializer"

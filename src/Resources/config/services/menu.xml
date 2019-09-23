@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="setono_sylius_mailchimp.listener.menu.mailchimp_config"
-                 class="Setono\SyliusMailchimpPlugin\Menu\MailchimpConfigMenuBuilder">
+        <service id="setono_sylius_mailchimp.menu.admin"
+                 class="Setono\SyliusMailchimpPlugin\Menu\AdminMenuBuilder">
 
-            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="addConfigItem"/>
-        </service>
-
-        <service id="setono_sylius_mailchimp.listener.menu.mailchimp_export"
-                 class="Setono\SyliusMailchimpPlugin\Menu\MailchimpExportMenuBuilder">
-            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="addMarketingItem"/>
-        </service>
-
-        <service id="setono_sylius_mailchimp.admin.menu_builder.brand_form"
-                 class="Setono\SyliusMailchimpPlugin\Menu\MailchimpConfigFormMenuBuilder">
-            <argument type="service" id="knp_menu.factory" />
-            <argument type="service" id="event_dispatcher" />
-            <tag name="knp_menu.menu_builder" method="createMenu" alias="setono_sylius_mailchimp.admin.config_form" />
+            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="addSection"/>
         </service>
     </services>
 </container>

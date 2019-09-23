@@ -4,68 +4,140 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
-use Setono\SyliusMailchimpPlugin\Handler\EmailSubscriptionHandlerInterface;
-use Setono\SyliusMailchimpPlugin\Validator\NewsletterEmailValidatorInterface;
+use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Form\Type\SubscribeToNewsletterType;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 final class SubscribeToNewsletterAction
 {
-    /** @var NewsletterEmailValidatorInterface */
-    private $newsletterEmailValidator;
+    /** @var FormFactoryInterface */
+    private $formFactory;
 
-    /** @var EmailSubscriptionHandlerInterface */
-    private $newsletterSubscriptionHandler;
-
-    /** @var CsrfTokenManagerInterface */
-    private $csrfTokenManager;
+    /** @var Environment */
+    private $twig;
 
     /** @var TranslatorInterface */
     private $translator;
 
+    /** @var ChannelContextInterface */
+    private $channelContext;
+
+    /** @var AudienceRepositoryInterface */
+    private $audienceRepository;
+
+    /** @var ClientInterface */
+    private $client;
+
     public function __construct(
-        NewsletterEmailValidatorInterface $newsletterEmailValidator,
-        CsrfTokenManagerInterface $csrfTokenManager,
-        EmailSubscriptionHandlerInterface $newsletterSubscriptionHandler,
-        TranslatorInterface $translator
+        FormFactoryInterface $formFactory,
+        Environment $twig,
+        TranslatorInterface $translator,
+        ChannelContextInterface $channelContext,
+        AudienceRepositoryInterface $audienceRepository,
+        ClientInterface $client
     ) {
-        $this->newsletterEmailValidator = $newsletterEmailValidator;
-        $this->newsletterSubscriptionHandler = $newsletterSubscriptionHandler;
-        $this->csrfTokenManager = $csrfTokenManager;
+        $this->formFactory = $formFactory;
+        $this->twig = $twig;
         $this->translator = $translator;
+        $this->channelContext = $channelContext;
+        $this->audienceRepository = $audienceRepository;
+        $this->client = $client;
     }
 
-    public function __invoke(Request $request): JsonResponse
+    /**
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function __invoke(Request $request): Response
     {
-        $email = $request->request->get('email');
-        $errors = $this->newsletterEmailValidator->validate($email);
-        $token = new CsrfToken('setono_newsletter_subscribe', $request->request->get('_token'));
+        $audience = $this->getAudience();
 
-        if (false === $this->csrfTokenManager->isTokenValid($token)) {
-            $errors[] = $this->translator->trans('setono_sylius_mailchimp.ui.invalid_csrf_token');
+        $form = $this->formFactory->create(SubscribeToNewsletterType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if (null === $audience) {
+                return $this->json(
+                    $this->translator->trans('setono_sylius_mailchimp.ui.no_audience_associated_with_channel'),
+                    400
+                );
+            }
+
+            if (!$form->isValid()) {
+                $errors = $this->getErrorsFromForm($form);
+                if (is_string($errors)) {
+                    $errors = [$errors];
+                }
+
+                return $this->json(
+                    $this->translator->trans('setono_sylius_mailchimp.ui.an_error_occurred'), 400, $errors
+                );
+            }
+
+            $this->client->subscribeVisitor($audience, $form->get('email')->getData());
+
+            return $this->json($this->translator->trans('setono_sylius_mailchimp.ui.subscribed_successfully'));
         }
 
-        if (0 === count($errors)) {
-            $this->newsletterSubscriptionHandler->handle($email);
+        $content = $this->twig->render('@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig', [
+            'form' => null === $audience ? null : $form->createView(),
+        ]);
 
-            return new JsonResponse(
-                [
-                    'success' => true,
-                    'message' => $this->translator->trans('setono_sylius_mailchimp.ui.subscribed_successfully'),
-                ]
-            );
+        return new Response($content);
+    }
+
+    private function json(string $message, int $status = 200, array $errors = []): JsonResponse
+    {
+        return new JsonResponse([
+            'message' => $message,
+            'errors' => $errors,
+        ], $status);
+    }
+
+    /**
+     * Taken from https://symfonycasts.com/screencast/javascript/post-proper-api-endpoint#codeblock-99cf6afd45
+     *
+     * @return array|string
+     */
+    private function getErrorsFromForm(FormInterface $form)
+    {
+        /** @var FormError $error */
+        foreach ($form->getErrors() as $error) {
+            // only supporting 1 error per field
+            // and not supporting a "field" with errors, that has more
+            // fields with errors below it
+            return $error->getMessage();
         }
 
-        return new JsonResponse(
-            [
-                'success' => false,
-                'errors' => json_encode($errors),
-            ],
-            Response::HTTP_BAD_REQUEST
-        );
+        $errors = [];
+        foreach ($form->all() as $childForm) {
+            $childError = $this->getErrorsFromForm($childForm);
+            if (is_string($childError)) {
+                $errors[$childForm->getName()] = $childError;
+            }
+        }
+
+        return $errors;
+    }
+
+    private function getAudience(): ?AudienceInterface
+    {
+        $channel = $this->channelContext->getChannel();
+
+        return $this->audienceRepository->findOneByChannel($channel);
     }
 }

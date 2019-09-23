@@ -7,345 +7,225 @@
 
 ## Overview
 
-The plugin allows configuring various MailChimp lists, exporting emails via admin panel & CLI and signing to the newsletter 
-from the shop. It extends [BitBag/SyliusMailChimpPlugin](https://github.com/BitBagCommerce/SyliusMailChimpPlugin) and is
-developed with the contribution of the BitBag team.  
+This plugin has three main purposes:
+1. Push your customers (as members/subscribers) to Mailchimp
+2. Push your orders to Mailchimp utilizing their [ecommerce features](https://mailchimp.com/developer/guides/getting-started-with-ecommerce/)
+3. Allow your customers to sign up for newsletters both in the checkout, but also using a form on your page
+
+It does all this in a memory saving and performance optimized way.
 
 ## Installation
 
-### 1. Require plugin with composer:
+### 1. Install dependencies
+This plugin uses the [Doctrine ORM Batcher bundle](https://github.com/Setono/DoctrineORMBatcherBundle). Install that first by following the instructions on that page.
+
+### 2. Require plugin with composer:
 
 ```bash
 $ composer require setono/sylius-mailchimp-plugin
 ```
 
-#### (optional) Add transport for enqueue bundle
-
-(see https://github.com/php-enqueue/enqueue-dev/blob/master/docs/bundle/quick_tour.md
-for more details)
-
-```bash
-composer require enqueue/fs
-```
-
-### 2. Import configuration:
+### 3. Import configuration:
 
 ```yaml
-# config/packages/_sylius.yaml
+# config/packages/setono_sylius_mailchimp.yaml
 imports:
     - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/app/config.yaml" }
 ```
 
-### 3. Import routing:
+### 4. Import routing:
    
 ```yaml
 # config/routes/setono_sylius_mailchimp.yaml
 setono_sylius_mailchimp:
-    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routes.yaml"
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yaml"
 ```
 
-### 4. Add plugin class to your `bundles.php`:
+### 5. Add plugin class to your `bundles.php`:
 
 ```php
 $bundles = [
+    // ...
+    
+    // Notice that the Mailchimp plugin has be added before the SyliusGridBundle
     Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin::class => ['all' => true],
     Sylius\Bundle\GridBundle\SyliusGridBundle::class => ['all' => true],
+    Setono\DoctrineORMBatcherBundle\SetonoDoctrineORMBatcherBundle::class => ['all' => true],
     
-    // Uncomment if you want to use queues
-    // Enqueue\Bundle\EnqueueBundle::class => ['all' => true],
+    // ...
 ];
 ```
 
-Make sure you've added it **before** `SyliusGridBundle`. Otherwise you'll get exception like
-`You have requested a non-existent parameter "setono_sylius_mailchimp.model.export.class"`.
+Make sure you add the plugin **before** `SyliusGridBundle`. Otherwise you'll get exception like
+`You have requested a non-existent parameter "setono_sylius_mailchimp.model.audience.class"`.
 
-### 5. Override core classes
+### 6. Override core classes
 
-- Override `Customer` entity:
-     
-    - If you use `annotations` mapping:
+**Override `Customer` resource**
     
-        ```php
-        <?php
-        
-        # src/Entity/Customer.php 
-  
-        declare(strict_types=1);
-        
-        namespace App\Entity;
-        
-        use Sylius\Component\Core\Model\Customer as BaseCustomer;
-        use Setono\SyliusMailchimpPlugin\Model\CustomerInterface as SetonoSyliusMailchimpPluginCustomerInterface;
-        use Setono\SyliusMailchimpPlugin\Model\CustomerTrait as SetonoSyliusMailchimpPluginCustomerTrait;
-        use Doctrine\ORM\Mapping as ORM;
-            
-        /**
-         * @ORM\Entity
-         * @ORM\Table(name="sylius_customer")
-         */
-        class Customer extends BaseCustomer implements SetonoSyliusMailchimpPluginCustomerInterface
-        {
-            use SetonoSyliusMailchimpPluginCustomerTrait;
-        }
-        ```
-    
-    - If you use `xml` mapping:
-    
-        ```php
-        <?php
-        
-        # src/Model/Customer.php 
-  
-        declare(strict_types=1);
-        
-        namespace App\Entity;
-        
-        use Sylius\Component\Core\Model\Customer as BaseCustomer;
-        use Setono\SyliusMailchimpPlugin\Model\CustomerInterface as SetonoSyliusMailchimpPluginCustomerInterface;
-        use Setono\SyliusMailchimpPlugin\Model\CustomerTrait as SetonoSyliusMailchimpPluginCustomerTrait;
-        
-        class Customer extends BaseCustomer implements SetonoSyliusMailchimpPluginCustomerInterface
-        {
-            use SetonoSyliusMailchimpPluginCustomerTrait {
-                SetonoSyliusMailchimpPluginCustomerTrait::__construct as private __setonoSyliusMailchimpPluginCustomerTraitConstruct;
-            }
-        
-            public function __construct()
-            {
-                parent::__construct();
-                $this->__setonoSyliusMailchimpPluginCustomerTraitConstruct();
-            }
-        }
-        ```
-        
-        ```xml
-        <?xml version="1.0" encoding="UTF-8"?>
-        
-        <!-- config/doctrine/model/Product.orm.xml -->
-        
-        <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                          xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
-                                              http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-        
-            <mapped-superclass name="App\Model\Customer" table="sylius_customer">
-                ...
-            </mapped-superclass>
-        
-        </doctrine-mapping>
-        ```
+```php
+<?php
+// src/Entity/Customer.php
 
-- Create `Doctrine/ORM/CustomerRepository.php`:
+declare(strict_types=1);
 
-    ```php
-    <?php
-    
-    declare(strict_types=1);
-    
-    namespace App\Doctrine\ORM;
-    
-    use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface as SetonoSyliusMailchimpPluginCustomerRepositoryInterface;
-    use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryTrait as SetonoSyliusMailchimpPluginCustomerRepositoryTrait;
-    use Sylius\Bundle\CoreBundle\Doctrine\ORM\CustomerRepository as BaseCustomerRepository;
-    
-    class CustomerRepository extends BaseCustomerRepository implements SetonoSyliusMailchimpPluginCustomerRepositoryInterface
-    {
-        use SetonoSyliusMailchimpPluginCustomerRepositoryTrait;
-    }
-    ```
+namespace App\Entity;
 
-- Add configuration: 
-
-    ```yaml
-    # config/packages/_sylius.yaml
-    sylius_customer:
-        resources:
-            customer:
-                classes:
-                    model: App\Entity\Customer # or App\Model\Customer
-                    repository: App\Doctrine\ORM\CustomerRepository
-    ```
-
-- Check:
-
-    ```bash
-    bin/console doctrine:mapping:info | grep Customer
+use Sylius\Component\Core\Model\Customer as BaseCustomer;
+use Setono\SyliusMailchimpPlugin\Model\CustomerInterface as SetonoSyliusMailchimpPluginCustomerInterface;
+use Setono\SyliusMailchimpPlugin\Model\CustomerTrait as SetonoSyliusMailchimpPluginCustomerTrait;
+use Doctrine\ORM\Mapping as ORM;
     
-    # You should see:
-    # [OK]   App\Entity\Customer 
-    # or: 
-    # [OK]   App\Model\Customer
-    
-    bin/console debug:container | grep CustomerRepository
-    
-    # You should see:
-    # sylius.repository.customer    App\Doctrine\ORM\CustomerRepository
-    ```
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sylius_customer")
+ */
+class Customer extends BaseCustomer implements SetonoSyliusMailchimpPluginCustomerInterface
+{
+    use SetonoSyliusMailchimpPluginCustomerTrait;
+}
+```
 
-### 5. Update your database:
+**Override `Order` resource**
+```php
+<?php
+// src/Entity/Order.php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Sylius\Component\Core\Model\Order as BaseOrder;
+use Setono\SyliusMailchimpPlugin\Model\OrderInterface as SetonoSyliusMailchimpPluginOrderInterface;
+use Setono\SyliusMailchimpPlugin\Model\OrderTrait as SetonoSyliusMailchimpPluginOrderTrait;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sylius_order")
+ */
+class Order extends BaseOrder implements SetonoSyliusMailchimpPluginOrderInterface
+{
+    use SetonoSyliusMailchimpPluginOrderTrait;
+}
+
+```
+
+**Create `CustomerRepository.php`**
+
+```php
+<?php
+// src/Doctrine/ORM/CustomerRepository.php
+
+declare(strict_types=1);
+
+namespace App\Doctrine\ORM;
+
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface as SetonoSyliusMailchimpPluginCustomerRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryTrait as SetonoSyliusMailchimpPluginCustomerRepositoryTrait;
+use Sylius\Bundle\CoreBundle\Doctrine\ORM\CustomerRepository as BaseCustomerRepository;
+
+class CustomerRepository extends BaseCustomerRepository implements SetonoSyliusMailchimpPluginCustomerRepositoryInterface
+{
+    use SetonoSyliusMailchimpPluginCustomerRepositoryTrait;
+}
+```
+
+**Create `OrderRepository.php`**
+
+```php
+<?php
+// src/Doctrine/ORM/OrderRepository.php
+
+declare(strict_types=1);
+
+namespace Tests\Setono\SyliusMailchimpPlugin\Application\Doctrine\ORM;
+
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\OrderRepositoryInterface as SetonoSyliusMailchimpPluginOrderRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Doctrine\ORM\OrderRepositoryTrait as SetonoSyliusMailchimpPluginOrderRepositoryTrait;
+use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository as BaseOrderRepository;
+
+class OrderRepository extends BaseOrderRepository implements SetonoSyliusMailchimpPluginOrderRepositoryInterface
+{
+    use SetonoSyliusMailchimpPluginOrderRepositoryTrait;
+}
+
+```
+
+**Add configuration** 
+
+```yaml
+# config/packages/_sylius.yaml
+sylius_customer:
+    resources:
+        customer:
+            classes:
+                model: App\Entity\Customer
+                repository: App\Doctrine\ORM\CustomerRepository
+                
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: App\Entity\Order
+                repository: App\Doctrine\ORM\OrderRepository
+```
+
+### 7. Update your database:
 
 ```bash
 $ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
 ```
 
-### 6. Make plugin configurations:
-
-#### 1. (optional) Enable and add proper enqueue bundle configuration
-
-```yaml
-# config/packages/setono_sylius_mailchimp.yaml
-
-setono_sylius_mailchimp:
-    queue: true
-
-enqueue:
-    transport:
-        # Here we use enqueue/fs for testing as most simple transport implementation
-        # @see https://enqueue.readthedocs.io/en/latest/transport/filesystem/
-        default: fs
-        fs:
-            dsn: "file://%kernel.project_dir%/var/queue"
-    client:
-        traceable_producer: true
-```
-
-#### 2. Subscriptions form at shop's footer
-
-- By default, subscription form will be added to footer via block events.
-
-- If you want to disable subscription form, configure plugin like this: 
-
-    ```yaml
-    # config/packages/setono_sylius_mailchimp.yaml
-    setono_sylius_mailchimp:
-        subscribe: false
-    ```
- 
-- If you want to add subscription form to custom place:
-
-  - Configure plugin like this to disable automatic form inclusion to footer:
-   
-    ```yaml
-    # config/packages/setono_sylius_mailchimp.yaml
-    setono_sylius_mailchimp:
-        subscribe: false
-    ```
-
-  - Include the subscribe form in your template to place you need:
-
-    ```twig
-    {# templates/bundles/SyliusShopBundle/_footer.html.twig #}
-
-    {% include '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/_form.html.twig' %}
-    ```
-    
-    See example at `tests/Application/templates/bundles/SyliusShopBundle/_footer.html.twig`.
-
-#### 3. (optional) Create and/or configure Mailchimp Merge Fields
-
-  - If you don't want to collect channel and locale of subscribers,
-    (your shop works with just one channel and locale, for example)
-    you can skip this step, as far as by default, plugin configured 
-    to work with existing (Mailchimp's default) Merge Fields only:
-
-    ```yaml
-    # config/packages/setono_sylius_mailchimp.yaml
-    setono_sylius_mailchimp:
-        merge_fields:
-            first_name: FNAME # Mailchimp's default
-            last_name: LNAME  # Mailchimp's default
-            address: ADDRESS  # Mailchimp's default
-            phone: PHONE      # Mailchimp's default
-            channel: false    # Which means don't store subscriber's channel at mailchimp side
-            locale: false     # Which means don't store subscriber's locale at mailchimp side
-    ```
-    
-  - If you want to use channel and locale Merge Fields:
-  
-    - Add desired Merge Fields at Mailchimp side like this:
-      
-      ![Screenshot showing how to configure mailchimp mergefields](docs/images/mailchimp-list-mergefields.png)
-      
-      You can configure both channel and locale mergefield's type as `text` or as `dropdown`.
-    
-    - Configure plugin to use that Merge Fields names:
-  
-        ```yaml
-        # config/packages/setono_sylius_mailchimp.yaml
-        setono_sylius_mailchimp:
-            merge_fields:
-                channel: CHANNEL
-                locale: LOCALE
-        ```
-        
-      (You can use any other names for sure - `CHANNEL_CODE`, `LOCALE_CODE`, for example)
-
-### 7. Install assets:
+### 8. Install assets:
 
 ```bash
 $ php bin/console assets:install --symlink
 ```
 
-### 8. Clear cache:
+### 9. Clear cache:
 
 ```bash
 $ php bin/console cache:clear
 ```
 
-### 9. (production) Configure CRON jobs 
-
-- To create exports - every day:
-
-    ```bash
-    * 03 * * * path/to/php path/to/bin/console setono:mailchimp:export:create -n
-    ````
-
-- To handle exports - every minute:
-
-    ```bash
-    01 * * * * path/to/php path/to/bin/console setono:mailchimp:export:handle --limit=30
-    ````
-    
-    Providing such `limit` allow to export 30 customers per minute. 
-
-### 10. (production) Configure `supervisord` if you use queues 
-
-Make sure next command always in run state:
-
-```bash
-path/to/bin/console enqueue:consume -vvv
-```
-
-This can be done with `supervisord`
-(see [docs](https://enqueue.readthedocs.io/en/latest/bundle/production_settings/) for details):
-
-```
-[program:enqueue_message_consumer]
-command=/path/to/bin/console --env=prod --no-debug --time-limit="now + 5 minutes" enqueue:consume --message-limit=1
-process_name=%(program_name)s_%(process_num)02d
-numprocs=4
-autostart=true
-autorestart=true
-startsecs=0
-user=apache
-redirect_stderr=true
-```
-
 ## Usage
 
-- You can now configure Mailchimp lists in your admin UI and later on 
-  export them from via admin or the following command:
+### Push customers to Mailchimp lists
+By default your customers will be pushed to Mailchimp lists when they are updated or when they haven't yet been pushed.
 
-    ```bash
-    $ php bin/console setono:mailchimp:export:create
-    ````
+Run the following command to push customers:
 
-- To handle created export, run: 
+```bash
+$ php bin/console setono:sylius-mailchimp:push-customers
+```
 
-    ```bash
-    $ php bin/console setono:mailchimp:export:handle
-    ````
+### Push orders to Mailchimp ecommerce
+For orders it's the same thing; if they haven't been pushed or they are updated they will be pushed.
+
+Run the following command to push orders:
+
+```bash
+$ php bin/console setono:sylius-mailchimp:push-orders
+```
+
+### Insert subscription form
+To insert the subscription form anywhere on your site, just do the following in twig:
+
+```twig
+{% include '@SetonoSyliusMailchimpPlugin/Shop/subscribe.html.twig' %}
+```
+
+You can of course also use the [BlockEventListener](https://github.com/Sylius/Sylius/blob/master/src/Sylius/Bundle/UiBundle/Block/BlockEventListener.php):
+
+```xml
+<service id="app.block_event_listener.shop.subscribe_to_newsletter" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
+    <argument>@SetonoSyliusMailchimpPlugin/Shop/subscribe.html.twig</argument>
+
+    <tag name="kernel.event_listener" event="sonata.block.event.sylius.shop.layout.after_footer" method="onBlockEvent"/>
+</service>
+```
 
 ## Contribution
 

@@ -1,2 +1,2 @@
 setono_sylius_mailchimp:
-    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routes.yaml"
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing.yaml"

@@ -1,6 +1,3 @@
 setono_sylius_mailchimp:
+    api_key: '%env(resolve:MAILCHIMP_API_KEY)%'
     subscribe: false
-    queue: false
-    merge_fields:
-        channel: CHANNEL
-        locale: LOCALE

@@ -1,4 +1,4 @@
 {% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/setonosyliusmailchimpplugin/js/shop/setono-mailchimp-subscribe.js'} %}
 <script>
-    $('#footer-newsletter-form').joinNewsletter();
+    $('form[name="setono_sylius_mailchimp_subscribe_to_newsletter"]').subscribeToNewsletter();
 </script>

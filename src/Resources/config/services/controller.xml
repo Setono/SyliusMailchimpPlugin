@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <defaults public="true" />
+        <service id="setono_sylius_mailchimp.controller.action.load_audiences"
+                 class="Setono\SyliusMailchimpPlugin\Controller\Action\LoadAudiencesAction" public="true">
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
+            <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
+            <argument type="service" id="setono_sylius_mailchimp.factory.audience"/>
+            <argument type="service" id="router"/>
+        </service>
 
-        <service id="setono_sylius_mailchimp.controller.action.export_restart"
-                 class="Setono\SyliusMailchimpPlugin\Controller\Action\ExportRestartAction">
-            <argument type="service" id="setono_sylius_mailchimp.repository.export"/>
-            <argument type="service" id="session.flash_bag"/>
-            <argument type="service" id="translator"/>
+        <service id="setono_sylius_mailchimp.controller.action.repush_customers"
+                 class="Setono\SyliusMailchimpPlugin\Controller\Action\RepushCustomersAction" public="true">
+            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
             <argument type="service" id="router"/>
         </service>
 
         <service id="setono_sylius_mailchimp.controller.action.subscribe_to_newsletter"
-                 class="Setono\SyliusMailchimpPlugin\Controller\Action\SubscribeToNewsletterAction">
-            <argument type="service" id="setono_sylius_mailchimp.validator.newsletter_email"/>
-            <argument type="service" id="security.csrf.token_manager"/>
-            <argument type="service" id="setono_sylius_mailchimp.handler.email_subscription"/>
+                 class="Setono\SyliusMailchimpPlugin\Controller\Action\SubscribeToNewsletterAction" public="true">
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="twig"/>
             <argument type="service" id="translator"/>
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
         </service>
     </services>
 </container>

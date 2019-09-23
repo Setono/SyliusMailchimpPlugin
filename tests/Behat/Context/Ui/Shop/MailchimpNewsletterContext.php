@@ -7,7 +7,7 @@ namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Ui\Shop;
 use Behat\Behat\Context\Context;
 use Doctrine\ORM\EntityManagerInterface;
 use Setono\SyliusMailchimpPlugin\Context\MailchimpConfigContextInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Behat\Element\Shop\Account\RegisterElementInterface;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\Shop\Account\LoginPageInterface;
@@ -143,7 +143,7 @@ final class MailchimpNewsletterContext implements Context
 
         $this->mailchimpConfigManager->refresh($config);
 
-        /** @var MailchimpListInterface $list */
+        /** @var AudienceInterface $list */
         foreach ($config->getLists() as $list) {
             if ($list->hasEmail($email)) {
                 return;
@@ -194,7 +194,7 @@ final class MailchimpNewsletterContext implements Context
 
         $this->mailchimpConfigManager->refresh($config);
 
-        /** @var MailchimpListInterface $list */
+        /** @var AudienceInterface $list */
         foreach ($config->getLists() as $list) {
             Assert::false($list->hasEmail($email));
         }

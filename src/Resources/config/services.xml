@@ -6,17 +6,15 @@
 
     <imports>
         <import resource="services/block_event_listener.xml"/>
+        <import resource="services/client.xml"/>
         <import resource="services/command.xml"/>
-        <import resource="services/context.xml"/>
         <import resource="services/controller.xml"/>
+        <import resource="services/data_generator.xml"/>
         <import resource="services/event_listener.xml"/>
-        <import resource="services/factory.xml"/>
-        <import resource="services/fixture.xml"/>
         <import resource="services/form.xml"/>
-        <import resource="services/handler.xml"/>
-        <import resource="services/mailchimp.xml"/>
+        <import resource="services/http_client.xml"/>
         <import resource="services/menu.xml"/>
-        <import resource="services/validator.xml"/>
+        <import resource="services/message.xml"/>
     </imports>
 
 </container>

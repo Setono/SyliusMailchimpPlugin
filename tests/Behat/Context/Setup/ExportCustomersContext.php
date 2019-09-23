@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Setono\SyliusMailchimpPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\MailchimpConfigRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
+use Setono\SyliusMailchimpPlugin\Model\MailchimpConfigInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
@@ -62,10 +62,10 @@ final class ExportCustomersContext implements Context
     {
         $config = $this->createConfig();
 
-        /** @var MailchimpListInterface $list */
+        /** @var AudienceInterface $list */
         $list = $this->mailchimpList->createNew();
 
-        $list->setListId($this->randomStringGenerator->generate(10));
+        $list->setAudienceId($this->randomStringGenerator->generate(10));
 
         $config->addList($list);
 

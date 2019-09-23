@@ -5,47 +5,24 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use Setono\SyliusMailchimpPlugin\Model\MailchimpListInterface;
+use Safe\Exceptions\StringsException;
+use function Safe\sprintf;
 
 trait CustomerRepositoryTrait
 {
+    use PushedToMailchimpAwareRepositoryTrait;
+
     /**
-     * @param string $alias
-     * @param array $indexBy
-     *
-     * @return QueryBuilder
+     * @throws StringsException
      */
-    abstract public function createQueryBuilder($alias, $indexBy = null);
-
-    public function createByMailchimpExportIdQueryBuilder(string $mailchimpExportId): QueryBuilder
+    public function createPendingPushQueryBuilder(): QueryBuilder
     {
-        return $this->createQueryBuilder('o')
-            ->join('o.mailchimpExports', 'export')
-            ->andWhere('export.id = :mailchimpExportId')
-            ->setParameter('mailchimpExportId', $mailchimpExportId)
-            ;
-    }
+        $alias = 'o';
 
-    public function findNotExportedSubscribers(MailchimpListInterface $mailchimpList, int $limit = 100): array
-    {
-        return $this->createQueryBuilder('customer')
-            ->andWhere('customer.subscribedToNewsletter = 1')
-            ->andWhere(':mailchimpList NOT MEMBER OF customer.exportedToMailchimpLists')
-            ->setParameter('mailchimpList', $mailchimpList)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
+        $qb = $this->_createPendingPushQueryBuilder($alias);
 
-    public function findAllNotExported(MailchimpListInterface $mailchimpList, int $limit = 100): array
-    {
-        return $this->createQueryBuilder('customer')
-            ->andWhere(':mailchimpList NOT MEMBER OF customer.exportedToMailchimpLists')
-            ->setParameter('mailchimpList', $mailchimpList)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
-            ;
+        return $qb
+            ->andWhere(sprintf('%s.subscribedToNewsletter = true', $alias))
+        ;
     }
 }

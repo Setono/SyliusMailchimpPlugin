@@ -1,73 +1,45 @@
 setono_sylius_mailchimp:
+    form:
+        audience:
+            notice:
+                content:
+                    When you associate a channel with an audience it is irreversible.<br>
+                    The store id in Mailchimp will be your channel code and the currency will be your default channel currency.<br>
+                    You can read the documentation about Mailchimps ecommerce features <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
+                header: NOTICE
+        subscribe_to_newsletter:
+            email: Email
+    menu:
+        admin:
+            main:
+                mailchimp:
+                    audiences: Audiences
+                    header: Mailchimp
     ui:
-        menu:
-            config_menu: Mailchimp
-            export_menu: Newsletter export
-            list_menu: Mailchimp lists
-        breadcrumb:
-            config_breadcrumb: Mailchimp
-            export_breadcrumb: Export
-            list_breadcrumb: Lists
-
-        ecommerce: Mailchimp e-Commerce export
-
-        configs: Mailchimp configuration
-        store_id: Store ID
+        an_error_occurred: An error occurred
         api_key: Mailchimp API Key
-        export_subscribed_only: Export subscribers only
-        store_currency: Store currency
+        audience: Audience
+        audience_header: Mailchimp audiences
+        audience_id: Audience Id
+        audience_subheader: Manage Mailchimp audiences
+        audiences: Audiences
         code: Code
-        config: Configuration
-        config_header: Mailchimp configuration
-        config_subheader: Manage Mailchimp configuration
-
-        config_lists: Lists
-        config_list_header: Config lists
-        config_list_subheader: Manage mailchimp lists of current config
-
-        list: List
-        lists: Lists
-        list_id: List ID
-        list_header: Mailchimp List Configuration
-        list_subheader: Manage Mailchimp lists
-        list_create: Create list
-        new_list: New list
-
-        channels: Channels
-
-        updated_at: Updated at
-        finished_at: Finished at
-        export_header: Export to Mailchimp
-        export_subheader: Export customers to the Mailchimp manually
-        list_export_header: Export list to Mailchimp
-        list_export_subheader: Export customers to the Mailchimp list manually
-
-        exports: Mailchimp newsletter exports
-        export: Export
-        new_export: New export
-        exported_customers: Exported customers
-        export_customers_header: Exported customers
-        export_customers_subheader: Customers being exported during this export
-        export_restart: Restart export
-        export_restarted: Export restarted
-        list_export: Export
-        list_exports: List exports
-        state: State
-        emails_exported: Emails exported
-        errors_header: Errors during export
-        errors_count: Errors
-        no_errors: No errors
-        new: New
-        restarting: Restarting...
-        in_progress: In progress...
         completed: Completed
-        failed: Failed
-        export_succeeded: Export succeded
-        export_failed: Export failed
-        nothing_to_export: Nothing to export
-        newsletter: Newsletter
-        subscribe: Subscribe
-        your_email_address: Your email address
+        ecommerce: Mailchimp e-Commerce export
         email_not_blank: Email cannot be blank.
+        failed: Failed
+        finished_at: Finished at
+        in_progress: In progress...
         invalid_csrf_token: Invalid CSRF token
+        load_audiences: Load audiences
+        new: New
+        newsletter: Newsletter
+        no_audience_associated_with_channel: No audience associated with this channel
+        no_errors: No errors
+        restarting: Restarting...
+        repush_customers: Repush customers
+        state: State
+        subscribe: Subscribe
         subscribed_successfully: You are now subscribed to the newsletter.
+        updated_at: Updated at
+        your_email_address: Your email address
