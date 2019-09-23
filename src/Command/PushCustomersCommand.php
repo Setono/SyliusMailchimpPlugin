@@ -30,8 +30,7 @@ final class PushCustomersCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Pushes/synchronizes pending customers to Mailchimp')
-        ;
+            ->setDescription('Pushes/synchronizes pending customers to Mailchimp lists. Notice this will not update customers in the ecommerce section of Mailchimp, use setono:sylius-mailchimp:push-orders for that');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Client;
 
 use DrewM\MailChimp\MailChimp;
+use RuntimeException;
 use Safe\Exceptions\JsonException;
 use Safe\Exceptions\StringsException;
-use function Safe\json_decode;
 use function Safe\sprintf;
 use Setono\SyliusMailchimpPlugin\DataGenerator\OrderDataGeneratorInterface;
 use Setono\SyliusMailchimpPlugin\DataGenerator\ProductDataGeneratorInterface;
@@ -56,19 +56,31 @@ final class Client implements ClientInterface
     /**
      * @throws JsonException
      */
+    private function makeRequest(string $method, string $uri, array $options = []): array
+    {
+        $callable = [$this->httpClient, $method];
+        if (!is_callable($callable)) {
+            throw new RuntimeException('The callable given is not callable');
+        }
+        $res = $callable($uri, $options);
+
+        if (!$this->httpClient->success()) {
+            throw new ClientException($this->httpClient->getLastResponse());
+        }
+
+        return $res;
+    }
+
+    /**
+     * @throws JsonException
+     */
     public function getAudiences(array $options = []): array
     {
         $options = array_merge_recursive([
             'count' => 1000,
         ], $options);
 
-        $res = $this->httpClient->get('/lists', $options);
-
-        if (!$this->httpClient->success()) {
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
-        }
-
-        return $res['lists'];
+        return $this->makeRequest('get', '/lists', $options)['lists'];
     }
 
     /**
@@ -87,16 +99,9 @@ final class Client implements ClientInterface
         $this->ensureProductsExist($channel, $order);
 
         if ($this->hasOrder($storeId, $orderId)) {
-            $this->httpClient->patch(sprintf('/ecommerce/stores/%s/orders/%s', $storeId, $orderId), $data);
+            $this->makeRequest('patch', sprintf('/ecommerce/stores/%s/orders/%s', $storeId, $orderId), $data);
         } else {
-            $this->httpClient->post(sprintf('/ecommerce/stores/%s/orders', $storeId), $data);
-        }
-
-        if (!$this->httpClient->success()) {
-            dump($data);
-            dd($this->httpClient->getLastResponse());
-
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
+            $this->makeRequest('post', sprintf('/ecommerce/stores/%s/orders', $storeId), $data);
         }
     }
 
@@ -112,13 +117,9 @@ final class Client implements ClientInterface
         if ($this->hasStore($storeId)) {
             unset($data['id']);
 
-            $this->httpClient->patch(sprintf('/ecommerce/stores/%s', $storeId), $data);
+            $this->makeRequest('patch', sprintf('/ecommerce/stores/%s', $storeId), $data);
         } else {
-            $this->httpClient->post('/ecommerce/stores', $data);
-        }
-
-        if (!$this->httpClient->success()) {
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
+            $this->makeRequest('post', '/ecommerce/stores', $data);
         }
     }
 
@@ -138,7 +139,7 @@ final class Client implements ClientInterface
             ],
         ];
 
-        $this->httpClient->put(
+        $this->makeRequest('put',
             sprintf(
                 '/lists/%s/members/%s',
                 $audience->getAudienceId(),
@@ -146,10 +147,27 @@ final class Client implements ClientInterface
             ),
             $data
         );
+    }
 
-        if (!$this->httpClient->success()) {
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
-        }
+    /**
+     * @throws JsonException
+     * @throws StringsException
+     */
+    public function subscribeVisitor(AudienceInterface $audience, string $email): void
+    {
+        $data = [
+            'email_address' => $email,
+            'status' => 'subscribed',
+        ];
+
+        $this->makeRequest('put',
+            sprintf(
+                '/lists/%s/members/%s',
+                $audience->getAudienceId(),
+                MailChimp::subscriberHash($email)
+            ),
+            $data
+        );
     }
 
     /**
@@ -158,17 +176,17 @@ final class Client implements ClientInterface
      */
     private function hasOrder(string $storeId, string $orderId): bool
     {
-        $this->httpClient->get(sprintf('/ecommerce/stores/%s/orders/%s', $storeId, $orderId));
+        try {
+            $this->makeRequest('get', sprintf('/ecommerce/stores/%s/orders/%s', $storeId, $orderId));
 
-        if (!$this->httpClient->success()) {
-            if (self::is404($this->httpClient->getLastResponse())) {
+            return true;
+        } catch (ClientException $e) {
+            if ($e->getStatusCode() === 404) {
                 return false;
             }
 
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
+            throw $e;
         }
-
-        return true;
     }
 
     /**
@@ -177,17 +195,17 @@ final class Client implements ClientInterface
      */
     private function hasStore(string $storeId): bool
     {
-        $this->httpClient->get(sprintf('/ecommerce/stores/%s', $storeId));
+        try {
+            $this->makeRequest('get', sprintf('/ecommerce/stores/%s', $storeId));
 
-        if (!$this->httpClient->success()) {
-            if (self::is404($this->httpClient->getLastResponse())) {
+            return true;
+        } catch (ClientException $e) {
+            if ($e->getStatusCode() === 404) {
                 return false;
             }
 
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
+            throw $e;
         }
-
-        return true;
     }
 
     /**
@@ -198,11 +216,7 @@ final class Client implements ClientInterface
     {
         $data = $this->productDataGenerator->generate($product, $channel, $productVariant);
 
-        $this->httpClient->post(sprintf('/ecommerce/stores/%s/products', $channel->getCode()), $data);
-
-        if (!$this->httpClient->success()) {
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
-        }
+        $this->makeRequest('post', sprintf('/ecommerce/stores/%s/products', $channel->getCode()), $data);
     }
 
     /**
@@ -211,17 +225,17 @@ final class Client implements ClientInterface
      */
     private function hasProduct(ChannelInterface $channel, ProductInterface $product): bool
     {
-        $this->httpClient->get(sprintf('/ecommerce/stores/%s/products/%s', $channel->getCode(), $product->getCode()));
+        try {
+            $this->makeRequest('get', sprintf('/ecommerce/stores/%s/products/%s', $channel->getCode(), $product->getCode()));
 
-        if (!$this->httpClient->success()) {
-            if (self::is404($this->httpClient->getLastResponse())) {
+            return true;
+        } catch (ClientException $e) {
+            if ($e->getStatusCode() === 404) {
                 return false;
             }
 
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
+            throw $e;
         }
-
-        return true;
     }
 
     /**
@@ -235,11 +249,11 @@ final class Client implements ClientInterface
         $product = $productVariant->getProduct();
         Assert::notNull($product);
 
-        $this->httpClient->post(sprintf('/ecommerce/stores/%s/products/%s/variants', $channel->getCode(), $product->getCode()), $data);
-
-        if (!$this->httpClient->success()) {
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
-        }
+        $this->makeRequest(
+            'post',
+            sprintf('/ecommerce/stores/%s/products/%s/variants', $channel->getCode(), $product->getCode()),
+            $data
+        );
     }
 
     /**
@@ -251,20 +265,20 @@ final class Client implements ClientInterface
         $product = $productVariant->getProduct();
         Assert::notNull($product);
 
-        $this->httpClient->get(sprintf(
-            '/ecommerce/stores/%s/products/%s/variants/%s',
-            $channel->getCode(), $product->getCode(), $productVariant->getCode()
-        ));
+        try {
+            $this->makeRequest('get', sprintf(
+                '/ecommerce/stores/%s/products/%s/variants/%s',
+                $channel->getCode(), $product->getCode(), $productVariant->getCode()
+            ));
 
-        if (!$this->httpClient->success()) {
-            if (self::is404($this->httpClient->getLastResponse())) {
+            return true;
+        } catch (ClientException $e) {
+            if ($e->getStatusCode() === 404) {
                 return false;
             }
 
-            throw new ClientException(self::getError($this->httpClient->getLastResponse()));
+            throw $e;
         }
-
-        return true;
     }
 
     /**
@@ -289,39 +303,5 @@ final class Client implements ClientInterface
                 $this->createProductVariant($channel, $variant);
             }
         }
-    }
-
-    /**
-     * @throws JsonException
-     */
-    private static function getError(array $response): string
-    {
-        if (!isset($response['body'])) {
-            throw new ClientException('No body set on response');
-        }
-
-        $body = json_decode($response['body'], true);
-
-        $error = $body['title'] . ': ' . $body['detail'];
-
-        if (isset($body['errors']) && is_array($body['errors'])) {
-            $error .= "\n\nErrors\n------";
-            foreach ($body['errors'] as $item) {
-                $errorLine = '';
-                if ('' !== $item['field']) {
-                    $errorLine .= $item['field'] . ': ';
-                }
-                $errorLine .= $item['message'];
-
-                $error .= "\n" . $errorLine;
-            }
-        }
-
-        return $error;
-    }
-
-    private static function is404(array $response): bool
-    {
-        return isset($response['headers']['http_code']) && 404 === $response['headers']['http_code'];
     }
 }

@@ -37,4 +37,6 @@ interface ClientInterface
      * @throws ClientException
      */
     public function updateMember(AudienceInterface $audience, CustomerInterface $customer): void;
+
+    public function subscribeVisitor(AudienceInterface $audience, string $email): void;
 }

@@ -1,5 +1,11 @@
-setono_sylius_mailchimp_shop_subscribe:
-    path: /mailchimp/subscribe
+setono_sylius_mailchimp_shop_ajax_subscribe_to_newsletter:
+    path: /ajax/subscribe-to-newsletter
     methods: [POST]
+    defaults:
+        _controller: setono_sylius_mailchimp.controller.action.subscribe_to_newsletter
+        
+setono_sylius_mailchimp_shop_partial_subscribe_to_newsletter:
+    path: /_partial/subscribe-to-newsletter
+    methods: [GET]
     defaults:
         _controller: setono_sylius_mailchimp.controller.action.subscribe_to_newsletter
