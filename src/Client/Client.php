@@ -153,7 +153,7 @@ final class Client implements ClientInterface
      * @throws JsonException
      * @throws StringsException
      */
-    public function subscribeVisitor(AudienceInterface $audience, string $email): void
+    public function subscribeEmail(AudienceInterface $audience, string $email): void
     {
         $data = [
             'email_address' => $email,

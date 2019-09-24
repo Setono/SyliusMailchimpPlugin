@@ -88,7 +88,7 @@ final class SubscribeToNewsletterAction
                 );
             }
 
-            $this->client->subscribeVisitor($audience, $form->get('email')->getData());
+            $this->client->subscribeEmail($audience, $form->get('email')->getData());
 
             return $this->json($this->translator->trans('setono_sylius_mailchimp.ui.subscribed_successfully'));
         }

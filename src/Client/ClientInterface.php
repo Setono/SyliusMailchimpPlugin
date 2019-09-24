@@ -38,5 +38,5 @@ interface ClientInterface
      */
     public function updateMember(AudienceInterface $audience, CustomerInterface $customer): void;
 
-    public function subscribeVisitor(AudienceInterface $audience, string $email): void;
+    public function subscribeEmail(AudienceInterface $audience, string $email): void;
 }
