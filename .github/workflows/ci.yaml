@@ -14,13 +14,3 @@ jobs:
 
             -   name: Run composer normalize
                 uses: docker://localheinz/composer-normalize-action:latest
-    phpstan:
-        name: PHPStan
-
-        runs-on: ubuntu-latest
-        
-        steps:
-            -   name: Checkout
-                uses: actions/checkout@master
-            -   name: Run phpstan analyse
-                uses: docker://oskarstark/phpstan-ga
