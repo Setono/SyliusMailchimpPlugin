@@ -55,12 +55,15 @@ final class Client implements ClientInterface
 
     /**
      * @throws JsonException
+     * @throws StringsException
      */
     private function makeRequest(string $method, string $uri, array $options = []): array
     {
         $callable = [$this->httpClient, $method];
         if (!is_callable($callable)) {
-            throw new RuntimeException('The callable given is not callable');
+            throw new RuntimeException(sprintf(
+                'The method "%s" does not exist on the http client "%s"', $method, get_class($this->httpClient)
+            ));
         }
         $res = $callable($uri, $options);
 
@@ -73,6 +76,7 @@ final class Client implements ClientInterface
 
     /**
      * @throws JsonException
+     * @throws StringsException
      */
     public function getAudiences(array $options = []): array
     {

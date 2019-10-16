@@ -38,5 +38,12 @@ interface ClientInterface
      */
     public function updateMember(AudienceInterface $audience, CustomerInterface $customer): void;
 
+    /**
+     * Will just subscribe an email to the given audience
+     * This is typically used in subscribe forms on every page
+     * where the user isn't logged in or anything
+     *
+     * @throws ClientException
+     */
     public function subscribeEmail(AudienceInterface $audience, string $email): void;
 }
