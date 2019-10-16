@@ -31,6 +31,27 @@ $ composer require setono/sylius-mailchimp-plugin
 # config/packages/setono_sylius_mailchimp.yaml
 imports:
     - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/app/config.yaml" }
+        
+setono_sylius_mailchimp:
+    api_key: '%env(resolve:MAILCHIMP_API_KEY)%'
+```
+
+Remember to update your `.env` and `.env.local` files:
+
+```
+# .env
+
+###> setono/sylius-mailchimp-plugin ###
+MAILCHIMP_API_KEY=
+###< setono/sylius-mailchimp-plugin ###
+```
+
+```
+# .env.local
+
+###> setono/sylius-mailchimp-plugin ###
+MAILCHIMP_API_KEY=INSERT YOUR API KEY HERE
+###< setono/sylius-mailchimp-plugin ###
 ```
 
 ### 4. Import routing:
