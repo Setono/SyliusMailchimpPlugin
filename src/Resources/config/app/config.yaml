@@ -12,18 +12,18 @@ sylius_grid:
             setono_sylius_mailchimp_load_audiences: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Action/load_audiences.html.twig"
             setono_sylius_mailchimp_repush_customers: "@SetonoSyliusMailchimpPlugin/Admin/Grid/Action/repush_customers.html.twig"
 
-winzou_state_machine:
-    sylius_order_checkout:
-        callbacks:
-            after:
-                setono_mailchimp_subscribe_customer:
-                    on: ["complete"]
-                    do: ["@setono_sylius_mailchimp.handler.orders_customer_subscription", "handle"]
-                    args: ["object"]
-                setono_mailchimp_export_order:
-                    on: ["complete"]
-                    do: ["@setono_sylius_mailchimp.handler.order_export", "handle"]
-                    args: ["object"]
+#winzou_state_machine:
+#    sylius_order_checkout:
+#        callbacks:
+#            after:
+#                setono_mailchimp_subscribe_customer:
+#                    on: ["complete"]
+#                    do: ["@setono_sylius_mailchimp.handler.orders_customer_subscription", "handle"]
+#                    args: ["object"]
+#                setono_mailchimp_export_order:
+#                    on: ["complete"]
+#                    do: ["@setono_sylius_mailchimp.handler.order_export", "handle"]
+#                    args: ["object"]
 #                setono_mailchimp_cancel_order:
 #                    on: "cancel"
 #                    do: ["@setono_sylius_mailchimp.handler.order_remove", "handle"]
