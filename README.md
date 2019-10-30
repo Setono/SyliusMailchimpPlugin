@@ -264,6 +264,13 @@ You can of course also use the [BlockEventListener](https://github.com/Sylius/Sy
 </service>
 ```
 
+In this case - you should disable default block event listener: 
+
+```yaml
+setono_sylius_mailchimp:
+  subscribe: false
+```
+
 ## Contribution
 
 Run `composer try` to setup plugin environment and try test application.
