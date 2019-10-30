@@ -7,9 +7,10 @@
     <services>
         <service id="setono_sylius_mailchimp.block_event_listener.shop.layout.after_footer"
                  class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
-            <argument>@SetonoSyliusMailchimpPlugin/Shop/_subscribe.html.twig</argument>
+            <argument>@SetonoSyliusMailchimpPlugin/Shop/subscribe.html.twig</argument>
 
-            <tag name="kernel.event_listener" event="sonata.block.event.sylius.shop.layout.after_footer"
+            <tag name="kernel.event_listener"
+                 event="sonata.block.event.sylius.shop.layout.after_footer"
                  method="onBlockEvent"/>
         </service>
     </services>
