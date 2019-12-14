@@ -30,7 +30,6 @@ final class PushOrdersCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('setono:sylius-mailchimp:push-orders')
             ->setDescription('Pushes/synchronizes pending orders to Mailchimp')
         ;
     }
