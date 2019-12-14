@@ -36,4 +36,15 @@ class AudienceRepository extends EntityRepository implements AudienceRepositoryI
             ->getOneOrNullResult()
             ;
     }
+
+    public function removeAllExceptAudienceIds(array $audienceIds): void
+    {
+        $audiencesToRemove = array_filter($this->findAll(), function (AudienceInterface $audience) use ($audienceIds): bool {
+            return !in_array($audience->getAudienceId(), $audienceIds, true);
+        });
+
+        foreach ($audiencesToRemove as $audienceToRemove) {
+            $this->remove($audienceToRemove);
+        }
+    }
 }

@@ -13,4 +13,11 @@ interface AudienceRepositoryInterface extends RepositoryInterface
     public function findOneByAudienceId(string $id): ?AudienceInterface;
 
     public function findOneByChannel(ChannelInterface $channel): ?AudienceInterface;
+
+    /**
+     * Removes all audiences except ones having audienceId from $audienceIds list
+     *
+     * @param string[] $audienceIds
+     */
+    public function removeAllExceptAudienceIds(array $audienceIds): void;
 }

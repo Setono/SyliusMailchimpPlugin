@@ -7,9 +7,7 @@
     <services>
         <service id="setono_sylius_mailchimp.controller.action.load_audiences"
                  class="Setono\SyliusMailchimpPlugin\Controller\Action\LoadAudiencesAction" public="true">
-            <argument type="service" id="setono_sylius_mailchimp.client"/>
-            <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
-            <argument type="service" id="setono_sylius_mailchimp.factory.audience"/>
+            <argument type="service" id="setono_sylius_mailchimp.loader.audiences"/>
             <argument type="service" id="router"/>
         </service>
 
