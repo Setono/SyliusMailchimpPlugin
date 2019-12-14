@@ -10,6 +10,11 @@
             <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
             <argument type="service" id="setono_sylius_mailchimp.factory.audience"/>
+            <argument type="service" id="setono_sylius_mailchimp.manager.audience"/>
+
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
         </service>
 
     </services>
