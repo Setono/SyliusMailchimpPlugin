@@ -227,6 +227,26 @@ framework:
 $ php bin/console cache:clear
 ```
 
+### 11. Define fixtures
+
+```yaml
+# fixtures.yaml
+
+sylius_fixtures:
+	suites:
+		default:
+			fixtures:
+				setono_mailchimp:
+					options:
+                        custom:
+                          - name: 'United States audience'
+                            audience_id: '0598aea4e3'
+                            channel: 'FASHION_WEB'
+                          - name: 'Denmark audience'
+                            audience_id: '0e23b9524f'
+                            channel: 'DK_WEB'
+```
+
 ## Usage
 
 ### Push customers to Mailchimp lists

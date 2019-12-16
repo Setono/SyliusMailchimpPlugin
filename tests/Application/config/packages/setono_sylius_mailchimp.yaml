@@ -1,3 +1,15 @@
 setono_sylius_mailchimp:
     api_key: '%env(resolve:MAILCHIMP_API_KEY)%'
     subscribe: false
+
+sylius_fixtures:
+    suites:
+        default:
+            fixtures:
+                setono_mailchimp:
+                    options:
+                        random: 3
+                        custom:
+                            - name: 'United States audience'
+                              audience_id: '0598aea4e3'
+                              channel: 'FASHION_WEB'
