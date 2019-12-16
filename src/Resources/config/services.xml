@@ -14,6 +14,7 @@
         <import resource="services/fixture.xml"/>
         <import resource="services/form.xml"/>
         <import resource="services/http_client.xml"/>
+        <import resource="services/loader.xml"/>
         <import resource="services/menu.xml"/>
         <import resource="services/message.xml"/>
     </imports>

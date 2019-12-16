@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
-use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
-use Sylius\Component\Resource\Factory\FactoryInterface;
+use Setono\SyliusMailchimpPlugin\Loader\AudiencesLoaderInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,69 +15,23 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 final class LoadAudiencesAction
 {
-    /** @var ClientInterface */
-    private $client;
-
-    /** @var AudienceRepositoryInterface */
-    private $audienceRepository;
-
-    /** @var FactoryInterface */
-    private $audienceFactory;
+    /** @var AudiencesLoaderInterface */
+    private $audiencesLoader;
 
     /** @var UrlGeneratorInterface */
     private $urlGenerator;
 
     public function __construct(
-        ClientInterface $client,
-        AudienceRepositoryInterface $audienceRepository,
-        FactoryInterface $audienceFactory,
+        AudiencesLoaderInterface $audiencesLoader,
         UrlGeneratorInterface $urlGenerator
     ) {
-        $this->client = $client;
-        $this->audienceRepository = $audienceRepository;
-        $this->audienceFactory = $audienceFactory;
         $this->urlGenerator = $urlGenerator;
+        $this->audiencesLoader = $audiencesLoader;
     }
 
     public function __invoke(Request $request): RedirectResponse
     {
-        /** @var AudienceInterface[] $objs */
-        $objs = $this->audienceRepository->findAll();
-
-        $audiences = $this->client->getAudiences([
-            'fields' => ['id', 'name'],
-        ]);
-
-        // array of audience ids that should not be removed
-        $doNotRemove = [];
-
-        foreach ($audiences as $audience) {
-            $entity = null;
-            foreach ($objs as $obj) {
-                if ($obj->getAudienceId() === $audience['id']) {
-                    $entity = $obj;
-                    $doNotRemove[] = $obj->getAudienceId();
-                }
-            }
-
-            if (null === $entity) {
-                /** @var AudienceInterface $entity */
-                $entity = $this->audienceFactory->createNew();
-                $entity->setAudienceId($audience['id']);
-            }
-
-            $entity->setName($audience['name']);
-
-            $this->audienceRepository->add($entity);
-        }
-
-        foreach ($objs as $obj) {
-            if (in_array($obj->getAudienceId(), $doNotRemove, true)) {
-                continue;
-            }
-
-            $this->audienceRepository->remove($obj);
-        }
+        $this->audiencesLoader->load(true);
 
         return new RedirectResponse($this->urlGenerator->generate('setono_sylius_mailchimp_admin_audience_index'));
     }
