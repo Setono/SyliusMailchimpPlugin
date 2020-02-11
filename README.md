@@ -160,7 +160,7 @@ class CustomerRepository extends BaseCustomerRepository implements SetonoSyliusM
 
 declare(strict_types=1);
 
-namespace Tests\Setono\SyliusMailchimpPlugin\Application\Doctrine\ORM;
+namespace App\Doctrine\ORM;
 
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\OrderRepositoryInterface as SetonoSyliusMailchimpPluginOrderRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\OrderRepositoryTrait as SetonoSyliusMailchimpPluginOrderRepositoryTrait;
