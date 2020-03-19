@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Message\Handler;
 
-use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Safe\DateTime;
 use Setono\DoctrineORMBatcher\Query\QueryRebuilderInterface;
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushOrderBatch;

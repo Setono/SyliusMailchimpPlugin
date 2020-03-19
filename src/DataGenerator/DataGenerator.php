@@ -87,7 +87,7 @@ abstract class DataGenerator implements DataGeneratorInterface
             $res[$key] = $val;
         }
 
-        return array_filter($res, static function ($elm) {
+        return array_filter($res, static function ($elm): bool {
             return null !== $elm;
         });
     }
