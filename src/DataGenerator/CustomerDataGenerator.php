@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\DataGenerator;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Setono\SyliusMailchimpPlugin\DTO\CustomerData;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -13,8 +14,10 @@ final class CustomerDataGenerator extends DataGenerator implements CustomerDataG
     /** @var AddressDataGeneratorInterface */
     private $addressDataGenerator;
 
-    public function __construct(AddressDataGeneratorInterface $addressDataGenerator)
+    public function __construct(EventDispatcherInterface $eventDispatcher, AddressDataGeneratorInterface $addressDataGenerator)
     {
+        parent::__construct($eventDispatcher);
+
         $this->addressDataGenerator = $addressDataGenerator;
     }
 

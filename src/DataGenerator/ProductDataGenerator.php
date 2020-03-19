@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\DataGenerator;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Safe\Exceptions\StringsException;
+use Setono\SyliusMailchimpPlugin\DTO\ProductData;
+use Setono\SyliusMailchimpPlugin\Event\ProductDataGeneratedEvent;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -19,9 +22,12 @@ final class ProductDataGenerator extends DataGenerator implements ProductDataGen
     private $urlGenerator;
 
     public function __construct(
+        EventDispatcherInterface $eventDispatcher,
         ProductVariantDataGeneratorInterface $productVariantDataGenerator,
         UrlGeneratorInterface $urlGenerator
     ) {
+        parent::__construct($eventDispatcher);
+
         $this->productVariantDataGenerator = $productVariantDataGenerator;
         $this->urlGenerator = $urlGenerator;
     }
@@ -33,7 +39,7 @@ final class ProductDataGenerator extends DataGenerator implements ProductDataGen
         ProductInterface $product,
         ChannelInterface $channel,
         ProductVariantInterface $productVariant = null
-    ): array {
+    ): ProductData {
         $url = self::generateUrl($this->urlGenerator, $channel, 'sylius_shop_product_show', [
             'slug' => $product->getSlug(),
         ]);
@@ -52,6 +58,14 @@ final class ProductDataGenerator extends DataGenerator implements ProductDataGen
             $data['variants'][] = $this->productVariantDataGenerator->generate($variant, $channel);
         }
 
-        return self::filterArrayRecursively($data);
+        $productData = new ProductData($data);
+
+        $this->eventDispatcher->dispatch(new ProductDataGeneratedEvent($productData, [
+            'product' => $product,
+            'channel' => $channel,
+            'productVariant' => $productVariant,
+        ]));
+
+        return $productData;
     }
 }

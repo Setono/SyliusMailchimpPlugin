@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\DataGenerator;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Safe\Exceptions\StringsException;
 use Setono\SyliusMailchimpPlugin\DTO\OrderData;
+use Setono\SyliusMailchimpPlugin\Event\OrderDataGeneratedEvent;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
@@ -23,6 +25,7 @@ final class OrderDataGenerator extends CurrencyConverterAwareDataGenerator imple
     private $orderLineDataGenerator;
 
     public function __construct(
+        EventDispatcherInterface $eventDispatcher,
         CurrencyConverterInterface $currencyConverter,
         CustomerDataGeneratorInterface $customerDataGenerator,
         OrderLineDataGeneratorInterface $orderLineDataGenerator
@@ -30,7 +33,7 @@ final class OrderDataGenerator extends CurrencyConverterAwareDataGenerator imple
         $this->customerDataGenerator = $customerDataGenerator;
         $this->orderLineDataGenerator = $orderLineDataGenerator;
 
-        parent::__construct($currencyConverter);
+        parent::__construct($eventDispatcher, $currencyConverter);
     }
 
     /**
@@ -50,8 +53,6 @@ final class OrderDataGenerator extends CurrencyConverterAwareDataGenerator imple
 
         $baseCurrencyCode = self::getBaseCurrencyCode($channel);
 
-        $customerData = $this->customerDataGenerator->generate($customer, $shippingAddress);
-
         $data = [
             'id' => $order->getNumber(),
             //'campaign_id' => '', // todo
@@ -61,7 +62,7 @@ final class OrderDataGenerator extends CurrencyConverterAwareDataGenerator imple
             //'discount_total' => '', // todo
             'tax_total' => $this->convertPrice($order->getTaxTotal(), $order->getCurrencyCode(), $baseCurrencyCode),
             'shipping_total' => $this->convertPrice($order->getShippingTotal(), $order->getCurrencyCode(), $baseCurrencyCode),
-            'customer' => $customerData,
+            'customer' => $this->customerDataGenerator->generate($customer, $shippingAddress),
             'lines' => [],
         ];
 
@@ -69,6 +70,16 @@ final class OrderDataGenerator extends CurrencyConverterAwareDataGenerator imple
             $data['lines'][] = $this->orderLineDataGenerator->generate($orderItem);
         }
 
-        return new OrderData($data);
+        $orderData = new OrderData($data);
+
+        $this->eventDispatcher->dispatch(new OrderDataGeneratedEvent($orderData, [
+            'order' => $order,
+            'customer' => $customer,
+            'shippingAddress' => $shippingAddress,
+            'channel' => $channel,
+            'baseCurrencyCode' => $baseCurrencyCode,
+        ]));
+
+        return $orderData;
     }
 }

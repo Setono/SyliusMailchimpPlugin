@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\DTO;
 
-use Spatie\DataTransferObject\DataTransferObject;
 use Sylius\Component\Addressing\Model\AddressInterface;
 
 /**
@@ -38,7 +37,7 @@ final class AddressData extends DataTransferObject
     /** @var string|null */
     public $country_code;
 
-    public static function createFromAddress(AddressInterface $address): AddressData
+    public static function createFromAddress(AddressInterface $address): self
     {
         return new self([
             'address1' => $address->getStreet(),

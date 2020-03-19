@@ -23,7 +23,7 @@ final class OrderLineDataGenerator extends CurrencyConverterAwareDataGenerator i
         $variant = $orderItem->getVariant();
         Assert::notNull($variant);
 
-        /** @var OrderInterface $order */
+        /** @var OrderInterface|null $order */
         $order = $orderItem->getOrder();
         Assert::notNull($order);
 

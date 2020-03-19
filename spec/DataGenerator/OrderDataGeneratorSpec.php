@@ -4,29 +4,42 @@ declare(strict_types=1);
 
 namespace spec\Setono\SyliusMailchimpPlugin\DataGenerator;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Setono\SyliusMailchimpPlugin\DataGenerator\CustomerDataGeneratorInterface;
 use Setono\SyliusMailchimpPlugin\DataGenerator\OrderDataGenerator;
 use Setono\SyliusMailchimpPlugin\DataGenerator\OrderDataGeneratorInterface;
-use Setono\SyliusMailchimpPlugin\DTO\OrderData;
-use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
+use Setono\SyliusMailchimpPlugin\DataGenerator\OrderLineDataGeneratorInterface;
+use Setono\SyliusMailchimpPlugin\DTO\CustomerData;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 
 class OrderDataGeneratorSpec extends ObjectBehavior
 {
-    public function let(CurrencyConverterInterface $currencyConverter): void
-    {
+    public function let(
+        CurrencyConverterInterface $currencyConverter,
+        CustomerDataGeneratorInterface $customerDataGenerator,
+        OrderLineDataGeneratorInterface $orderLineDataGenerator
+    ): void {
         $currencyConverter
             ->convert(Argument::type('integer'), Argument::type('string'), Argument::type('string'))
-            ->willReturnArgument()
-        ;
+            ->willReturnArgument();
 
-        $this->beConstructedWith($currencyConverter);
+        $customerDataGenerator
+            ->generate(Argument::any(), Argument::any())
+            ->willReturn(new CustomerData([
+                'id' => 'id',
+                'email_address' => 'john.doe@example.com',
+                'opt_in_status' => true,
+            ]));
+
+        $this->beConstructedWith($currencyConverter, $customerDataGenerator, $orderLineDataGenerator);
     }
 
     public function it_is_initializable(): void
@@ -51,10 +64,11 @@ class OrderDataGeneratorSpec extends ObjectBehavior
         $order->getShippingAddress()->willReturn($shippingAddress);
         $order->getChannel()->willReturn($channel);
         $order->getNumber()->willReturn('#00001');
-        $order->getTotal()->willReturn(99500);
+        $order->getTotal()->willReturn(99595);
         $order->getCurrencyCode()->willReturn('USD');
-        $order->getTaxTotal()->willReturn(19900);
-        $order->getShippingTotal()->willReturn(5000);
+        $order->getTaxTotal()->willReturn(19950);
+        $order->getShippingTotal()->willReturn(5050);
+        $order->getItems()->willReturn(new ArrayCollection());
 
         $baseCurrency->getCode()->willReturn('USD');
 
@@ -62,20 +76,25 @@ class OrderDataGeneratorSpec extends ObjectBehavior
 
         $orders->count()->willReturn(10);
 
-        $customer->getId()->willReturn(1);
-        $customer->getEmail()->willReturn('john.doe@example.com');
-        $customer->getFirstName()->willReturn('John');
-        $customer->getLastName()->willReturn('Doe');
-        $customer->isSubscribedToNewsletter()->willReturn(true);
-        $customer->getOrders()->willReturn($orders);
-
-        $shippingAddress->getStreet()->willReturn('Boulevard of Broken Dreams');
-        $shippingAddress->getCity()->willReturn('Los Angeles');
-        $shippingAddress->getPostcode()->willReturn('90210');
-        $shippingAddress->getProvinceName()->willReturn(null);
-        $shippingAddress->getProvinceCode()->willReturn(null);
-        $shippingAddress->getCountryCode()->willReturn('US');
-
-        $this->generate($order)->shouldReturnAnInstanceOf(OrderData::class);
+        $data = $this->generate($order);
+        $data->toArray()->shouldEqual([
+            'id' => '#00001',
+            'currency_code' => 'USD',
+            'order_total' => 995.95,
+            'tax_total' => 199.5,
+            'shipping_total' => 50.5,
+            'customer' => [
+                'id' => 'id',
+                'email_address' => 'john.doe@example.com',
+                'opt_in_status' => true,
+                'company' => null,
+                'first_name' => null,
+                'last_name' => null,
+                'orders_count' => null,
+                'total_spent' => null,
+                'address' => null,
+            ],
+            'lines' => [],
+        ]);
     }
 }

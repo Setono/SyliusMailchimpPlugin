@@ -96,16 +96,24 @@ final class Client implements ClientInterface
         $channel = $order->getChannel();
         Assert::notNull($channel);
 
-        $data = $this->orderDataGenerator->generate($order);
-        $orderId = $data['id'];
         $storeId = $channel->getCode();
+
+        $orderData = $this->orderDataGenerator->generate($order);
 
         $this->ensureProductsExist($channel, $order);
 
-        if ($this->hasOrder($storeId, $orderId)) {
-            $this->makeRequest('patch', sprintf('/ecommerce/stores/%s/orders/%s', $storeId, $orderId), $data);
+        if ($this->hasOrder($storeId, $orderData->id)) {
+            $this->makeRequest(
+                'patch',
+                sprintf('/ecommerce/stores/%s/orders/%s', $storeId, $orderData->id),
+                $orderData->toArray()
+            );
         } else {
-            $this->makeRequest('post', sprintf('/ecommerce/stores/%s/orders', $storeId), $data);
+            $this->makeRequest(
+                'post',
+                sprintf('/ecommerce/stores/%s/orders', $storeId),
+                $orderData->toArray()
+            );
         }
     }
 
@@ -115,15 +123,15 @@ final class Client implements ClientInterface
      */
     public function updateStore(AudienceInterface $audience): void
     {
-        $data = $this->storeDataGenerator->generate($audience);
-        $storeId = $data['id'];
+        $storeData = $this->storeDataGenerator->generate($audience);
+        $storeId = $storeData->id;
 
         if ($this->hasStore($storeId)) {
-            unset($data['id']);
+            unset($storeData->id);
 
-            $this->makeRequest('patch', sprintf('/ecommerce/stores/%s', $storeId), $data);
+            $this->makeRequest('patch', sprintf('/ecommerce/stores/%s', $storeId), $storeData->toArray());
         } else {
-            $this->makeRequest('post', '/ecommerce/stores', $data);
+            $this->makeRequest('post', '/ecommerce/stores', $storeData->toArray());
         }
     }
 
@@ -216,11 +224,18 @@ final class Client implements ClientInterface
      * @throws JsonException
      * @throws StringsException
      */
-    private function createProduct(ChannelInterface $channel, ProductInterface $product, ProductVariantInterface $productVariant = null): void
-    {
-        $data = $this->productDataGenerator->generate($product, $channel, $productVariant);
+    private function createProduct(
+        ChannelInterface $channel,
+        ProductInterface $product,
+        ProductVariantInterface $productVariant = null
+    ): void {
+        $productData = $this->productDataGenerator->generate($product, $channel, $productVariant);
 
-        $this->makeRequest('post', sprintf('/ecommerce/stores/%s/products', $channel->getCode()), $data);
+        $this->makeRequest(
+            'post',
+            sprintf('/ecommerce/stores/%s/products', $channel->getCode()),
+            $productData->toArray()
+        );
     }
 
     /**
@@ -230,7 +245,10 @@ final class Client implements ClientInterface
     private function hasProduct(ChannelInterface $channel, ProductInterface $product): bool
     {
         try {
-            $this->makeRequest('get', sprintf('/ecommerce/stores/%s/products/%s', $channel->getCode(), $product->getCode()));
+            $this->makeRequest(
+                'get',
+                sprintf('/ecommerce/stores/%s/products/%s', $channel->getCode(), $product->getCode())
+            );
 
             return true;
         } catch (ClientException $e) {
@@ -248,7 +266,7 @@ final class Client implements ClientInterface
      */
     private function createProductVariant(ChannelInterface $channel, ProductVariantInterface $productVariant): void
     {
-        $data = $this->productVariantDataGenerator->generate($productVariant, $channel);
+        $productVariantData = $this->productVariantDataGenerator->generate($productVariant, $channel);
 
         $product = $productVariant->getProduct();
         Assert::notNull($product);
@@ -256,7 +274,7 @@ final class Client implements ClientInterface
         $this->makeRequest(
             'post',
             sprintf('/ecommerce/stores/%s/products/%s/variants', $channel->getCode(), $product->getCode()),
-            $data
+            $productVariantData->toArray()
         );
     }
 

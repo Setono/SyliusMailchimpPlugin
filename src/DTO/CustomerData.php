@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\DTO;
 
-use Spatie\DataTransferObject\DataTransferObject;
-
 /**
  * This class represents the customer data in Mailchimp
  */

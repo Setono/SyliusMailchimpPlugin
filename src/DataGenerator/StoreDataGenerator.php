@@ -7,6 +7,8 @@ namespace Setono\SyliusMailchimpPlugin\DataGenerator;
 use DateTimeZone;
 use Safe\Exceptions\StringsException;
 use function Safe\substr;
+use Setono\SyliusMailchimpPlugin\DTO\StoreData;
+use Setono\SyliusMailchimpPlugin\Event\StoreDataGeneratedEvent;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Webmozart\Assert\Assert;
@@ -16,15 +18,12 @@ final class StoreDataGenerator extends DataGenerator implements StoreDataGenerat
     /**
      * @throws StringsException
      */
-    public function generate(AudienceInterface $audience): array
+    public function generate(AudienceInterface $audience): StoreData
     {
         /** @var ChannelInterface|null $channel */
         $channel = $audience->getChannel();
 
         Assert::isInstanceOf($channel, ChannelInterface::class);
-
-        $currencyCode = self::getBaseCurrencyCode($channel);
-        $localeCode = substr(self::getDefaultLocaleCode($channel), 0, 2);
 
         $data = [
             'id' => $channel->getCode(),
@@ -33,8 +32,8 @@ final class StoreDataGenerator extends DataGenerator implements StoreDataGenerat
             'platform' => 'Sylius',
             'domain' => $channel->getHostname(),
             'email_address' => $channel->getContactEmail(),
-            'currency_code' => $currencyCode,
-            'primary_locale' => $localeCode,
+            'currency_code' => self::getBaseCurrencyCode($channel),
+            'primary_locale' => substr(self::getDefaultLocaleCode($channel), 0, 2),
         ];
 
         $shopBillingData = $channel->getShopBillingData();
@@ -47,7 +46,14 @@ final class StoreDataGenerator extends DataGenerator implements StoreDataGenerat
             $data['timezone'] = self::getTimeZone($shopBillingData->getCountryCode());
         }
 
-        return self::filterArrayRecursively($data);
+        $storeData = new StoreData($data);
+
+        $this->eventDispatcher->dispatch(new StoreDataGeneratedEvent($storeData, [
+            'audience' => $audience,
+            'channel' => $channel,
+        ]));
+
+        return $storeData;
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\DataGenerator;
 
 use InvalidArgumentException;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Safe\Exceptions\StringsException;
 use function Safe\sprintf;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -12,6 +13,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class DataGenerator implements DataGeneratorInterface
 {
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
+
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
     /**
      * @throws StringsException
      */
@@ -42,7 +51,9 @@ abstract class DataGenerator implements DataGeneratorInterface
     {
         $locale = $channel->getDefaultLocale();
         if (null === $locale) {
-            throw new InvalidArgumentException(sprintf('No default locale set for channel %s', $channel->getCode()));
+            throw new InvalidArgumentException(
+                sprintf('No default locale set for channel %s', $channel->getCode())
+            );
         }
 
         $code = $locale->getCode();
@@ -61,34 +72,19 @@ abstract class DataGenerator implements DataGeneratorInterface
     {
         $currency = $channel->getBaseCurrency();
         if (null === $currency) {
-            throw new InvalidArgumentException(sprintf('No base currency set for channel %s', $channel->getCode()));
+            throw new InvalidArgumentException(
+                sprintf('No base currency set for channel %s', $channel->getCode())
+            );
         }
 
         $code = $currency->getCode();
 
         if (null === $code) {
-            throw new InvalidArgumentException(sprintf('No code set for currency with id %s', $currency->getId()));
+            throw new InvalidArgumentException(
+                sprintf('No code set for currency with id %s', $currency->getId())
+            );
         }
 
         return $code;
-    }
-
-    protected static function filterArrayRecursively(array $array): array
-    {
-        $res = [];
-
-        foreach ($array as $key => $item) {
-            if (is_array($item)) {
-                $val = self::filterArrayRecursively($item);
-            } else {
-                $val = $item;
-            }
-
-            $res[$key] = $val;
-        }
-
-        return array_filter($res, static function ($elm) {
-            return null !== $elm;
-        });
     }
 }
