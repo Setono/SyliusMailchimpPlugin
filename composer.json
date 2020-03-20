@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "ext-json": "*",
         "drewm/mailchimp-api": "^2.5",
         "setono/doctrine-orm-batcher-bundle": "^0.3.1",
