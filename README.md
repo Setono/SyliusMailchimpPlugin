@@ -86,11 +86,11 @@ Make sure you add the plugin **before** `SyliusGridBundle`. Otherwise you'll get
     
 ```php
 <?php
-// src/Entity/Customer.php
+// src/Entity/Customer/Customer.php
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Customer;
 
 use Sylius\Component\Core\Model\Customer as BaseCustomer;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface as SetonoSyliusMailchimpPluginCustomerInterface;
@@ -110,11 +110,11 @@ class Customer extends BaseCustomer implements SetonoSyliusMailchimpPluginCustom
 **Override `Order` resource**
 ```php
 <?php
-// src/Entity/Order.php
+// src/Entity/Order/Order.php
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Order;
 
 use Sylius\Component\Core\Model\Order as BaseOrder;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface as SetonoSyliusMailchimpPluginOrderInterface;
@@ -181,14 +181,14 @@ sylius_customer:
     resources:
         customer:
             classes:
-                model: App\Entity\Customer
+                model: App\Entity\Customer\Customer
                 repository: App\Doctrine\ORM\CustomerRepository
                 
 sylius_order:
     resources:
         order:
             classes:
-                model: App\Entity\Order
+                model: App\Entity\Order\Order
                 repository: App\Doctrine\ORM\OrderRepository
 ```
 
