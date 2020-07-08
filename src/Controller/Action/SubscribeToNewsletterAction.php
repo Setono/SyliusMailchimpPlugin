@@ -62,11 +62,8 @@ final class SubscribeToNewsletterAction
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function __invoke(Request $request, ?string $template = null): Response
+    public function __invoke(Request $request): Response
     {
-        if (null === $template) {
-            $template = '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig';
-        }
         $audience = $this->getAudience();
 
         $form = $this->formFactory->create(SubscribeToNewsletterType::class);
@@ -96,6 +93,7 @@ final class SubscribeToNewsletterAction
             return $this->json($this->translator->trans('setono_sylius_mailchimp.ui.subscribed_successfully'));
         }
 
+        $template = $request->query->get('template', '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig');
         $content = $this->twig->render($template, [
             'form' => null === $audience ? null : $form->createView(),
         ]);
