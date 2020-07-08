@@ -1,1 +1,1 @@
-{{ render(url('setono_sylius_mailchimp_shop_partial_subscribe_to_newsletter')) }}
+{{ render(url('setono_sylius_mailchimp_shop_partial_subscribe_to_newsletter', {'template': template|default('@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig')})) }}

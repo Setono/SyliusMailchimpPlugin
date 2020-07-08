@@ -93,7 +93,8 @@ final class SubscribeToNewsletterAction
             return $this->json($this->translator->trans('setono_sylius_mailchimp.ui.subscribed_successfully'));
         }
 
-        $content = $this->twig->render('@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig', [
+        $template = $request->query->get('template', '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig');
+        $content = $this->twig->render($template, [
             'form' => null === $audience ? null : $form->createView(),
         ]);
 
