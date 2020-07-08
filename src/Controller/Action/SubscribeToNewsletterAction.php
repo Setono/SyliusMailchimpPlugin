@@ -62,7 +62,7 @@ final class SubscribeToNewsletterAction
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function __invoke(Request $request, ?string $template = null): Response
+    public function __invoke(Request $request, string $template = null): Response
     {
         if (null === $template) {
             $template = '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig';
