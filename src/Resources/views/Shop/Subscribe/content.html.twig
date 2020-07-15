@@ -1,5 +1,3 @@
-{# If an audience isn't associated with the current channel we can't subscribe any visitors and the form will be null #}
-
 {% form_theme form '@SyliusShop/Form/theme.html.twig' %}
 
 {{ form_start(form, {'action': path('setono_sylius_mailchimp_shop_ajax_subscribe_to_newsletter'), 'method': 'POST'}) }}
