@@ -1,10 +1,7 @@
 {# If an audience isn't associated with the current channel we can't subscribe any visitors and the form will be null #}
-{% if not form %}
-    <div class="ui message negative">{{ 'setono_sylius_mailchimp.ui.no_audience_associated_with_channel'|trans }}</div>
-{% else %}
-    {% form_theme form '@SyliusShop/Form/theme.html.twig' %}
 
-    {{ form_start(form, {'action': path('setono_sylius_mailchimp_shop_ajax_subscribe_to_newsletter'), 'method': 'POST'}) }}
-        {% include '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/_form.html.twig' %}
-    {{ form_end(form) }}
-{% endif %}
+{% form_theme form '@SyliusShop/Form/theme.html.twig' %}
+
+{{ form_start(form, {'action': path('setono_sylius_mailchimp_shop_ajax_subscribe_to_newsletter'), 'method': 'POST'}) }}
+    {% include '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/_form.html.twig' %}
+{{ form_end(form) }}
