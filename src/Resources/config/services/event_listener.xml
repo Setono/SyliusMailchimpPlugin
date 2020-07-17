@@ -11,6 +11,13 @@
 
             <tag name="kernel.event_subscriber"/>
         </service>
+
+        <service id="setono_sylius_mailchimp.event_listener.customer_register"
+                 class="Setono\SyliusMailchimpPlugin\EventListener\CustomerRegisterSubscriber">
+            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
     </services>
 
 </container>
