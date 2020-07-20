@@ -10,10 +10,10 @@
         <import resource="services/command.xml"/>
         <import resource="services/controller.xml"/>
         <import resource="services/data_generator.xml"/>
+        <import resource="services/entity_listener.xml"/>
         <import resource="services/event_listener.xml"/>
         <import resource="services/fixture.xml"/>
         <import resource="services/form.xml"/>
-        <import resource="services/handler.xml"/>
         <import resource="services/http_client.xml"/>
         <import resource="services/loader.xml"/>
         <import resource="services/menu.xml"/>

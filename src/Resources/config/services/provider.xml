@@ -6,6 +6,7 @@
         <service id="setono_sylius_mailchimp.provider.audience"
                  class="Setono\SyliusMailchimpPlugin\Provider\AudienceProvider">
             <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
+            <argument type="service" id="sylius.context.channel"/>
         </service>
         <service id="Setono\SyliusMailchimpPlugin\Provider\AudienceProviderInterface" alias="setono_sylius_mailchimp.provider.audience" />
     </services>

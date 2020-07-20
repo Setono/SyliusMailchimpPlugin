@@ -1,0 +1,4 @@
+{% if form.customer.subscribedToNewsletter is defined %}
+    {{ form_row(form.customer.subscribedToNewsletter) }}
+{% endif %}
+{{ form_row(form.notes, sylius_test_form_attribute('extra-notes')|merge({'rows': 3})) }}

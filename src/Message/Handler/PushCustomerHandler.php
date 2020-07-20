@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Message\Handler;
 
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Handler\CustomerHandlerInterface;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushCustomer;
+use Setono\SyliusMailchimpPlugin\Message\Command\SubscribeCustomerToAudience;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Provider\AudienceProviderInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Webmozart\Assert\Assert;
 
 final class PushCustomerHandler implements MessageHandlerInterface
@@ -20,17 +21,17 @@ final class PushCustomerHandler implements MessageHandlerInterface
     /** @var AudienceProviderInterface */
     private $audienceProvider;
 
-    /** @var CustomerHandlerInterface */
-    private $customerHandler;
+    /** @var MessageBusInterface */
+    private $messageBus;
 
     public function __construct(
         CustomerRepositoryInterface $customerRepository,
         AudienceProviderInterface $audienceProvider,
-        CustomerHandlerInterface $customerHandler
+        MessageBusInterface $messageBus
     ) {
         $this->customerRepository = $customerRepository;
         $this->audienceProvider = $audienceProvider;
-        $this->customerHandler = $customerHandler;
+        $this->messageBus = $messageBus;
     }
 
     public function __invoke(PushCustomer $message): void
@@ -41,10 +42,17 @@ final class PushCustomerHandler implements MessageHandlerInterface
 
         $audience = $this->audienceProvider->getAudienceFromCustomerOrders($customer);
         if (null === $audience) {
+            $audience = $this->audienceProvider->getAudienceFromContext();
+        }
+        if (null === $audience) {
             // todo maybe this should fire a warning somewhere
             return;
         }
 
-        $this->customerHandler->subscribeCustomerToAudience($audience, $customer, $message->isPushOnlyEmail());
+        $audienceId = $audience->getId();
+        Assert::notNull($audienceId);
+
+        $subscribeCustomerMessage = new SubscribeCustomerToAudience($audienceId, $customer->getId(), $message->isPushEmailOnly());
+        $this->messageBus->dispatch($subscribeCustomerMessage);
     }
 }

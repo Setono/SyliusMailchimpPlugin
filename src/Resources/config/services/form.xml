@@ -31,7 +31,28 @@
         </service>
 
         <service id="setono_sylius_mailchimp.form.extension.type.checkout.complete"
-                 class="Setono\SyliusMailchimpPlugin\Form\Extension\CompleteTypeExtension">
+                 class="Setono\SyliusMailchimpPlugin\Form\Extension\Checkout\CompleteTypeExtension">
+            <argument type="service" id="sylius.context.channel" />
+
+            <tag name="form.type_extension"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.form.extension.type.checkout.address"
+                 class="Setono\SyliusMailchimpPlugin\Form\Extension\Checkout\AddressTypeExtension">
+            <argument type="service" id="sylius.context.channel" />
+
+            <tag name="form.type_extension"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.form.extension.type.customer.checkout_guest"
+                 class="Setono\SyliusMailchimpPlugin\Form\Extension\Customer\CustomerCheckoutGuestTypeExtension">
+            <argument type="service" id="sylius.context.channel" />
+
+            <tag name="form.type_extension"/>
+        </service>
+
+        <service id="setono_sylius_mailchimp.form.extension.type.channel"
+                 class="Setono\SyliusMailchimpPlugin\Form\Extension\Channel\ChannelTypeExtension">
 
             <tag name="form.type_extension"/>
         </service>
