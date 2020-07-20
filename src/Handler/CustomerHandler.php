@@ -9,6 +9,7 @@ use Safe\DateTime;
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
+use Webmozart\Assert\Assert;
 
 final class CustomerHandler implements CustomerHandlerInterface
 {
@@ -24,10 +25,17 @@ final class CustomerHandler implements CustomerHandlerInterface
         $this->customerManager = $customerManager;
     }
 
-    public function subscribeCustomerToAudience(AudienceInterface $audience, CustomerInterface $customer): bool
-    {
+    public function subscribeCustomerToAudience(
+        AudienceInterface $audience,
+        CustomerInterface $customer,
+        bool $pushEmailOnly = false
+    ): bool {
         try {
-            $this->client->updateMember($audience, $customer);
+            $customerEmail = $customer->getEmail();
+            Assert::notNull($customerEmail);
+            $pushEmailOnly
+                ? $this->client->subscribeEmail($audience, $customerEmail)
+                : $this->client->updateMember($audience, $customer);
         } catch (\Exception $exception) {
             return false;
         }

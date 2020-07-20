@@ -35,6 +35,7 @@ final class CustomerHandlerSpec extends ObjectBehavior
         AudienceInterface $audience,
         CustomerInterface $customer
     ): void {
+        $customer->getEmail()->willReturn('email@domain.tld');
         $client->updateMember($audience, $customer)->willThrow(new \Exception('Super exception'));
 
         $this->subscribeCustomerToAudience($audience, $customer)->shouldReturn(false);
@@ -45,10 +46,25 @@ final class CustomerHandlerSpec extends ObjectBehavior
         AudienceInterface $audience,
         CustomerInterface $customer
     ): void {
+        $customer->getEmail()->willReturn('email@domain.tld');
         $client->updateMember($audience, $customer)->shouldBeCalled();
         $customer->setPushedToMailchimp(Argument::type(\DateTime::class))->shouldBeCalled();
         $customer->setUpdatedAt(Argument::type(\DateTime::class))->shouldBeCalled();
 
         $this->subscribeCustomerToAudience($audience, $customer)->shouldReturn(true);
+    }
+
+    public function it_can_push_only_email(
+        ClientInterface $client,
+        AudienceInterface $audience,
+        CustomerInterface $customer
+    ): void {
+        $customer->getEmail()->willReturn('email@domain.tld');
+        $client->updateMember($audience, $customer)->shouldNotBeCalled();
+        $client->subscribeEmail($audience, 'email@domain.tld')->shouldBeCalled();
+        $customer->setPushedToMailchimp(Argument::type(\DateTime::class))->shouldBeCalled();
+        $customer->setUpdatedAt(Argument::type(\DateTime::class))->shouldBeCalled();
+
+        $this->subscribeCustomerToAudience($audience, $customer, true)->shouldReturn(true);
     }
 }

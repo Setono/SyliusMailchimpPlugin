@@ -45,6 +45,6 @@ final class PushCustomerHandler implements MessageHandlerInterface
             return;
         }
 
-        $this->customerHandler->subscribeCustomerToAudience($audience, $customer);
+        $this->customerHandler->subscribeCustomerToAudience($audience, $customer, $message->isPushOnlyEmail());
     }
 }

@@ -9,5 +9,9 @@ use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 
 interface CustomerHandlerInterface
 {
-    public function subscribeCustomerToAudience(AudienceInterface $audience, CustomerInterface $customer): bool;
+    public function subscribeCustomerToAudience(
+        AudienceInterface $audience,
+        CustomerInterface $customer,
+        bool $pushEmailOnly = false
+    ): bool;
 }
