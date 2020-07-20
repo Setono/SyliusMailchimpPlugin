@@ -48,9 +48,8 @@ final class LoadAudiencesCommand extends Command
             return 0;
         }
 
-        $this->audiencesLoader->load(
-            $input->getOption('preserve')
-        );
+        $preserve = (bool) $input->getOption('preserve');
+        $this->audiencesLoader->load($preserve);
 
         return 0;
     }

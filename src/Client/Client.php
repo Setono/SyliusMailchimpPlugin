@@ -99,6 +99,7 @@ final class Client implements ClientInterface
         $data = $this->orderDataGenerator->generate($order);
         $orderId = $data['id'];
         $storeId = $channel->getCode();
+        Assert::notNull($storeId);
 
         $this->ensureProductsExist($channel, $order);
 
@@ -142,6 +143,8 @@ final class Client implements ClientInterface
                 'LNAME' => $customer->getLastName(),
             ],
         ];
+
+        Assert::notNull($customer->getEmail());
 
         $this->makeRequest('put',
             sprintf(
