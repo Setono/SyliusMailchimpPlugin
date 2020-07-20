@@ -12,14 +12,10 @@ final class SubscribeCustomerToAudience
     /** @var int */
     private $customerId;
 
-    /** @var bool */
-    private $pushEmailOnly;
-
-    public function __construct(int $audienceId, int $customerId, bool $pushEmailOnly = false)
+    public function __construct(int $audienceId, int $customerId)
     {
         $this->audienceId = $audienceId;
         $this->customerId = $customerId;
-        $this->pushEmailOnly = $pushEmailOnly;
     }
 
     public function getAudienceId(): int
@@ -30,10 +26,5 @@ final class SubscribeCustomerToAudience
     public function getCustomerId(): int
     {
         return $this->customerId;
-    }
-
-    public function isPushEmailOnly(): bool
-    {
-        return $this->pushEmailOnly;
     }
 }

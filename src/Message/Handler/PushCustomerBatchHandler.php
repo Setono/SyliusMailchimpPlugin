@@ -35,7 +35,7 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
         $customers = $q->getResult();
 
         foreach ($customers as $customer) {
-            $pushCustomerMessage = new PushCustomer($customer->getId(), false);
+            $pushCustomerMessage = new PushCustomer($customer->getId());
             $this->messageBus->dispatch($pushCustomerMessage);
         }
     }

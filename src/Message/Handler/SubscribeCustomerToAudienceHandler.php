@@ -51,15 +51,11 @@ final class SubscribeCustomerToAudienceHandler implements MessageHandlerInterfac
         $audience = $this->audienceRepository->find($message->getAudienceId());
         Assert::isInstanceOf($audience, AudienceInterface::class);
 
-        $pushEmailOnly = $message->isPushEmailOnly();
-
         $customerEmail = $customer->getEmail();
         Assert::notNull($customerEmail);
 
         try {
-            $pushEmailOnly
-                ? $this->client->subscribeEmail($audience, $customerEmail)
-                : $this->client->updateMember($audience, $customer);
+            $this->client->updateMember($audience, $customer);
         } catch (\Exception $exception) {
             return false;
         }

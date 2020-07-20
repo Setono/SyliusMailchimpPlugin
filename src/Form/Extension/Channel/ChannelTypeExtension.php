@@ -12,11 +12,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class ChannelTypeExtension extends AbstractTypeExtension
 {
-    public static function getExtendedTypes(): array
-    {
-        return [ChannelType::class];
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('displaySubscribeToNewsletterAtCheckout', ChoiceType::class, [
@@ -26,5 +21,10 @@ final class ChannelTypeExtension extends AbstractTypeExtension
             'required' => false,
             'choices' => ChannelInterface::DISPLAY_NEWSLETTER_SUBSCRIBE_CHOICES,
         ]);
+    }
+
+    public static function getExtendedTypes(): array
+    {
+        return [ChannelType::class];
     }
 }

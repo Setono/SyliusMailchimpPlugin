@@ -84,11 +84,12 @@ final class SubscribeCustomerToAudienceHandlerSpec extends ObjectBehavior
         $customerRepository->find(Argument::any())->willReturn($customer);
         $audienceRepository->find(Argument::any())->willReturn($audience);
         $customer->getEmail()->willReturn('test@domain.tld');
+        $customer->getFirstName()->willReturn('Test');
+        $customer->getLastName()->willReturn('User');
         $customer->setPushedToMailchimp(Argument::any())->shouldBeCalled();
         $customer->setUpdatedAt(Argument::any())->shouldBeCalled();
 
         $client->updateMember($audience, $customer)->shouldBeCalled();
-        $client->subscribeEmail($audience, 'test@domain.tld')->shouldNotBeCalled();
 
         $message = new SubscribeCustomerToAudience(8, 15);
         $this->__invoke($message)->shouldReturn(true);
@@ -107,8 +108,7 @@ final class SubscribeCustomerToAudienceHandlerSpec extends ObjectBehavior
         $customer->setPushedToMailchimp(Argument::any())->shouldBeCalled();
         $customer->setUpdatedAt(Argument::any())->shouldBeCalled();
 
-        $client->updateMember($audience, $customer)->shouldNotBeCalled();
-        $client->subscribeEmail($audience, 'test@domain.tld')->shouldBeCalled();
+        $client->updateMember($audience, $customer)->shouldBeCalled();
 
         $message = new SubscribeCustomerToAudience(8, 15, true);
         $this->__invoke($message)->shouldReturn(true);

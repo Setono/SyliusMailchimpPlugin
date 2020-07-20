@@ -24,11 +24,6 @@ final class AddressTypeExtension extends AbstractTypeExtension
         $this->channelContext = $channelContext;
     }
 
-    public static function getExtendedTypes(): array
-    {
-        return [AddressType::class];
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var ChannelInterface|null $channel */
@@ -41,5 +36,10 @@ final class AddressTypeExtension extends AbstractTypeExtension
 
         // Add customer form no matter what to be able to subscribe to newsletter
         $builder->add('customer', CustomerCheckoutGuestType::class, ['constraints' => [new Valid()]]);
+    }
+
+    public static function getExtendedTypes(): array
+    {
+        return [AddressType::class];
     }
 }

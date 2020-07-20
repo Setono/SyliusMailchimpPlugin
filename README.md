@@ -253,7 +253,7 @@ framework:
 ```
 
 ### 10. Copy templates:
-Copy templates located in test directory (`Tests/Application/templates/bundles/`) into your templates directory, and modify to your needs
+Copy templates located in test directory (`tests/Application/templates/bundles/`) into your templates directory, and modify to your needs
 
 ### 11. Clear cache:
 
