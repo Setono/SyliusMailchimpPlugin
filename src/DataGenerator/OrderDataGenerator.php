@@ -39,6 +39,8 @@ final class OrderDataGenerator extends DataGenerator implements OrderDataGenerat
         Assert::notNull($channel);
 
         $baseCurrencyCode = self::getBaseCurrencyCode($channel);
+        $currencyCode = $order->getCurrencyCode();
+        Assert::notNull($currencyCode);
 
         $data = [
             'id' => $order->getNumber(),
@@ -47,12 +49,12 @@ final class OrderDataGenerator extends DataGenerator implements OrderDataGenerat
             'currency_code' => $baseCurrencyCode,
             'order_total' => $this->convertPrice(
                 $order->getTotal(),
-                $order->getCurrencyCode(),
+                $currencyCode,
                 $baseCurrencyCode
             ),
             //'discount_total' => '', // todo
-            'tax_total' => $this->convertPrice($order->getTaxTotal(), $order->getCurrencyCode(), $baseCurrencyCode),
-            'shipping_total' => $this->convertPrice($order->getShippingTotal(), $order->getCurrencyCode(), $baseCurrencyCode),
+            'tax_total' => $this->convertPrice($order->getTaxTotal(), $currencyCode, $baseCurrencyCode),
+            'shipping_total' => $this->convertPrice($order->getShippingTotal(), $currencyCode, $baseCurrencyCode),
             'customer' => [
                 'id' => (string) $customer->getId(),
                 'email_address' => $customer->getEmail(),
@@ -85,7 +87,7 @@ final class OrderDataGenerator extends DataGenerator implements OrderDataGenerat
                 'product_id' => $product->getCode(),
                 'product_variant_id' => $variant->getCode(),
                 'quantity' => $orderItem->getQuantity(),
-                'price' => $this->convertPrice($orderItem->getTotal(), $order->getCurrencyCode(), $baseCurrencyCode),
+                'price' => $this->convertPrice($orderItem->getTotal(), $currencyCode, $baseCurrencyCode),
             ];
         }
 

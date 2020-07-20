@@ -9,6 +9,7 @@ use Safe\Exceptions\StringsException;
 use function Safe\sprintf;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Webmozart\Assert\Assert;
 
 abstract class DataGenerator implements DataGeneratorInterface
 {
@@ -22,7 +23,9 @@ abstract class DataGenerator implements DataGeneratorInterface
         array $parameters = []
     ): string {
         $context = $urlGenerator->getContext();
-        $context->setHost($channel->getHostname());
+        $hostname = $channel->getHostname();
+        Assert::notNull($hostname);
+        $context->setHost($hostname);
 
         /**
          * When we generate URLs we use the default locale since Mailchimp doesn't use translations on stores
