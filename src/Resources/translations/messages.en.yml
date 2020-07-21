@@ -7,6 +7,11 @@ setono_sylius_mailchimp:
                     The store id in Mailchimp will be your channel code and the currency will be your default channel currency.<br>
                     You can read the documentation about Mailchimps ecommerce features <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
                 header: NOTICE
+        channel:
+            display_newsletter_subscribe:
+                addressing: Addressing
+                complete: Complete
+            display_subscribe_to_newsletter_at_checkout: Display newsletter subscribe at checkout steps
         subscribe_to_newsletter:
             email: Email
     menu:

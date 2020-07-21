@@ -13,4 +13,6 @@ interface AudienceProviderInterface
     public function getAudienceFromOrder(OrderInterface $order): ?AudienceInterface;
 
     public function getAudienceFromCustomerOrders(CustomerInterface $customer): ?AudienceInterface;
+
+    public function getAudienceFromContext(): ?AudienceInterface;
 }

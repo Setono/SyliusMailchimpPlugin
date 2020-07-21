@@ -12,14 +12,16 @@ use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
 use Setono\SyliusMailchimpPlugin\Provider\AudienceProvider;
 use Setono\SyliusMailchimpPlugin\Provider\AudienceProviderInterface;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\Channel;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Tests\Setono\SyliusMailchimpPlugin\Application\Model\Order;
 
 final class AudienceProviderSpec extends ObjectBehavior
 {
-    public function let(AudienceRepositoryInterface $audienceRepository): void
+    public function let(AudienceRepositoryInterface $audienceRepository, ChannelContextInterface $channelContext): void
     {
-        $this->beConstructedWith($audienceRepository);
+        $this->beConstructedWith($audienceRepository, $channelContext);
     }
 
     public function it_is_initializable(): void
@@ -91,5 +93,17 @@ final class AudienceProviderSpec extends ObjectBehavior
         $customer->getOrders()->willReturn(new ArrayCollection([$order1, $order2]));
 
         $this->getAudienceFromCustomerOrders($customer)->shouldReturn($audience1);
+    }
+
+    public function it_provides_audience_from_channel(
+        AudienceRepositoryInterface $audienceRepository,
+        ChannelContextInterface $channelContext,
+        AudienceInterface $audience,
+        ChannelInterface $channel
+    ): void {
+        $channelContext->getChannel()->willReturn($channel);
+        $audienceRepository->findOneByChannel($channel)->willReturn($audience);
+
+        $this->getAudienceFromContext()->shouldReturn($audience);
     }
 }

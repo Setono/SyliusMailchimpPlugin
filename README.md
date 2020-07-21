@@ -132,6 +132,31 @@ class Order extends BaseOrder implements SetonoSyliusMailchimpPluginOrderInterfa
 
 ```
 
+**Override `Channel` resource**
+```php
+<?php
+// src/Entity/Channel/Channel.php
+
+declare(strict_types=1);
+
+namespace App\Entity\Channel;
+
+use Sylius\Component\Core\Model\Channel as BaseChannel;
+use Setono\SyliusMailchimpPlugin\Model\ChannelInterface as SetonoSyliusMailchimpPluginChannelInterface;
+use Setono\SyliusMailchimpPlugin\Model\ChannelTrait as SetonoSyliusMailchimpPluginChannelTrait;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sylius_channel")
+ */
+class Channel extends BaseChannel implements SetonoSyliusMailchimpPluginChannelInterface
+{
+    use SetonoSyliusMailchimpPluginChannelTrait;
+}
+
+```
+
 **Create `CustomerRepository.php`**
 
 ```php
@@ -177,6 +202,12 @@ class OrderRepository extends BaseOrderRepository implements SetonoSyliusMailchi
 
 ```yaml
 # config/packages/_sylius.yaml
+sylius_channel:
+    resources:
+        channel:
+            classes:
+                model: App\Entity\Channel\Channel
+
 sylius_customer:
     resources:
         customer:
@@ -221,13 +252,16 @@ framework:
             'Setono\SyliusMailchimpPlugin\Message\Command\CommandInterface': async
 ```
 
-### 10. Clear cache:
+### 10. Copy templates:
+Copy templates located in test directory (`tests/Application/templates/bundles/` [link](tests/Application/templates/bundles)) into your templates directory, and modify to your needs
+
+### 11. Clear cache:
 
 ```bash
 $ php bin/console cache:clear
 ```
 
-### 11. Define fixtures
+### 12. Define fixtures
 
 ```yaml
 # fixtures.yaml

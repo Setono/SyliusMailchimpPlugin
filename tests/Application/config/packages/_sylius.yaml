@@ -28,3 +28,9 @@ sylius_order:
             classes:
                 model: Tests\Setono\SyliusMailchimpPlugin\Application\Model\Order
                 repository: Tests\Setono\SyliusMailchimpPlugin\Application\Doctrine\ORM\OrderRepository
+
+sylius_channel:
+    resources:
+        channel:
+            classes:
+                model: Tests\Setono\SyliusMailchimpPlugin\Application\Model\Channel

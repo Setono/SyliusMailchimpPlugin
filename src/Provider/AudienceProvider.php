@@ -8,15 +8,22 @@ use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Channel\Context\ChannelNotFoundException;
+use Sylius\Component\Core\Model\ChannelInterface;
 
 final class AudienceProvider implements AudienceProviderInterface
 {
     /** @var AudienceRepositoryInterface */
     private $audienceRepository;
 
-    public function __construct(AudienceRepositoryInterface $audienceRepository)
+    /** @var ChannelContextInterface */
+    private $channelContext;
+
+    public function __construct(AudienceRepositoryInterface $audienceRepository, ChannelContextInterface $channelContext)
     {
         $this->audienceRepository = $audienceRepository;
+        $this->channelContext = $channelContext;
     }
 
     public function getAudienceFromOrder(OrderInterface $order): ?AudienceInterface
@@ -31,16 +38,27 @@ final class AudienceProvider implements AudienceProviderInterface
 
     public function getAudienceFromCustomerOrders(CustomerInterface $customer): ?AudienceInterface
     {
-        $audience = null;
         /** @var OrderInterface $order */
         foreach ($customer->getOrders() as $order) {
             $audience = $this->getAudienceFromOrder($order);
 
             if (null !== $audience) {
-                break;
+                return $audience;
             }
         }
 
-        return $audience;
+        return null;
+    }
+
+    public function getAudienceFromContext(): ?AudienceInterface
+    {
+        try {
+            /** @var ChannelInterface $channel */
+            $channel = $this->channelContext->getChannel();
+
+            return $this->audienceRepository->findOneByChannel($channel);
+        } catch (ChannelNotFoundException $exception) {
+            return null;
+        }
     }
 }
