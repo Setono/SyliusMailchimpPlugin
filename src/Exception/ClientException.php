@@ -29,8 +29,6 @@ class ClientException extends RuntimeException implements Exception
 
     /**
      * @param array $lastResponse The response from the Mailchimp HTTP cloent
-     *
-     * @throws JsonException
      */
     public function __construct(array $lastResponse)
     {
@@ -51,8 +49,6 @@ class ClientException extends RuntimeException implements Exception
 
     /**
      * @return string The exception message
-     *
-     * @throws JsonException
      */
     private function parseBody(array $response): string
     {

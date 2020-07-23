@@ -11,9 +11,6 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 
 class AudienceRepository extends EntityRepository implements AudienceRepositoryInterface
 {
-    /**
-     * @throws NonUniqueResultException
-     */
     public function findOneByAudienceId(string $id): ?AudienceInterface
     {
         return $this->createQueryBuilder('o')
@@ -24,9 +21,6 @@ class AudienceRepository extends EntityRepository implements AudienceRepositoryI
         ;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     public function findOneByChannel(ChannelInterface $channel): ?AudienceInterface
     {
         return $this->createQueryBuilder('o')
@@ -34,6 +28,6 @@ class AudienceRepository extends EntityRepository implements AudienceRepositoryI
             ->setParameter('channel', $channel)
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 }

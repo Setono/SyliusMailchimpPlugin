@@ -18,9 +18,6 @@ trait PushedToMailchimpAwareRepositoryTrait
      */
     abstract public function createQueryBuilder($alias, $indexBy = null);
 
-    /**
-     * @throws StringsException
-     */
     protected function _createPendingPushQueryBuilder(string $alias = 'o'): QueryBuilder
     {
         $qb = $this->createQueryBuilder($alias);

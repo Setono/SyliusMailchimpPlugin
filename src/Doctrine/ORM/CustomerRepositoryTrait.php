@@ -12,9 +12,6 @@ trait CustomerRepositoryTrait
 {
     use PushedToMailchimpAwareRepositoryTrait;
 
-    /**
-     * @throws StringsException
-     */
     public function createPendingPushQueryBuilder(): QueryBuilder
     {
         $alias = 'o';

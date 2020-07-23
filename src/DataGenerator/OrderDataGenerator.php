@@ -23,9 +23,6 @@ final class OrderDataGenerator extends DataGenerator implements OrderDataGenerat
         $this->currencyConverter = $currencyConverter;
     }
 
-    /**
-     * @throws StringsException
-     */
     public function generate(OrderInterface $order): array
     {
         /** @var CustomerInterface|null $customer */

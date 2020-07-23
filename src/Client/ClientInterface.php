@@ -11,9 +11,6 @@ use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
 
 interface ClientInterface
 {
-    /**
-     * @throws ClientException
-     */
     public function getAudiences(array $options = []): array;
 
     /**

@@ -53,10 +53,6 @@ final class Client implements ClientInterface
         $this->productVariantDataGenerator = $productVariantGenerator;
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     private function makeRequest(string $method, string $uri, array $options = []): array
     {
         $callable = [$this->httpClient, $method];
@@ -74,10 +70,6 @@ final class Client implements ClientInterface
         return $res;
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     public function getAudiences(array $options = []): array
     {
         $options = array_merge_recursive([
@@ -87,10 +79,6 @@ final class Client implements ClientInterface
         return $this->makeRequest('get', '/lists', $options)['lists'];
     }
 
-    /**
-     * @throws StringsException
-     * @throws JsonException
-     */
     public function updateOrder(OrderInterface $order): void
     {
         $channel = $order->getChannel();
@@ -110,10 +98,6 @@ final class Client implements ClientInterface
         }
     }
 
-    /**
-     * @throws StringsException
-     * @throws JsonException
-     */
     public function updateStore(AudienceInterface $audience): void
     {
         $data = $this->storeDataGenerator->generate($audience);
@@ -128,10 +112,6 @@ final class Client implements ClientInterface
         }
     }
 
-    /**
-     * @throws StringsException
-     * @throws JsonException
-     */
     public function updateMember(AudienceInterface $audience, CustomerInterface $customer): void
     {
         Assert::notNull($customer->getEmail());
@@ -160,10 +140,6 @@ final class Client implements ClientInterface
         );
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     public function subscribeEmail(AudienceInterface $audience, string $email): void
     {
         $data = [
@@ -181,10 +157,6 @@ final class Client implements ClientInterface
         );
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     private function hasOrder(string $storeId, string $orderId): bool
     {
         try {
@@ -200,10 +172,6 @@ final class Client implements ClientInterface
         }
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     private function hasStore(string $storeId): bool
     {
         try {
@@ -219,10 +187,6 @@ final class Client implements ClientInterface
         }
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     private function createProduct(ChannelInterface $channel, ProductInterface $product, ProductVariantInterface $productVariant = null): void
     {
         $data = $this->productDataGenerator->generate($product, $channel, $productVariant);
@@ -230,10 +194,6 @@ final class Client implements ClientInterface
         $this->makeRequest('post', sprintf('/ecommerce/stores/%s/products', $channel->getCode()), $data);
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     private function hasProduct(ChannelInterface $channel, ProductInterface $product): bool
     {
         try {
@@ -249,10 +209,6 @@ final class Client implements ClientInterface
         }
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     private function createProductVariant(ChannelInterface $channel, ProductVariantInterface $productVariant): void
     {
         $data = $this->productVariantDataGenerator->generate($productVariant, $channel);
@@ -267,10 +223,6 @@ final class Client implements ClientInterface
         );
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     private function hasProductVariant(ChannelInterface $channel, ProductVariantInterface $productVariant): bool
     {
         $product = $productVariant->getProduct();
@@ -292,10 +244,6 @@ final class Client implements ClientInterface
         }
     }
 
-    /**
-     * @throws JsonException
-     * @throws StringsException
-     */
     private function ensureProductsExist(ChannelInterface $channel, OrderInterface $order): void
     {
         foreach ($order->getItems() as $orderItem) {

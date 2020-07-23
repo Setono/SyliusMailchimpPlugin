@@ -13,9 +13,6 @@ use Webmozart\Assert\Assert;
 
 abstract class DataGenerator implements DataGeneratorInterface
 {
-    /**
-     * @throws StringsException
-     */
     protected static function generateUrl(
         UrlGeneratorInterface $urlGenerator,
         ChannelInterface $channel,
@@ -38,9 +35,6 @@ abstract class DataGenerator implements DataGeneratorInterface
         return $urlGenerator->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
-    /**
-     * @throws StringsException
-     */
     protected static function getDefaultLocaleCode(ChannelInterface $channel): string
     {
         $locale = $channel->getDefaultLocale();
@@ -57,9 +51,6 @@ abstract class DataGenerator implements DataGeneratorInterface
         return $code;
     }
 
-    /**
-     * @throws StringsException
-     */
     protected static function getBaseCurrencyCode(ChannelInterface $channel): string
     {
         $currency = $channel->getBaseCurrency();

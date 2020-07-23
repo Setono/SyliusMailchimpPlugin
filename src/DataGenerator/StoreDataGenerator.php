@@ -12,9 +12,6 @@ use Webmozart\Assert\Assert;
 
 final class StoreDataGenerator extends DataGenerator implements StoreDataGeneratorInterface
 {
-    /**
-     * @throws StringsException
-     */
     public function generate(AudienceInterface $audience): array
     {
         /** @var ChannelInterface|null $channel */

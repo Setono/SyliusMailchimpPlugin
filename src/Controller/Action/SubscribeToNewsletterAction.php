@@ -57,11 +57,6 @@ final class SubscribeToNewsletterAction
         $this->client = $client;
     }
 
-    /**
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
     public function __invoke(Request $request): Response
     {
         $form = $this->formFactory->create(SubscribeToNewsletterType::class);

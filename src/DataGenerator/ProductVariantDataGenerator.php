@@ -20,9 +20,6 @@ final class ProductVariantDataGenerator extends DataGenerator implements Product
         $this->urlGenerator = $urlGenerator;
     }
 
-    /**
-     * @throws StringsException
-     */
     public function generate(ProductVariantInterface $productVariant, ChannelInterface $channel): array
     {
         $product = $productVariant->getProduct();
