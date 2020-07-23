@@ -24,7 +24,7 @@ final class StoreDataGenerator extends DataGenerator implements StoreDataGenerat
         Assert::isInstanceOf($channel, ChannelInterface::class);
 
         $currencyCode = self::getBaseCurrencyCode($channel);
-        $localeCode = substr(self::getDefaultLocaleCode($channel), 0, 2);
+        $localeCode = mb_substr(self::getDefaultLocaleCode($channel), 0, 2);
 
         $data = [
             'id' => $channel->getCode(),
