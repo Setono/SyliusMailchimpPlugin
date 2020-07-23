@@ -268,11 +268,11 @@ $ php bin/console cache:clear
 # fixtures.yaml
 
 sylius_fixtures:
-	suites:
-		default:
-			fixtures:
-				setono_mailchimp:
-					options:
+    suites:
+        default:
+            fixtures:
+                setono_mailchimp:
+                    options:
                         custom:
                           - name: 'United States audience'
                             audience_id: '0598aea4e3'
