@@ -99,6 +99,7 @@ final class Client implements ClientInterface
         $data = $this->orderDataGenerator->generate($order);
         $orderId = $data['id'];
         $storeId = $channel->getCode();
+        Assert::notNull($storeId);
 
         $this->ensureProductsExist($channel, $order);
 
@@ -133,6 +134,12 @@ final class Client implements ClientInterface
      */
     public function updateMember(AudienceInterface $audience, CustomerInterface $customer): void
     {
+        Assert::notNull($customer->getEmail());
+
+        if (null === $customer->getFirstName() || null === $customer->getLastName()) {
+            $this->subscribeEmail($audience, $customer->getEmail());
+        }
+
         $data = [
             'email_address' => $customer->getEmail(),
             'status' => 'subscribed',

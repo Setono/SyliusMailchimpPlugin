@@ -17,6 +17,7 @@
         <import resource="services/loader.xml"/>
         <import resource="services/menu.xml"/>
         <import resource="services/message.xml"/>
+        <import resource="services/provider.xml"/>
     </imports>
 
 </container>

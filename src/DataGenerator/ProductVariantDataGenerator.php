@@ -37,7 +37,7 @@ final class ProductVariantDataGenerator extends DataGenerator implements Product
             'title' => $productVariant->getName(),
             'url' => $url,
             'inventory_quantity' => $productVariant->isTracked() ? $productVariant->getOnHand() : null,
-            'backorders' => $productVariant->isTracked() ? $productVariant->getOnHold() : null,
+            'backorders' => $productVariant->isTracked() ? (string) $productVariant->getOnHold() : null,
             // 'price' => '', // todo
             // 'image_url' => '', // todo
         ];

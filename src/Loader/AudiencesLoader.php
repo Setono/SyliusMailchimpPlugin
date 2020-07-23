@@ -97,7 +97,7 @@ class AudiencesLoader implements AudiencesLoaderInterface, LoggerAwareInterface
             $this->logger->info(sprintf(
                 'Audience %s was %s.',
                 $audienceId,
-                $audience->getId() ? 'updated' : 'added'
+                $audience->getId() !== null ? 'updated' : 'added'
             ));
 
             return $audienceId;

@@ -1,0 +1,6 @@
+setono_sylius_mailchimp_admin:
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/admin.yaml"
+    prefix: /admin
+
+setono_sylius_mailchimp_shop:
+    resource: "@SetonoSyliusMailchimpPlugin/Resources/config/routing/shop.yaml"

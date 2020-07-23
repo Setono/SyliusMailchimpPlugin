@@ -64,12 +64,11 @@ final class SubscribeToNewsletterAction
      */
     public function __invoke(Request $request): Response
     {
-        $audience = $this->getAudience();
-
         $form = $this->formFactory->create(SubscribeToNewsletterType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
+            $audience = $this->getAudience();
             if (null === $audience) {
                 return $this->json(
                     $this->translator->trans('setono_sylius_mailchimp.ui.no_audience_associated_with_channel'),
@@ -93,8 +92,9 @@ final class SubscribeToNewsletterAction
             return $this->json($this->translator->trans('setono_sylius_mailchimp.ui.subscribed_successfully'));
         }
 
-        $content = $this->twig->render('@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig', [
-            'form' => null === $audience ? null : $form->createView(),
+        $template = $request->query->get('template', '@SetonoSyliusMailchimpPlugin/Shop/Subscribe/content.html.twig');
+        $content = $this->twig->render($template, [
+            'form' => $form->createView(),
         ]);
 
         return new Response($content);
