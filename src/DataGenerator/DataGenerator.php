@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\DataGenerator;
 
 use InvalidArgumentException;
-use Safe\Exceptions\StringsException;
 use function Safe\sprintf;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

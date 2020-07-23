@@ -6,8 +6,6 @@ namespace Setono\SyliusMailchimpPlugin\Client;
 
 use DrewM\MailChimp\MailChimp;
 use RuntimeException;
-use Safe\Exceptions\JsonException;
-use Safe\Exceptions\StringsException;
 use function Safe\sprintf;
 use Setono\SyliusMailchimpPlugin\DataGenerator\OrderDataGeneratorInterface;
 use Setono\SyliusMailchimpPlugin\DataGenerator\ProductDataGeneratorInterface;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Exception;
 
 use RuntimeException;
-use Safe\Exceptions\JsonException;
 use function Safe\json_decode;
 
 class ClientException extends RuntimeException implements Exception

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\DataGenerator;
 
-use Safe\Exceptions\StringsException;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;

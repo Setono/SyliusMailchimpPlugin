@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\DataGenerator;
 
 use DateTimeZone;
-use Safe\Exceptions\StringsException;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Webmozart\Assert\Assert;
