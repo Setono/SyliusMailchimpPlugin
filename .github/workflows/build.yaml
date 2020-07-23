@@ -1,8 +1,12 @@
 name: build
-on: [push, pull_request]
+on:
+    push: ~
+    pull_request: ~
+    schedule:
+        - cron: 5 8 * * 5
 jobs:
     checks:
-        name: Sylius (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+        name: PHP ${{ matrix.php-versions }}
         runs-on: ${{ matrix.operating-system }}
         strategy:
             fail-fast: false
@@ -13,10 +17,11 @@ jobs:
             -   name: Checkout
                 uses: actions/checkout@v1
             -   name: Setup PHP, with composer and extensions
-                uses: shivammathur/setup-php@master
+                uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php-versions }}
-                    extension-csv: intl
+                    extensions: intl
+                    coverage: none
             -   name: Install Composer dependencies
                 run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
             -   name: Validate composer
