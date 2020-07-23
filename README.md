@@ -1,8 +1,9 @@
 # Sylius Mailchimp Plugin
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Latest Version][ico-version]][link-packagist]
+[![Latest Unstable Version][ico-unstable-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
-[![Build Status][ico-travis]][link-travis]
+[![Build Status][ico-github-actions]][link-github-actions]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Overview
@@ -301,11 +302,12 @@ Please, run `composer all` before pusing changes to run all checks and tests.
 
 Run `composer tests` to run all tests.
 
-[ico-version]: https://img.shields.io/packagist/v/setono/sylius-mailchimp-plugin.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/Setono/SyliusMailchimpPlugin/master.svg?style=flat-square
+[ico-version]: https://poser.pugx.org/setono/sylius-mailchimp-plugin/v/stable
+[ico-unstable-version]: https://poser.pugx.org/setono/sylius-mailchimp-plugin/v/unstable
+[ico-license]: https://poser.pugx.org/setono/sylius-mailchimp-plugin/license
+[ico-github-actions]: https://github.com/Setono/SyliusMailchimpPlugin/workflows/build/badge.svg
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/Setono/SyliusMailchimpPlugin.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/setono/sylius-mailchimp-plugin
-[link-travis]: https://travis-ci.org/Setono/SyliusMailchimpPlugin
+[link-github-actions]: https://github.com/Setono/SyliusMailchimpPlugin/actions
 [link-code-quality]: https://scrutinizer-ci.com/g/Setono/SyliusMailchimpPlugin
