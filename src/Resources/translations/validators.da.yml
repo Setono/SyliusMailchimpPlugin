@@ -1,0 +1,17 @@
+setono_sylius_mailchimp:
+    list:
+        config:
+            not_blank: Config cannot be blank.
+        name:
+            not_blank: Name cannot be blank.
+            min_length: Name must be at least {{ limit }} characters long.
+            max_length: Name can not be longer than {{ limit }} characters.
+        list_id:
+            unique: There is an existing list with this ID.
+            not_blank: List ID cannot be blank.
+            min_length: List ID must be at least {{ limit }} characters long.
+            max_length: List ID can not be longer than {{ limit }} characters.
+        store_id:
+            min_length: Name must be at least {{ limit }} characters long.
+            max_length: Name can not be longer than {{ limit }} characters.
+            regex: Store ID can only be comprised of letters, numbers, dashes and underscores.

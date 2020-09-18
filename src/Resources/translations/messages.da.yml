@@ -1,0 +1,50 @@
+setono_sylius_mailchimp:
+    form:
+        audience:
+            notice:
+                content:
+                    When you associate a channel with an audience it is irreversible.<br>
+                    The store id in Mailchimp will be your channel code and the currency will be your default channel currency.<br>
+                    You can read the documentation about Mailchimps ecommerce features <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
+                header: NOTICE
+        channel:
+            display_newsletter_subscribe:
+                addressing: Addressing
+                complete: Complete
+            display_subscribe_to_newsletter_at_checkout: Display newsletter subscribe at checkout steps
+        subscribe_to_newsletter:
+            email: Email
+    menu:
+        admin:
+            main:
+                mailchimp:
+                    audiences: Audiences
+                    header: Mailchimp
+    ui:
+        an_error_occurred: An error occurred
+        api_key: Mailchimp API Key
+        audience: Audience
+        audience_header: Mailchimp audiences
+        audience_id: Audience Id
+        audience_subheader: Manage Mailchimp audiences
+        audiences: Audiences
+        code: Code
+        completed: Completed
+        ecommerce: Mailchimp e-Commerce export
+        email_not_blank: Email cannot be blank.
+        failed: Failed
+        finished_at: Finished at
+        in_progress: In progress...
+        invalid_csrf_token: Invalid CSRF token
+        load_audiences: Load audiences
+        new: New
+        newsletter: Newsletter
+        no_audience_associated_with_channel: No audience associated with this channel
+        no_errors: No errors
+        restarting: Restarting...
+        repush_customers: Repush customers
+        state: State
+        subscribe: Subscribe
+        subscribed_successfully: You are now subscribed to the newsletter.
+        updated_at: Updated at
+        your_email_address: Your email address
