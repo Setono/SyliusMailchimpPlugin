@@ -30,7 +30,7 @@ final class ProductVariantDataGenerator extends DataGenerator implements Product
 
         $data = [
             'id' => $productVariant->getCode(),
-            'title' => $productVariant->getName(),
+            'title' => $productVariant->getName() ?? $product->getName(),
             'url' => $url,
             'inventory_quantity' => $productVariant->isTracked() ? $productVariant->getOnHand() : null,
             'backorders' => $productVariant->isTracked() ? (string) $productVariant->getOnHold() : null,
