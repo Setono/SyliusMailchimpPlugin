@@ -3,48 +3,48 @@ setono_sylius_mailchimp:
         audience:
             notice:
                 content:
-                    When you associate a channel with an audience it is irreversible.<br>
-                    The store id in Mailchimp will be your channel code and the currency will be your default channel currency.<br>
-                    You can read the documentation about Mailchimps ecommerce features <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
-                header: NOTICE
+                    Når du forbinder en kanal med et publikum er det uopretteligt.<br>
+                    Butik-id'et i Mailchimp er din kanalkode, og valutaen er din standardkanalvaluta.<br>
+                   Du kan læse dokumentationen om Mailchimps e-handelsfunktioner <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
+                header: Meddelelse
         channel:
             display_newsletter_subscribe:
-                addressing: Addressing
-                complete: Complete
-            display_subscribe_to_newsletter_at_checkout: Display newsletter subscribe at checkout steps
+                addressing: Addressering
+                complete: Fuldført
+            display_subscribe_to_newsletter_at_checkout: Vis tilmelding til nyhedsbrev ved checkouttrinet 
         subscribe_to_newsletter:
             email: Email
     menu:
         admin:
             main:
                 mailchimp:
-                    audiences: Audiences
+                    audiences: Publikum
                     header: Mailchimp
     ui:
-        an_error_occurred: An error occurred
-        api_key: Mailchimp API Key
-        audience: Audience
-        audience_header: Mailchimp audiences
+        an_error_occurred: Der er opstået en fejl
+        api_key: Mailchimp API nøgle
+        audience: Publikum
+        audience_header: Mailchimp publikum
         audience_id: Audience Id
-        audience_subheader: Manage Mailchimp audiences
-        audiences: Audiences
-        code: Code
-        completed: Completed
-        ecommerce: Mailchimp e-Commerce export
-        email_not_blank: Email cannot be blank.
-        failed: Failed
-        finished_at: Finished at
-        in_progress: In progress...
-        invalid_csrf_token: Invalid CSRF token
-        load_audiences: Load audiences
-        new: New
-        newsletter: Newsletter
-        no_audience_associated_with_channel: No audience associated with this channel
-        no_errors: No errors
-        restarting: Restarting...
-        repush_customers: Repush customers
-        state: State
-        subscribe: Subscribe
-        subscribed_successfully: You are now subscribed to the newsletter.
-        updated_at: Updated at
-        your_email_address: Your email address
+        audience_subheader: Administrer Mailchimp publikum
+        audiences: Publikum
+        code: Kode
+        completed: Fuldført
+        ecommerce: Mailchimp e-handelseksport
+        email_not_blank: Email skal udfyldes.
+        failed: Mislykkedes
+        finished_at:  Færdig klokken
+        in_progress: I gang...
+        invalid_csrf_token: Ugyldig CSRF token
+        load_audiences: Indlæs publikum
+        new: Ny
+        newsletter: Nyhedsbrev
+        no_audience_associated_with_channel: Der er ikke tilknyttet et publikum til denne kanal
+        no_errors: Ingen fejl
+        restarting: Genstarter...
+        repush_customers: Genopfrisk kunder
+        state: Stadie
+        subscribe: Abonner
+        subscribed_successfully: Du er nu tilmeldt vores nyhedsbrev.
+        updated_at: Opdateret klokken 
+        your_email_address: Din emailadresse
