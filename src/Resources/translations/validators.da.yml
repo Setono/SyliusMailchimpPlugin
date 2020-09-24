@@ -1,17 +1,17 @@
 setono_sylius_mailchimp:
     list:
         config:
-            not_blank: Config cannot be blank.
+            not_blank: Konfigurationen skal udfyldes.
         name:
-            not_blank: Name cannot be blank.
-            min_length: Name must be at least {{ limit }} characters long.
-            max_length: Name can not be longer than {{ limit }} characters.
+            not_blank: Navn skal udfyldes.
+            min_length: Navn skal minimum være {{ limit }} karakterer.
+            max_length: Navn må ikke være længere end {{ limit }} karakterer.
         list_id:
-            unique: There is an existing list with this ID.
-            not_blank: List ID cannot be blank.
-            min_length: List ID must be at least {{ limit }} characters long.
-            max_length: List ID can not be longer than {{ limit }} characters.
+            unique: Der er allerede en liste med dette ID.
+            not_blank: Liste ID'et skal udfyldes.
+            min_length: Liste ID'et skal være minimum {{ limit }} karakterer.
+            max_length: Liste ID'et må ikke være længere end {{ limit }} karakterer.
         store_id:
-            min_length: Name must be at least {{ limit }} characters long.
-            max_length: Name can not be longer than {{ limit }} characters.
-            regex: Store ID can only be comprised of letters, numbers, dashes and underscores.
+            min_length: Navn skal minimum være {{ limit }} karakterer.
+            max_length: Navn må ikke være længere end {{ limit }} karakterer.
+            regex: Butiks-id kan kun bestå af bogstaver, tal, bindestreger og understreger.
