@@ -5,7 +5,7 @@ setono_sylius_mailchimp:
                 content:
                     Når du forbinder en kanal med et publikum er det uopretteligt.<br>
                     Butik-id'et i Mailchimp er din kanalkode, og valutaen er din standardkanalvaluta.<br>
-                   Du kan læse dokumentationen om Mailchimps e-handelsfunktioner <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
+                    Du kan læse dokumentationen om Mailchimps e-handelsfunktioner <a href="https://developer.mailchimp.com/documentation/mailchimp/guides/getting-started-with-ecommerce/" target="_blank">here</a>.
                 header: Meddelelse
         channel:
             display_newsletter_subscribe:
