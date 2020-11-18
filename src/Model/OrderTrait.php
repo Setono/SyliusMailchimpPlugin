@@ -6,5 +6,5 @@ namespace Setono\SyliusMailchimpPlugin\Model;
 
 trait OrderTrait
 {
-    use PushedToMailchimpAwareTrait;
+    use MailchimpAwareTrait;
 }

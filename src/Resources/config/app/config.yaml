@@ -5,6 +5,34 @@ framework:
     messenger:
         buses:
             setono_sylius_mailchimp.command_bus: ~
+    
+    workflows:
+        mailchimp:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'mailchimpState'
+            supports:
+                - Setono\SyliusMailchimpPlugin\Model\MailchimpAwareInterface
+            initial_marking: pending
+            places:
+                - pending
+                - processing
+                - failed
+                - pushed
+            transitions:
+                process:
+                    from: [ pending, failed ]
+                    to: processing
+                push:
+                    from: processing
+                    to: pushed
+                fail:
+                    from: [ pending, processing ]
+                    to: failed
+                retry:
+                    from: [ failed ]
+                    to: pending
 
 sylius_grid:
     templates:

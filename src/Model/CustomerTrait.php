@@ -6,5 +6,5 @@ namespace Setono\SyliusMailchimpPlugin\Model;
 
 trait CustomerTrait
 {
-    use PushedToMailchimpAwareTrait;
+    use MailchimpAwareTrait;
 }
