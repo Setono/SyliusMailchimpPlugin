@@ -34,7 +34,7 @@ final class PushOrdersHandler implements MessageHandlerInterface
 
     public function __invoke(PushOrders $message): void
     {
-        $batcher = $this->batcherFactory->createIdCollectionBatcher($this->orderRepository->createPendingPushQueryBuilder());
+        $batcher = $this->batcherFactory->createIdCollectionBatcher($this->orderRepository->createMailchimpPendingQueryBuilder());
         foreach ($batcher->getBatches() as $batch) {
             $this->commandBus->dispatch(new PushOrderBatch($batch));
         }

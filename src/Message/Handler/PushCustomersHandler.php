@@ -34,7 +34,7 @@ final class PushCustomersHandler implements MessageHandlerInterface
 
     public function __invoke(PushCustomers $message): void
     {
-        $batcher = $this->batcherFactory->createIdCollectionBatcher($this->customerRepository->createPendingPushQueryBuilder());
+        $batcher = $this->batcherFactory->createIdCollectionBatcher($this->customerRepository->createMailchimpPendingQueryBuilder());
         foreach ($batcher->getBatches() as $batch) {
             $this->commandBus->dispatch(new PushCustomerBatch($batch));
         }

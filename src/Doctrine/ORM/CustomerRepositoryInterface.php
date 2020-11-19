@@ -6,6 +6,6 @@ namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface as BaseCustomerRepositoryInterface;
 
-interface CustomerRepositoryInterface extends BaseCustomerRepositoryInterface, PushedToMailchimpAwareRepositoryInterface
+interface CustomerRepositoryInterface extends BaseCustomerRepositoryInterface, MailchimpAwareRepositoryInterface
 {
 }

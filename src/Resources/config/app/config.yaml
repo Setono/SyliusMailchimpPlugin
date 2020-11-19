@@ -22,7 +22,7 @@ framework:
                 - pushed
             transitions:
                 process:
-                    from: [ pending, failed ]
+                    from: [ pending ]
                     to: processing
                 push:
                     from: processing
@@ -30,6 +30,9 @@ framework:
                 fail:
                     from: [ pending, processing ]
                     to: failed
+                fail_terminally:
+                    from: [ failed ]
+                    to: terminally_failed
                 retry:
                     from: [ failed ]
                     to: pending

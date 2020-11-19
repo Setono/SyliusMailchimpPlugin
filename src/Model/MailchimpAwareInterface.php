@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Model;
 
 use DateTimeInterface;
+use Throwable;
 
 interface MailchimpAwareInterface
 {
@@ -14,15 +15,30 @@ interface MailchimpAwareInterface
 
     public const MAILCHIMP_STATE_FAILED = 'failed';
 
-    public const MAILCHIMP_STATE_PUSHED = 'pushed'; // means that the entity was pushed to Mailchimp, i.e. succeeded
+    /**
+     * Describes a state where the entity failed so many times that it won't be retried
+     */
+    public const MAILCHIMP_STATE_TERMINALLY_FAILED = 'terminally_failed';
+
+    /**
+     * Means that the entity was pushed to Mailchimp, i.e. succeeded
+     */
+    public const MAILCHIMP_STATE_PUSHED = 'pushed';
 
     public function getMailchimpState(): string;
 
     public function setMailchimpState(string $state): void;
 
+    /**
+     * This is a generic error message. Use the getMailchimpException method to get more detailed information about the error
+     */
     public function getMailchimpError(): ?string;
 
     public function setMailchimpError(?string $error): void;
+
+    public function getMailchimpException(): ?Throwable;
+
+    public function setMailchimpException(?Throwable $exception): void;
 
     /**
      * If there's never been a state change this method returns null
