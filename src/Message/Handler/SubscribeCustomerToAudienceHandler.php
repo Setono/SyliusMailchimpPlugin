@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Message\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Safe\DateTime;
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface;
@@ -41,7 +40,7 @@ final class SubscribeCustomerToAudienceHandler implements MessageHandlerInterfac
         $this->customerManager = $customerManager;
     }
 
-    public function __invoke(SubscribeCustomerToAudience $message): bool
+    public function __invoke(SubscribeCustomerToAudience $message): void
     {
         /** @var CustomerInterface|null $customer */
         $customer = $this->customerRepository->find($message->getCustomerId());
@@ -56,19 +55,12 @@ final class SubscribeCustomerToAudienceHandler implements MessageHandlerInterfac
 
         try {
             $this->client->updateMember($audience, $customer);
+
+            // todo use workflow
+
+            $this->customerManager->flush();
         } catch (\Exception $exception) {
-            return false;
+            // todo handle this exception
         }
-
-        $now = new DateTime();
-        $customer->setPushedToMailchimp($now);
-
-        // update the updated at manually so that we are sure
-        // it will be the same value as the pushed to mailchimp value
-        $customer->setUpdatedAt($now);
-
-        $this->customerManager->flush();
-
-        return true;
     }
 }

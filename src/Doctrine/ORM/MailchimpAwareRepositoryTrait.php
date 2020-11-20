@@ -26,4 +26,23 @@ trait MailchimpAwareRepositoryTrait
             ->setParameter('state', MailchimpAwareInterface::MAILCHIMP_STATE_PENDING)
         ;
     }
+
+    public function resetMailchimpState(bool $force = false): void
+    {
+        assert($this instanceof EntityRepository);
+
+        $qb = $this->createQueryBuilder('o')
+            ->update()
+            ->set('o.mailchimpState', ':state')
+            ->setParameter('state', MailchimpAwareInterface::MAILCHIMP_STATE_PENDING)
+        ;
+
+        if (!$force) {
+            $qb->andWhere('o.mailchimpState = :pushedState')
+                ->setParameter('pushedState', MailchimpAwareInterface::MAILCHIMP_STATE_PUSHED)
+            ;
+        }
+
+        $qb->getQuery()->execute();
+    }
 }

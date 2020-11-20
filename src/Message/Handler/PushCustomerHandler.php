@@ -52,7 +52,6 @@ final class PushCustomerHandler implements MessageHandlerInterface
         $audienceId = $audience->getId();
         Assert::notNull($audienceId);
 
-        $subscribeCustomerMessage = new SubscribeCustomerToAudience($audienceId, $customer->getId());
-        $this->messageBus->dispatch($subscribeCustomerMessage);
+        $this->messageBus->dispatch(new SubscribeCustomerToAudience($audienceId, $customer->getId()));
     }
 }
