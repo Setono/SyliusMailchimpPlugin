@@ -18,6 +18,7 @@
             <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="doctrine"/>
             <argument type="service" id="workflow.registry"/>
+            <argument type="service" id="monolog.logger.mailchimp"/>
             <argument type="service" id="setono_sylius_mailchimp.provider.audience"/>
 
             <tag name="messenger.message_handler"/>
@@ -38,6 +39,7 @@
             <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="doctrine"/>
             <argument type="service" id="workflow.registry"/>
+            <argument type="service" id="monolog.logger.mailchimp"/>
 
             <tag name="messenger.message_handler"/>
         </service>

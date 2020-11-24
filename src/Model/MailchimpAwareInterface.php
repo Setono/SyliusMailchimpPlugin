@@ -28,9 +28,6 @@ interface MailchimpAwareInterface
 
     public function setMailchimpState(string $state): void;
 
-    /**
-     * This is a generic error message. Use the getMailchimpException method to get more detailed information about the error
-     */
     public function getMailchimpError(): ?string;
 
     public function setMailchimpError(?string $error): void;

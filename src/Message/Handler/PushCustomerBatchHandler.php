@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Message\Handler;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use function Safe\sprintf;
 use Setono\DoctrineORMBatcher\Query\QueryRebuilderInterface;
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
@@ -35,6 +36,9 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
     /** @var Registry */
     private $workflowRegistry;
 
+    /** @var LoggerInterface */
+    private $logger;
+
     /** @var AudienceProviderInterface */
     private $audienceProvider;
 
@@ -43,12 +47,14 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
         ClientInterface $client,
         ManagerRegistry $managerRegistry,
         Registry $workflowRegistry,
+        LoggerInterface $logger,
         AudienceProviderInterface $audienceProvider
     ) {
         $this->queryRebuilder = $queryRebuilder;
         $this->client = $client;
         $this->managerRegistry = $managerRegistry;
         $this->workflowRegistry = $workflowRegistry;
+        $this->logger = $logger;
         $this->audienceProvider = $audienceProvider;
     }
 
@@ -99,6 +105,7 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
 
                 $workflow->apply($customer, 'push'); // todo use constant
             } catch (Throwable $e) {
+                $this->logger->error($e->getMessage());
                 $customer->setMailchimpError(self::buildErrorMessage($e));
                 $workflow->apply($customer, 'fail'); // todo use constant
             } finally {

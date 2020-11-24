@@ -41,6 +41,10 @@ framework:
                     from: [ pushed ]
                     to: pending
 
+monolog:
+    channels:
+        - mailchimp
+
 sylius_grid:
     templates:
         action:
