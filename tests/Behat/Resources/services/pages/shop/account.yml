@@ -1,5 +1,0 @@
-services:
-    setono_sylius_mailchimp.page.shop.account.profile_ppdate:
-        class: Tests\Setono\SyliusMailchimpPlugin\Behat\Page\Shop\Account\ProfileUpdatePage
-        parent: sylius.behat.page.shop.account.profile_update
-        public: false
