@@ -42,7 +42,7 @@
         "webmozart/assert": "^1.1"
     },
     "require-dev": {
-        "phpspec/phpspec": "^6.3",
+        "phpspec/phpspec": "^6.3 || ^7.0",
         "phpunit/phpunit": "^9.4",
         "roave/security-advisories": "dev-master",
         "setono/code-quality-pack": "^1.1",
