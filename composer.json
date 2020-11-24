@@ -78,7 +78,7 @@
             "@checks",
             "@tests"
         ],
-        "analyse": "vendor/bin/phpstan analyse -c phpstan.neon -l max src",
+        "analyse": "phpstan analyse -c phpstan.neon",
         "assets": [
             "@ensure-assets-installed",
             "@ensure-assets-compiled"
