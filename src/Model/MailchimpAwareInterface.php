@@ -53,4 +53,9 @@ interface MailchimpAwareInterface
     public function getMailchimpTries(): int;
 
     public function setMailchimpTries(int $tries): void;
+
+    /**
+     * This will increment the number of tries by 1
+     */
+    public function incrementMailchimpTries(): void;
 }

@@ -95,4 +95,9 @@ trait MailchimpAwareTrait
     {
         $this->mailchimpTries = $mailchimpTries;
     }
+
+    public function incrementMailchimpTries(): void
+    {
+        ++$this->mailchimpTries;
+    }
 }

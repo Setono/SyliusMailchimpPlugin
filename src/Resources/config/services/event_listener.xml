@@ -28,5 +28,13 @@
         <service id="Setono\SyliusMailchimpPlugin\EventListener\Doctrine\AddIndexOnMailchimpStateSubscriber">
             <tag name="doctrine.event_subscriber"/>
         </service>
+
+        <service id="Setono\SyliusMailchimpPlugin\EventListener\Doctrine\UpdateMailchimpUpdatedAtSubscriber">
+            <tag name="doctrine.event_subscriber"/>
+        </service>
+
+        <service id="Setono\SyliusMailchimpPlugin\EventListener\Doctrine\IncrementMailchimpTriesSubscriber">
+            <tag name="doctrine.event_subscriber"/>
+        </service>
     </services>
 </container>

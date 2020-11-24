@@ -42,7 +42,8 @@
                  class="Setono\SyliusMailchimpPlugin\Message\Handler\PushOrderBatchHandler">
             <argument type="service" id="setono_doctrine_orm_batcher.query.rebuilder"/>
             <argument type="service" id="setono_sylius_mailchimp.client"/>
-            <argument type="service" id="sylius.manager.order"/>
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="workflow.registry"/>
 
             <tag name="messenger.message_handler"/>
         </service>
