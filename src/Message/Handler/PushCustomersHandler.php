@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Message\Handler;
 
 use Setono\DoctrineORMBatcher\Factory\BatcherFactoryInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushCustomerBatch;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushCustomers;
+use Setono\SyliusMailchimpPlugin\Repository\CustomerRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 

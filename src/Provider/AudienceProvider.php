@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Provider;
 
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
+use Setono\SyliusMailchimpPlugin\Repository\AudienceRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Model\ChannelInterface;

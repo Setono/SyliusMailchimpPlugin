@@ -6,11 +6,11 @@ namespace Setono\SyliusMailchimpPlugin\Message\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Message\Command\SubscribeCustomerToAudience;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
+use Setono\SyliusMailchimpPlugin\Repository\AudienceRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Repository\CustomerRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Webmozart\Assert\Assert;
 

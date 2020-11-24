@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Controller\Action;
 
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Form\Type\SubscribeToNewsletterType;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
+use Setono\SyliusMailchimpPlugin\Repository\AudienceRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;

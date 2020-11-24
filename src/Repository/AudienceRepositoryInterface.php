@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
+namespace Setono\SyliusMailchimpPlugin\Repository;
 
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Component\Channel\Model\ChannelInterface;

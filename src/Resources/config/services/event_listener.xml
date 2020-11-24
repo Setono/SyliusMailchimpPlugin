@@ -3,7 +3,6 @@
 <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
     <services>
         <service id="setono_sylius_mailchimp.event_listener.update_store"
                  class="Setono\SyliusMailchimpPlugin\EventListener\UpdateStoreSubscriber">
@@ -22,9 +21,12 @@
         <service id="Setono\SyliusMailchimpPlugin\EventListener\Doctrine\Customer\PushCustomerToMailchimp">
             <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
 
-            <tag name="doctrine.orm.entity_listener" event="postPersist" entity="%sylius.model.customer.class%" />
-            <tag name="doctrine.orm.entity_listener" event="postUpdate" entity="%sylius.model.customer.class%" />
+            <tag name="doctrine.orm.entity_listener" event="postPersist" entity="%sylius.model.customer.class%"/>
+            <tag name="doctrine.orm.entity_listener" event="postUpdate" entity="%sylius.model.customer.class%"/>
+        </service>
+
+        <service id="Setono\SyliusMailchimpPlugin\EventListener\Doctrine\AddIndexOnMailchimpStateSubscriber">
+            <tag name="doctrine.event_subscriber"/>
         </service>
     </services>
-
 </container>

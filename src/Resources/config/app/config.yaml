@@ -19,6 +19,7 @@ framework:
                 - pending
                 - processing
                 - failed
+                - terminally_failed
                 - pushed
             transitions:
                 process:
