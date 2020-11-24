@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use function Safe\sprintf;
 use Setono\DoctrineORMBatcher\Query\QueryRebuilderInterface;
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
+use Setono\SyliusMailchimpPlugin\Exception\ClientException;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushOrderBatch;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -83,8 +84,7 @@ final class PushOrderBatchHandler implements MessageHandlerInterface
 
                 $workflow->apply($order, 'push'); // todo use constant
             } catch (Throwable $e) {
-                $order->setMailchimpError($e->getMessage());
-                $order->setMailchimpException($e);
+                $order->setMailchimpError(self::buildErrorMessage($e));
                 $workflow->apply($order, 'fail'); // todo use constant
             } finally {
                 $manager->flush();
@@ -99,5 +99,19 @@ final class PushOrderBatchHandler implements MessageHandlerInterface
         }
 
         return $this->workflow;
+    }
+
+    private static function buildErrorMessage(Throwable $e): string
+    {
+        $error = $e->getMessage() . "\n\n";
+        if ($e instanceof ClientException) {
+            $error .= 'Uri: ' . $e->getUri() . "\n\n";
+            $error .= 'Status code: ' . $e->getStatusCode() . "\n\n";
+            $error .= "Options:\n" . print_r($e->getOptions(), true) . "\n\n";
+        }
+
+        $error .= $e->getTraceAsString();
+
+        return $error;
     }
 }

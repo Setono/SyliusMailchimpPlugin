@@ -6,6 +6,6 @@ namespace Setono\SyliusMailchimpPlugin\Exception;
 
 use Throwable;
 
-interface Exception extends Throwable
+interface ExceptionInterface extends Throwable
 {
 }

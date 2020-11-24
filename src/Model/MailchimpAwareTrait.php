@@ -7,7 +7,6 @@ namespace Setono\SyliusMailchimpPlugin\Model;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Throwable;
 
 trait MailchimpAwareTrait
 {
@@ -24,13 +23,6 @@ trait MailchimpAwareTrait
      * @ORM\Column(type="text", nullable=true)
      */
     protected $mailchimpError;
-
-    /**
-     * @var Throwable|null
-     *
-     * @ORM\Column(type="object", nullable=true)
-     */
-    protected $mailchimpException;
 
     /**
      * @var DateTimeInterface|null
@@ -64,16 +56,6 @@ trait MailchimpAwareTrait
     public function setMailchimpError(?string $mailchimpError): void
     {
         $this->mailchimpError = $mailchimpError;
-    }
-
-    public function getMailchimpException(): ?Throwable
-    {
-        return $this->mailchimpException;
-    }
-
-    public function setMailchimpException(?Throwable $mailchimpException): void
-    {
-        $this->mailchimpException = $mailchimpException;
     }
 
     public function getMailchimpStateUpdatedAt(): ?DateTimeInterface

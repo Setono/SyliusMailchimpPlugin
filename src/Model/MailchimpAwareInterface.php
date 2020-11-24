@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Model;
 
 use DateTimeInterface;
-use Throwable;
 
 interface MailchimpAwareInterface
 {
@@ -35,10 +34,6 @@ interface MailchimpAwareInterface
     public function getMailchimpError(): ?string;
 
     public function setMailchimpError(?string $error): void;
-
-    public function getMailchimpException(): ?Throwable;
-
-    public function setMailchimpException(?Throwable $exception): void;
 
     /**
      * If there's never been a state change this method returns null

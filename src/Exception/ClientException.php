@@ -7,8 +7,14 @@ namespace Setono\SyliusMailchimpPlugin\Exception;
 use RuntimeException;
 use function Safe\json_decode;
 
-class ClientException extends RuntimeException implements Exception
+class ClientException extends RuntimeException implements ExceptionInterface
 {
+    /** @var string */
+    private $uri;
+
+    /** @var array */
+    private $options;
+
     /** @var int */
     private $statusCode;
 
@@ -29,8 +35,10 @@ class ClientException extends RuntimeException implements Exception
     /**
      * @param array $lastResponse The response from the Mailchimp HTTP cloent
      */
-    public function __construct(array $lastResponse)
+    public function __construct(string $uri, array $options, array $lastResponse)
     {
+        $this->uri = $uri;
+        $this->options = $options;
         $this->parseHeaders($lastResponse);
         $message = $this->parseBody($lastResponse);
 
@@ -62,6 +70,16 @@ class ClientException extends RuntimeException implements Exception
         }
 
         return $body['title'] . ': ' . $body['detail'];
+    }
+
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 
     public function getStatusCode(): int
