@@ -29,13 +29,16 @@ framework:
                     from: processing
                     to: pushed
                 fail:
-                    from: [ pending, processing ]
+                    from: [ processing ]
                     to: failed
                 fail_terminally:
                     from: [ failed ]
                     to: terminally_failed
                 retry:
                     from: [ failed ]
+                    to: pending
+                update:
+                    from: [ pushed ]
                     to: pending
 
 sylius_grid:
