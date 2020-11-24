@@ -45,7 +45,7 @@ final class CustomerCheckoutGuestTypeExtension extends AbstractTypeExtension
             $customer = $event->getData();
 
             // If a customer is already existing, remove email field
-            if (null !== $customer && null !== $customer->getId()) {
+            if (null !== $customer && null !== $customer->getId() && $form->has('email')) {
                 $form->remove('email');
             }
         });
