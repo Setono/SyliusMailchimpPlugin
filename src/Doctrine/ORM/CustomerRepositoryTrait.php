@@ -9,9 +9,9 @@ use function Safe\sprintf;
 
 trait CustomerRepositoryTrait
 {
-    use PushedToMailchimpAwareRepositoryTrait;
+    use MailchimpAwareRepositoryTrait;
 
-    public function createPendingPushQueryBuilder(): QueryBuilder
+    public function createMailchimpPendingQueryBuilder(): QueryBuilder
     {
         $alias = 'o';
 

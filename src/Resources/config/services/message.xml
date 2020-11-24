@@ -12,19 +12,14 @@
             <tag name="messenger.message_handler"/>
         </service>
 
-        <service id="setono_sylius_mailchimp.message.handler.push_customer"
-                 class="Setono\SyliusMailchimpPlugin\Message\Handler\PushCustomerHandler">
-            <argument type="service" id="sylius.repository.customer"/>
-            <argument type="service" id="setono_sylius_mailchimp.provider.audience"/>
-            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
-
-            <tag name="messenger.message_handler"/>
-        </service>
-
         <service id="setono_sylius_mailchimp.message.handler.push_customer_batch"
                  class="Setono\SyliusMailchimpPlugin\Message\Handler\PushCustomerBatchHandler">
             <argument type="service" id="setono_doctrine_orm_batcher.query.rebuilder"/>
-            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="workflow.registry"/>
+            <argument type="service" id="monolog.logger.mailchimp"/>
+            <argument type="service" id="setono_sylius_mailchimp.provider.audience"/>
 
             <tag name="messenger.message_handler"/>
         </service>
@@ -42,7 +37,9 @@
                  class="Setono\SyliusMailchimpPlugin\Message\Handler\PushOrderBatchHandler">
             <argument type="service" id="setono_doctrine_orm_batcher.query.rebuilder"/>
             <argument type="service" id="setono_sylius_mailchimp.client"/>
-            <argument type="service" id="sylius.manager.order"/>
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="workflow.registry"/>
+            <argument type="service" id="monolog.logger.mailchimp"/>
 
             <tag name="messenger.message_handler"/>
         </service>
@@ -51,16 +48,6 @@
                  class="Setono\SyliusMailchimpPlugin\Message\Handler\RepushCustomersHandler">
             <argument type="service" id="sylius.repository.customer"/>
             <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
-
-            <tag name="messenger.message_handler"/>
-        </service>
-
-        <service id="setono_sylius_mailchimp.message.handler.subscribe_customer_to_audience"
-                 class="Setono\SyliusMailchimpPlugin\Message\Handler\SubscribeCustomerToAudienceHandler">
-            <argument type="service" id="sylius.repository.customer"/>
-            <argument type="service" id="setono_sylius_mailchimp.repository.audience"/>
-            <argument type="service" id="setono_sylius_mailchimp.client"/>
-            <argument type="service" id="sylius.manager.customer"/>
 
             <tag name="messenger.message_handler"/>
         </service>

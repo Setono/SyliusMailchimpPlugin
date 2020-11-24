@@ -7,7 +7,6 @@ namespace Setono\SyliusMailchimpPlugin\DependencyInjection;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepository;
 use Setono\SyliusMailchimpPlugin\Form\Type\AudienceType;
 use Setono\SyliusMailchimpPlugin\Model\Audience;
-use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Sylius\Component\Resource\Factory\Factory;
@@ -55,7 +54,6 @@ final class Configuration implements ConfigurationInterface
                                     ->addDefaultsIfNotSet()
                                     ->children()
                                         ->scalarNode('model')->defaultValue(Audience::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(AudienceInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->defaultValue(AudienceRepository::class)->cannotBeEmpty()->end()
                                         ->scalarNode('form')->defaultValue(AudienceType::class)->end()

@@ -1,5 +1,5 @@
 setono_sylius_mailchimp:
-    api_key: '%env(resolve:MAILCHIMP_API_KEY)%'
+    api_key: '%env(MAILCHIMP_API_KEY)%'
     subscribe: false
 
 sylius_fixtures:

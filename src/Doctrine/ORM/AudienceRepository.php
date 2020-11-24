@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Doctrine\ORM;
 
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
+use Setono\SyliusMailchimpPlugin\Repository\AudienceRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Channel\Model\ChannelInterface;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Fixture\Factory;
 
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
+use Setono\SyliusMailchimpPlugin\Repository\AudienceRepositoryInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\AbstractExampleFactory;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Bundle\CoreBundle\Fixture\OptionsResolver\LazyOption;

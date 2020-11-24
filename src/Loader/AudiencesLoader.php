@@ -10,8 +10,8 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 use function Safe\sprintf;
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
+use Setono\SyliusMailchimpPlugin\Repository\AudienceRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 

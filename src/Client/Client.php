@@ -62,7 +62,7 @@ final class Client implements ClientInterface
         $res = $callable($uri, $options);
 
         if (!$this->httpClient->success()) {
-            throw new ClientException($this->httpClient->getLastResponse());
+            throw new ClientException($uri, $options, $this->httpClient->getLastResponse());
         }
 
         return $res;
@@ -116,6 +116,8 @@ final class Client implements ClientInterface
 
         if (null === $customer->getFirstName() || null === $customer->getLastName()) {
             $this->subscribeEmail($audience, $customer->getEmail());
+
+            return;
         }
 
         $data = [

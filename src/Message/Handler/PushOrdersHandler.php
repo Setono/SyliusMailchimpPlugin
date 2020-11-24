@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Setono\SyliusMailchimpPlugin\Message\Handler;
 
 use Setono\DoctrineORMBatcher\Factory\BatcherFactoryInterface;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\OrderRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushOrderBatch;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushOrders;
+use Setono\SyliusMailchimpPlugin\Repository\OrderRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -34,7 +34,7 @@ final class PushOrdersHandler implements MessageHandlerInterface
 
     public function __invoke(PushOrders $message): void
     {
-        $batcher = $this->batcherFactory->createIdCollectionBatcher($this->orderRepository->createPendingPushQueryBuilder());
+        $batcher = $this->batcherFactory->createIdCollectionBatcher($this->orderRepository->createMailchimpPendingQueryBuilder());
         foreach ($batcher->getBatches() as $batch) {
             $this->commandBus->dispatch(new PushOrderBatch($batch));
         }

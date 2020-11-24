@@ -6,12 +6,12 @@ namespace spec\Setono\SyliusMailchimpPlugin\Provider;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\AudienceRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Model\OrderInterface;
 use Setono\SyliusMailchimpPlugin\Provider\AudienceProvider;
 use Setono\SyliusMailchimpPlugin\Provider\AudienceProviderInterface;
+use Setono\SyliusMailchimpPlugin\Repository\AudienceRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ChannelInterface;

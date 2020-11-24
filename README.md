@@ -34,7 +34,7 @@ imports:
     - { resource: "@SetonoSyliusMailchimpPlugin/Resources/config/app/config.yaml" }
         
 setono_sylius_mailchimp:
-    api_key: '%env(resolve:MAILCHIMP_API_KEY)%'
+    api_key: '%env(MAILCHIMP_API_KEY)%'
 ```
 
 Remember to update your `.env` and `.env.local` files:
@@ -69,7 +69,7 @@ setono_sylius_mailchimp:
 $bundles = [
     // ...
     
-    // Notice that the Mailchimp plugin has be added before the SyliusGridBundle
+    // Notice that the Mailchimp plugin has to be added before the SyliusGridBundle
     Setono\SyliusMailchimpPlugin\SetonoSyliusMailchimpPlugin::class => ['all' => true],
     Sylius\Bundle\GridBundle\SyliusGridBundle::class => ['all' => true],
     Setono\DoctrineORMBatcherBundle\SetonoDoctrineORMBatcherBundle::class => ['all' => true],
@@ -168,7 +168,7 @@ declare(strict_types=1);
 
 namespace App\Doctrine\ORM;
 
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryInterface as SetonoSyliusMailchimpPluginCustomerRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Repository\CustomerRepositoryInterface as SetonoSyliusMailchimpPluginCustomerRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\CustomerRepositoryTrait as SetonoSyliusMailchimpPluginCustomerRepositoryTrait;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\CustomerRepository as BaseCustomerRepository;
 
@@ -188,7 +188,7 @@ declare(strict_types=1);
 
 namespace App\Doctrine\ORM;
 
-use Setono\SyliusMailchimpPlugin\Doctrine\ORM\OrderRepositoryInterface as SetonoSyliusMailchimpPluginOrderRepositoryInterface;
+use Setono\SyliusMailchimpPlugin\Repository\OrderRepositoryInterface as SetonoSyliusMailchimpPluginOrderRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Doctrine\ORM\OrderRepositoryTrait as SetonoSyliusMailchimpPluginOrderRepositoryTrait;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository as BaseOrderRepository;
 
@@ -240,7 +240,7 @@ $ php bin/console assets:install
 ### Step 9: Using asynchronous transport (optional, but very recommended)
 
 All commands in this plugin will extend the [CommandInterface](src/Message/Command/CommandInterface.php).
-Therefore you can route all commands easily by adding this to your [Messenger config](https://symfony.com/doc/current/messenger.html#routing-messages-to-a-transport):
+Therefore, you can route all commands easily by adding this to your [Messenger config](https://symfony.com/doc/current/messenger.html#routing-messages-to-a-transport):
 
 ```yaml
 # config/packages/messenger.yaml
@@ -284,18 +284,23 @@ sylius_fixtures:
 
 ## Usage
 
-### Push customers to Mailchimp lists
-By default your customers will be pushed to Mailchimp lists when they are updated or when they haven't yet been pushed.
+The pushing of entities uses the `mailchimp` state machine:
 
+![Mailchimp workflow](docs/images/workflow-mailchimp.png "The Mailchimp workflow")
+
+When the state is `pending`, the entities are pushed to Mailchimp. As you can see from the image both the updating
+and failing of an entity is handled by the state machine.
+
+By default, the plugin can push customers and orders to Mailchimp.
+
+### Push customers
 Run the following command to push customers:
 
 ```bash
 $ php bin/console setono:sylius-mailchimp:push-customers
 ```
 
-### Push orders to Mailchimp ecommerce
-For orders it's the same thing; if they haven't been pushed or they are updated they will be pushed.
-
+### Push orders
 Run the following command to push orders:
 
 ```bash

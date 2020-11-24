@@ -10,9 +10,9 @@ use Sylius\Component\Core\OrderCheckoutStates;
 
 trait OrderRepositoryTrait
 {
-    use PushedToMailchimpAwareRepositoryTrait;
+    use MailchimpAwareRepositoryTrait;
 
-    public function createPendingPushQueryBuilder(): QueryBuilder
+    public function createMailchimpPendingQueryBuilder(): QueryBuilder
     {
         $alias = 'o';
 
