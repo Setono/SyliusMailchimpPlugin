@@ -157,6 +157,11 @@ final class Client implements ClientInterface
         );
     }
 
+    public function ping(): void
+    {
+        $this->makeRequest('get', 'ping');
+    }
+
     private function hasOrder(string $storeId, string $orderId): bool
     {
         try {

@@ -43,4 +43,9 @@ interface ClientInterface
      * @throws ClientException
      */
     public function subscribeEmail(AudienceInterface $audience, string $email): void;
+
+    /**
+     * Will try to ping Mailchimp. If the API key is invalid or something else goes wrong, this will throw an exception
+     */
+    public function ping(): void;
 }

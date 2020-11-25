@@ -7,6 +7,7 @@
 
         <service id="setono_sylius_mailchimp.command.load_audiences"
                  class="Setono\SyliusMailchimpPlugin\Command\LoadAudiencesCommand">
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="setono_sylius_mailchimp.loader.audiences"/>
 
             <tag name="console.command"/>
@@ -14,6 +15,7 @@
 
         <service id="setono_sylius_mailchimp.command.push_customers"
                  class="Setono\SyliusMailchimpPlugin\Command\PushCustomersCommand">
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
 
             <tag name="console.command"/>
@@ -21,6 +23,7 @@
 
         <service id="setono_sylius_mailchimp.command.push_orders"
                  class="Setono\SyliusMailchimpPlugin\Command\PushOrdersCommand">
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
 
             <tag name="console.command"/>

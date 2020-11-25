@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Command;
 
+use Setono\SyliusMailchimpPlugin\Client\Client;
 use Setono\SyliusMailchimpPlugin\Loader\AudiencesLoaderInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -17,13 +18,17 @@ final class LoadAudiencesCommand extends Command
 
     protected static $defaultName = 'setono:sylius-mailchimp:load-audiences';
 
+    /** @var Client */
+    private $client;
+
     /** @var AudiencesLoaderInterface */
     protected $audiencesLoader;
 
-    public function __construct(AudiencesLoaderInterface $audiencesLoader)
+    public function __construct(Client $client, AudiencesLoaderInterface $audiencesLoader)
     {
         parent::__construct();
 
+        $this->client = $client;
         $this->audiencesLoader = $audiencesLoader;
     }
 
@@ -47,6 +52,8 @@ final class LoadAudiencesCommand extends Command
 
             return 0;
         }
+
+        $this->client->ping();
 
         $preserve = (bool) $input->getOption('preserve');
         $this->audiencesLoader->load($preserve);

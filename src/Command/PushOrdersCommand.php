@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Command;
 
+use Setono\SyliusMailchimpPlugin\Client\Client;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushOrders;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -17,13 +18,17 @@ final class PushOrdersCommand extends Command
 
     protected static $defaultName = 'setono:sylius-mailchimp:push-orders';
 
+    /** @var Client */
+    private $client;
+
     /** @var MessageBusInterface */
     private $commandBus;
 
-    public function __construct(MessageBusInterface $commandBus)
+    public function __construct(Client $client, MessageBusInterface $commandBus)
     {
         parent::__construct();
 
+        $this->client = $client;
         $this->commandBus = $commandBus;
     }
 
@@ -41,6 +46,8 @@ final class PushOrdersCommand extends Command
 
             return 0;
         }
+
+        $this->client->ping();
 
         $this->commandBus->dispatch(new PushOrders());
 
