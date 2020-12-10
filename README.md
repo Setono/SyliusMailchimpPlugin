@@ -4,7 +4,6 @@
 [![Latest Unstable Version][ico-unstable-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
 [![Build Status][ico-github-actions]][link-github-actions]
-[![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Overview
 
@@ -345,8 +344,6 @@ Run `composer tests` to run all tests.
 [ico-unstable-version]: https://poser.pugx.org/setono/sylius-mailchimp-plugin/v/unstable
 [ico-license]: https://poser.pugx.org/setono/sylius-mailchimp-plugin/license
 [ico-github-actions]: https://github.com/Setono/SyliusMailchimpPlugin/workflows/build/badge.svg
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/Setono/SyliusMailchimpPlugin.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/setono/sylius-mailchimp-plugin
 [link-github-actions]: https://github.com/Setono/SyliusMailchimpPlugin/actions
-[link-code-quality]: https://scrutinizer-ci.com/g/Setono/SyliusMailchimpPlugin
