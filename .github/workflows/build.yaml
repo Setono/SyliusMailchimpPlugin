@@ -202,7 +202,7 @@ jobs:
                     dependency-versions: "${{ matrix.dependencies }}"
                 
             -   name: "Lint container"
-                run: "(cd tests/Application && bin/console lint:container) || true" # todo Remove || true when https://github.com/doctrine/DoctrineMigrationsBundle/issues/352 is fixed
+                run: "(cd tests/Application && bin/console lint:container)"
 
             -   name: "Create database"
                 run: "(cd tests/Application && bin/console doctrine:database:create -vvv)"
