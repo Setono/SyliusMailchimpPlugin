@@ -6,11 +6,13 @@ namespace Setono\SyliusMailchimpPlugin\EventListener;
 
 use Psr\Log\LoggerInterface;
 use function Safe\sprintf;
+use Sarhan\Flatten\Flatten;
 use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
 use Setono\SyliusMailchimpPlugin\Exception\ClientException;
 use Setono\SyliusMailchimpPlugin\Model\AudienceInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -26,10 +28,14 @@ final class UpdateStoreSubscriber implements EventSubscriberInterface
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(ClientInterface $client, LoggerInterface $logger)
+    /** @var TranslatorInterface */
+    private $translator;
+
+    public function __construct(ClientInterface $client, LoggerInterface $logger, TranslatorInterface $translator)
     {
         $this->client = $client;
         $this->logger = $logger;
+        $this->translator = $translator;
     }
 
     public static function getSubscribedEvents(): array
@@ -54,9 +60,11 @@ final class UpdateStoreSubscriber implements EventSubscriberInterface
         try {
             $this->client->updateStore($audience);
         } catch (ClientException $e) {
-            $event->stop('setono_sylius_mailchimp.ui.channel_association_failed');
+            $event->stop($this->translator->trans('setono_sylius_mailchimp.ui.channel_association_failed'));
+
             $this->logger->error(sprintf(
-                "The user tried to update an audience in Sylius, but got this error:%s\n\nErrors array:\n%s", $e->getMessage(), implode("\n", $e->getErrors())
+                "The user tried to update an audience in Sylius, but got this error: %s\n\nErrors array:\n%s",
+                $e->getMessage(), print_r((new Flatten())->flattenToArray($e->getErrors()), true)
             ));
         }
     }
