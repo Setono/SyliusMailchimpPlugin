@@ -28,6 +28,7 @@ setono_sylius_mailchimp:
         audience_id: Audience Id
         audience_subheader: Manage Mailchimp audiences
         audiences: Audiences
+        channel_association_failed: Associating the channel with a store in Mailchimp failed. The error(s) has been logged.
         code: Code
         completed: Completed
         ecommerce: Mailchimp e-Commerce export

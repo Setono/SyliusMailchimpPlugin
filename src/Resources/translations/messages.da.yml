@@ -28,6 +28,7 @@ setono_sylius_mailchimp:
         audience_id: Audience Id
         audience_subheader: Administrer Mailchimp publikum
         audiences: Publikum
+        channel_association_failed: Tilknyttelse af kanalen med en butik i Mailchimp fejlede. Fejlen(e) er logget blevet logget.
         code: Kode
         completed: Fuldført
         ecommerce: Mailchimp e-handelseksport
