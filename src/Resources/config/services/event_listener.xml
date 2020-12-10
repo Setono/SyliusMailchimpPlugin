@@ -8,6 +8,7 @@
                  class="Setono\SyliusMailchimpPlugin\EventListener\UpdateStoreSubscriber">
             <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="logger"/>
+            <argument type="service" id="translator"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>
