@@ -7,7 +7,6 @@
                  class="Setono\SyliusMailchimpPlugin\Message\Handler\PushCustomerHandler">
             <argument type="service" id="sylius.repository.customer"/>
             <argument type="service" id="setono_sylius_mailchimp.provider.audience"/>
-            <argument type="service" id="setono_sylius_mailchimp.command_bus"/>
             <argument type="service" id="setono_sylius_mailchimp.client"/>
             <argument type="service" id="workflow.registry"/>
             <argument type="service" id="logger"/>

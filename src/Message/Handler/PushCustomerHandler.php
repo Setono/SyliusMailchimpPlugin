@@ -16,7 +16,6 @@ use Setono\SyliusMailchimpPlugin\Repository\CustomerRepositoryInterface;
 use Setono\SyliusMailchimpPlugin\Workflow\MailchimpWorkflow;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Workflow\Registry;
 use Webmozart\Assert\Assert;
 
@@ -27,9 +26,6 @@ final class PushCustomerHandler implements MessageHandlerInterface
 
     /** @var AudienceProviderInterface */
     private $audienceProvider;
-
-    /** @var MessageBusInterface */
-    private $messageBus;
 
     /** @var ClientInterface */
     private $client;
@@ -46,7 +42,6 @@ final class PushCustomerHandler implements MessageHandlerInterface
     public function __construct(
         CustomerRepositoryInterface $customerRepository,
         AudienceProviderInterface $audienceProvider,
-        MessageBusInterface $messageBus,
         ClientInterface $client,
         Registry $workflowRegistry,
         LoggerInterface $logger,
@@ -54,7 +49,6 @@ final class PushCustomerHandler implements MessageHandlerInterface
     ) {
         $this->customerRepository = $customerRepository;
         $this->audienceProvider = $audienceProvider;
-        $this->messageBus = $messageBus;
         $this->client = $client;
         $this->workflowRegistry = $workflowRegistry;
         $this->logger = $logger;
