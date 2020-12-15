@@ -13,6 +13,7 @@ use Setono\SyliusMailchimpPlugin\Exception\ClientException;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushCustomerBatch;
 use Setono\SyliusMailchimpPlugin\Model\CustomerInterface;
 use Setono\SyliusMailchimpPlugin\Provider\AudienceProviderInterface;
+use Setono\SyliusMailchimpPlugin\Workflow\MailchimpWorkflow;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Workflow\Registry;
@@ -74,13 +75,12 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
         foreach ($customers as $customer) {
             $workflow = $this->getWorkflow($customer);
 
-            // todo use constant
-            if (!$workflow->can($customer, 'process')) {
+            if (!$workflow->can($customer, MailchimpWorkflow::TRANSITION_PROCESS)) {
                 // this means that the state was changed another place
                 continue;
             }
 
-            $workflow->apply($customer, 'process'); // todo use constant
+            $workflow->apply($customer, MailchimpWorkflow::TRANSITION_PROCESS);
             $manager->flush();
 
             try {
@@ -95,19 +95,18 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
 
                 $this->client->updateMember($audience, $customer);
 
-                // todo use constant
-                if (!$workflow->can($customer, 'push')) {
+                if (!$workflow->can($customer, MailchimpWorkflow::TRANSITION_PUSH)) {
                     throw new UnrecoverableMessageHandlingException(sprintf(
                         'Could not apply transition "push" on customer with id "%s". Mailchimp state: "%s"',
                         $customer->getId(), $customer->getMailchimpState()
                     ));
                 }
 
-                $workflow->apply($customer, 'push'); // todo use constant
+                $workflow->apply($customer, MailchimpWorkflow::TRANSITION_PUSH);
             } catch (Throwable $e) {
-                $this->logger->error($e->getMessage());
+                $this->logger->error(self::buildErrorMessage($e));
                 $customer->setMailchimpError(self::buildErrorMessage($e));
-                $workflow->apply($customer, 'fail'); // todo use constant
+                $workflow->apply($customer, MailchimpWorkflow::TRANSITION_FAIL);
             } finally {
                 $manager->flush();
             }
@@ -117,7 +116,7 @@ final class PushCustomerBatchHandler implements MessageHandlerInterface
     private function getWorkflow(object $obj): Workflow
     {
         if (null === $this->workflow) {
-            $this->workflow = $this->workflowRegistry->get($obj, 'mailchimp'); // todo use constant here
+            $this->workflow = $this->workflowRegistry->get($obj, MailchimpWorkflow::NAME); // todo use constant here
         }
 
         return $this->workflow;
