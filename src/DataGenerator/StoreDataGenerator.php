@@ -34,10 +34,12 @@ final class StoreDataGenerator extends DataGenerator implements StoreDataGenerat
 
         $shopBillingData = $channel->getShopBillingData();
         if (null !== $shopBillingData) {
-            $data['address']['address1'] = $shopBillingData->getStreet();
-            $data['address']['city'] = $shopBillingData->getCity();
-            $data['address']['postal_code'] = $shopBillingData->getPostcode();
-            $data['address']['country_code'] = $shopBillingData->getCountryCode();
+            $data['address'] = (object) [
+                'address1' => $shopBillingData->getStreet(),
+                'city' => $shopBillingData->getCity(),
+                'postal_code' => $shopBillingData->getPostcode(),
+                'country_code' => $shopBillingData->getCountryCode(),
+            ];
 
             $data['timezone'] = self::getTimeZone($shopBillingData->getCountryCode());
         }
