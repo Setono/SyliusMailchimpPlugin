@@ -330,6 +330,15 @@ setono_sylius_mailchimp:
   subscribe: false
 ```
 
+## Troubleshooting
+
+### Associating a channel to an audience
+
+When associating an audience to a channel, if you are greeted with such message : 
+![image (5)](https://user-images.githubusercontent.com/9363039/109676273-d7198d00-7b78-11eb-8dd6-d55be794acd6.png)
+
+Verify that your channel has an address, if not define it and try to re-submit the form.
+
 ## Contribution
 
 Run `composer try` to setup plugin environment and try test application.
