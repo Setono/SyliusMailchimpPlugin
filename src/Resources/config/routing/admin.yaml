@@ -2,7 +2,7 @@ setono_sylius_mailchimp_admin_audience:
     resource: |
         section: admin
         alias: setono_sylius_mailchimp.audience
-        templates: SyliusAdminBundle:Crud
+        templates: '@SyliusAdmin/Crud'
         only: ['index', 'update']
         permission: true
         redirect: update
