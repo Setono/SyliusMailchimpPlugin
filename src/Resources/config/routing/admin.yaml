@@ -3,7 +3,7 @@ setono_sylius_mailchimp_admin_audience:
         section: admin
         alias: setono_sylius_mailchimp.audience
         only: ['index', 'update']
-        templates: '@SyliusAdmin/Crud'
+        templates: '@SyliusAdmin\\Crud'
         permission: true
         redirect: update
         grid: setono_sylius_mailchimp_admin_audience
