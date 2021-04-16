@@ -3,6 +3,18 @@
 <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <service id="setono_sylius_mailchimp.message.handler.push_customer"
+                 class="Setono\SyliusMailchimpPlugin\Message\Handler\PushCustomerHandler">
+            <argument type="service" id="sylius.repository.customer"/>
+            <argument type="service" id="setono_sylius_mailchimp.provider.audience"/>
+            <argument type="service" id="setono_sylius_mailchimp.client"/>
+            <argument type="service" id="workflow.registry"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="doctrine"/>
+
+            <tag name="messenger.message_handler"/>
+        </service>
+
         <service id="setono_sylius_mailchimp.message.handler.push_customers"
                  class="Setono\SyliusMailchimpPlugin\Message\Handler\PushCustomersHandler">
             <argument type="service" id="setono_doctrine_orm_batcher.factory.batcher"/>
