@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMailchimpPlugin\Command;
 
-use Setono\SyliusMailchimpPlugin\Client\Client;
+use Setono\SyliusMailchimpPlugin\Client\ClientInterface;
 use Setono\SyliusMailchimpPlugin\Message\Command\PushCustomers;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -18,13 +18,13 @@ final class PushCustomersCommand extends Command
 
     protected static $defaultName = 'setono:sylius-mailchimp:push-customers';
 
-    /** @var Client */
+    /** @var ClientInterface */
     private $client;
 
     /** @var MessageBusInterface */
     private $commandBus;
 
-    public function __construct(Client $client, MessageBusInterface $commandBus)
+    public function __construct(ClientInterface $client, MessageBusInterface $commandBus)
     {
         parent::__construct();
 
