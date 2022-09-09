@@ -1,16 +1,12 @@
-parameters:
-    sylius.security.admin_regex: "^/admin"
-    sylius.security.api_regex: "^/api"
-    sylius.security.shop_regex: "^/(?!admin|api/.*|api$|media/.*)[^/]++"
-
 security:
+    always_authenticate_before_granting: true
     providers:
         sylius_admin_user_provider:
             id: sylius.admin_user_provider.email_or_name_based
         sylius_shop_user_provider:
             id: sylius.shop_user_provider.email_or_name_based
     encoders:
-        Sylius\Component\User\Model\UserInterface: sha512
+        Sylius\Component\User\Model\UserInterface: argon2i
     firewalls:
         admin:
             switch_user: true
@@ -30,24 +26,13 @@ security:
                 csrf_token_id: admin_authenticate
             remember_me:
                 secret: "%env(APP_SECRET)%"
-                path: /admin
+                path: "/%sylius_admin.path_name%"
                 name: APP_ADMIN_REMEMBER_ME
                 lifetime: 31536000
                 remember_me_parameter: _remember_me
             logout:
                 path: sylius_admin_logout
                 target: sylius_admin_login
-            anonymous: true
-
-        oauth_token:
-            pattern: "%sylius.security.api_regex%/oauth/v2/token"
-            security: false
-
-        api:
-            pattern: "%sylius.security.api_regex%/.*"
-            provider: sylius_admin_user_provider
-            fos_oauth: true
-            stateless: true
             anonymous: true
 
         shop:
@@ -81,7 +66,11 @@ security:
             anonymous: true
 
         dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        image_resolver:
+            pattern: ^/media/cache/resolve
             security: false
 
     access_control:
@@ -91,12 +80,10 @@ security:
         - { path: "%sylius.security.shop_regex%/_partial", role: ROLE_NO_ACCESS }
 
         - { path: "%sylius.security.admin_regex%/login", role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "%sylius.security.api_regex%/login", role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "%sylius.security.shop_regex%/login", role: IS_AUTHENTICATED_ANONYMOUSLY }
 
         - { path: "%sylius.security.shop_regex%/register", role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "%sylius.security.shop_regex%/verify", role: IS_AUTHENTICATED_ANONYMOUSLY }
 
         - { path: "%sylius.security.admin_regex%", role: ROLE_ADMINISTRATION_ACCESS }
-        - { path: "%sylius.security.api_regex%/.*", role: ROLE_API_ACCESS }
         - { path: "%sylius.security.shop_regex%/account", role: ROLE_USER }

@@ -9,7 +9,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3",
+        "php": "^8.0",
+        "sylius/sylius": "^1.11",
         "ext-json": "*",
         "ext-mbstring": "*",
         "doctrine/doctrine-bundle": "^1.12.12 || ^2.0",
@@ -23,20 +24,20 @@
         "setono/doctrine-orm-batcher": "^0.6.2",
         "setono/doctrine-orm-batcher-bundle": "^0.3.1",
         "sylius/resource-bundle": "^1.6",
-        "symfony/cache": "^4.4 || ^5.0",
-        "symfony/config": "^4.4 || ^5.0",
-        "symfony/console": "^4.4 || ^5.0",
-        "symfony/dependency-injection": "^4.4 || ^5.0",
-        "symfony/event-dispatcher": "^4.4 || ^5.0",
-        "symfony/form": "^4.4 || ^5.0",
-        "symfony/http-foundation": "^4.4 || ^5.0",
-        "symfony/lock": "^4.4 || ^5.0",
-        "symfony/messenger": "^4.4 || ^5.0",
-        "symfony/options-resolver": "^4.4 || ^5.0",
-        "symfony/routing": "^4.4 || ^5.0",
+        "symfony/cache": "^5.4",
+        "symfony/config": "^5.4",
+        "symfony/console": "^5.4",
+        "symfony/dependency-injection": "^5.4",
+        "symfony/event-dispatcher": "^5.4",
+        "symfony/form": "^5.4",
+        "symfony/http-foundation": "^5.4",
+        "symfony/lock": "^5.4",
+        "symfony/messenger": "^5.4",
+        "symfony/options-resolver": "^5.4",
+        "symfony/routing": "^5.4",
         "symfony/translation-contracts": "^1.0 || ^2.0",
-        "symfony/validator": "^4.4 || ^5.0",
-        "symfony/workflow": "^4.4 || ^5.0",
+        "symfony/validator": "^5.4",
+        "symfony/workflow": "^5.4",
         "thecodingmachine/safe": "^1.1",
         "twig/twig": "^2.0 || ^3.0",
         "webmozart/assert": "^1.1"
@@ -47,14 +48,20 @@
         "phpunit/phpunit": "^9.4",
         "roave/security-advisories": "dev-master",
         "setono/code-quality-pack": "^1.1",
-        "sylius/sylius": "~1.9.0",
-        "symfony/debug-bundle": "^5.1",
-        "symfony/dotenv": "^5.1",
-        "symfony/intl": "^4.4 || ^5.0",
-        "symfony/web-profiler-bundle": "^4.4 || ^5.0"
+        "symfony/debug-bundle": "^5.4",
+        "symfony/dotenv": "^5.4",
+        "symfony/framework-bundle": "^5.4",
+        "symfony/intl": "^5.4",
+        "symfony/web-profiler-bundle": "^5.4"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "phpstan/extension-installer": true,
+            "symfony/thanks": true
+        }
     },
     "extra": {
         "branch-alias": {

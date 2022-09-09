@@ -21,8 +21,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.3"
-                    - "7.4"
+                    - "8.0"
 
                 dependencies:
                     - "highest"
@@ -37,10 +36,10 @@ jobs:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
                     coverage: "none"
-                    tools: "composer:v1"
+                    tools: "composer"
 
             -   name: "Install composer dependencies"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
                 with:
                     dependency-versions: "${{ matrix.dependencies }}"
             
@@ -67,7 +66,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.4"
+                    - "8.0"
 
                 dependencies:
                     - "highest"
@@ -82,10 +81,10 @@ jobs:
                     coverage: "none"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
                     php-version: "${{ matrix.php-version }}"
-                    tools: "composer:v1, composer-require-checker, composer-unused"
+                    tools: "composer, composer-require-checker, composer-unused"
                     
             -   name: "Install composer dependencies"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
                 with:
                     dependency-versions: "${{ matrix.dependencies }}"
 
@@ -103,8 +102,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.3"
-                    - "7.4"
+                    - "8.0"
 
                 dependencies:
                     - "highest"
@@ -119,10 +117,10 @@ jobs:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
                     coverage: "none"
-                    tools: "composer:v1"
+                    tools: "composer"
 
             -   name: "Install composer dependencies"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
                 with:
                     dependency-versions: "${{ matrix.dependencies }}"
 
@@ -137,8 +135,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.3"
-                    - "7.4"
+                    - "8.0"
                         
                 dependencies:
                     - "lowest"
@@ -154,10 +151,10 @@ jobs:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
                     coverage: "none"
-                    tools: "composer:v1"
+                    tools: "composer"
 
             -   name: "Install composer dependencies"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
                 with:
                     dependency-versions: "${{ matrix.dependencies }}"
 
@@ -175,8 +172,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.3"
-                    - "7.4"
+                    - "8.0"
 
                 dependencies:
                     - "highest"
@@ -194,10 +190,10 @@ jobs:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
                     coverage: "none"
-                    tools: "composer:v1"
+                    tools: "composer"
 
             -   name: "Install composer dependencies"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
                 with:
                     dependency-versions: "${{ matrix.dependencies }}"
                 
@@ -220,7 +216,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.4"
+                    - "8.0"
 
                 dependencies:
                     - "highest"
@@ -235,13 +231,13 @@ jobs:
                     coverage: "pcov"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
                     php-version: "${{ matrix.php-version }}"
-                    tools: "composer:v1"
+                    tools: "composer"
 
             -   name: "Set up problem matchers for phpunit/phpunit"
                 run: "echo \"::add-matcher::${{ runner.tool_cache }}/phpunit.json\""
 
             -   name: "Install composer dependencies"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
                 with:
                     dependency-versions: "${{ matrix.dependencies }}"
 
