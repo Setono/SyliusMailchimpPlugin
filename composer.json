@@ -46,7 +46,7 @@
         "phpspec/phpspec": "^7.2",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
-        "setono/code-quality-pack": "^1.5",
+        "setono/code-quality-pack": "^1.5 || ^2.0",
         "sylius/sylius": "~1.9.10",
         "symfony/debug-bundle": "^4.4 || ^5.4 || ^6.0",
         "symfony/dotenv": "^4.4 || ^5.4 || ^6.0",
