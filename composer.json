@@ -19,7 +19,7 @@
         "drewm/mailchimp-api": "^2.5",
         "fakerphp/faker": "^1.20",
         "knplabs/knp-menu": "^3.3",
-        "psr/log": "^1.1",
+        "psr/log": "^1.1 || ^2.0 || ^3.0",
         "setono/doctrine-orm-batcher": "^0.6.2",
         "setono/doctrine-orm-batcher-bundle": "^0.3.1",
         "sylius/resource-bundle": "^1.6",
